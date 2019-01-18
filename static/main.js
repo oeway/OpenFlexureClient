@@ -281,11 +281,14 @@ function clickHotspotImage(event) {
 window.addEventListener('wheel', function(e) {
     multiplier = 1/100;
     z_delta = e.deltaY * multiplier * focusVelocity;
-    if ((document.getElementById("scrollFocusCheck").checked == true) && (e.target.parentNode.classList.value == "column middle")) {
+    if ((document.getElementById("scrollFocusCheck").checked == true) && (e.target.parentNode.classList.value == "scrolltarget")) {
         console.log(z_delta);
         console.log(e.target.parentNode.classList.value);
         // Make a position request
         safeRequest("POST", baseURI+"/stage/position", { "absolute": false, "z": z_delta}, keyMoveCallback)
+    }
+    else {
+        console.log("Scroll-to-focus inactive")
     }
 });
 
