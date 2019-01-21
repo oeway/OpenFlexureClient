@@ -29,7 +29,10 @@ var fovY = 3146;
 
 window.onload = function() {
     setHostFromInput()
-    getStagePositions()
+
+    // TODO: Use getConfig as a connection check. Handle connection timeout.
+    getConfig(updateConfigValues)
+    getState(updateStateValues)
     updateTextBoxes()
     getCaptures()
 }
@@ -124,26 +127,43 @@ function updateTextBoxes() {
     document.getElementById('stageVelocityInput').value = stageVelocity;
     document.getElementById('focusVelocityText').value = focusVelocity;
     document.getElementById('focusVelocityInput').value = focusVelocity;
-
-    document.getElementById('fovXText').value = fovX;
-    document.getElementById('fovYText').value = fovY;
 }
 
-function updateStagePositions(response) {
-    document.getElementById('x_abs').value = response.x;
-    document.getElementById('y_abs').value = response.y;
-    document.getElementById('z_abs').value = response.z;
+function updatePositionValues(state) {
+    document.getElementById('x_abs').value = state.stage.position.x;
+    document.getElementById('y_abs').value = state.stage.position.y;
+    document.getElementById('z_abs').value = state.stage.position.z;
 }
 
-function getStagePositions() {
-    function updatePositionCallback(response, status) {
-        console.log(status, response);
-        updateStagePositions(response);
+function updateFovValues(config) {
+    document.getElementById('fovXText').value = config.fov.x;
+    document.getElementById('fovYText').value = config.fov.y;
+}
+
+function updateStateValues(state){
+    updatePositionValues(state);
+}
+
+function updateConfigValues(config){
+    updateFovValues(config)
+}
+
+function getState(callback) {
+    function getStateCallback(response, status) {
+        callback(response);
     }
-    safeRequest("GET", baseURI+"/stage/position", null, updatePositionCallback, false)
+    safeRequest("GET", baseURI+"/state", null, getStateCallback, false)
+}
+
+function getConfig(callback) {
+    function getConfigCallback(response, status) {
+        callback(response);
+    }
+    safeRequest("GET", baseURI+"/config", null, getConfigCallback, false)
 }
 
 // Capture methods
+// TODO: Explicit callback. Roll into class.
 function newCapture(filename, keep_on_disk, use_video_port, bayer, resizeWidth=null, resizeHeight=null) {
     // Make a position request
     function newCaptureCallback(response, status) {
@@ -228,7 +248,7 @@ function setStagePositions(x_abs, y_abs, z_abs) {
             alert("Error moving stage.");
         }
         console.log(status, response);
-        updateStagePositions(response);
+        updatePositionValues(response);
     }
     safeRequest("POST", baseURI+"/stage/position", { "absolute": true, "x": x_abs, "y": y_abs, "z": z_abs}, absMoveCallback)
 }
@@ -240,7 +260,7 @@ function moveStagePositions(x_rel, y_rel, z_rel) {
             alert("Error moving stage.");
         }
         console.log(status, response);
-        updateStagePositions(response);
+        updatePositionValues(response);
     }
     safeRequest("POST", baseURI+"/stage/position", { "absolute": false, "x": x_rel, "y": y_rel, "z": z_rel}, relMoveCallback)
 }
@@ -255,7 +275,7 @@ function setStagePositionsFromInput() {
 // Standard callback for user-controller movement
 function keyMoveCallback(response, status) {
     console.log(status, response);
-    updateStagePositions(response);
+    updatePositionValues(response);
 }
 
 // Methods for input events
