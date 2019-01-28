@@ -1,10 +1,11 @@
 <template>
 <div class="host-input">
+  <h2>Connect</h2>
   <div class="uk-margin">
       <form @submit.prevent="handleSubmit">
         <div class="uk-inline">
           <span class="uk-form-icon" uk-icon="icon: server"></span>
-          <input @input="IpChanged" v-bind:class="IpFormClasses" class="uk-input uk-form-width-medium uk-form-small" type="text" name="flavor" placeholder="localhost">
+          <input v-model="hostname" v-bind:class="IpFormClasses" class="uk-input uk-form-width-medium uk-form-small" type="text" name="flavor" placeholder="localhost">
         </div>
         <button class="uk-button uk-button-default uk-form-small uk-float-right">Connect</button>
         <ul uk-accordion>
@@ -13,14 +14,13 @@
             <div class="uk-accordion-content">
               <label class="uk-form-label" for="form-stacked-text">Port</label>
               <div class="uk-form-controls">
-                  <input @input="portChanged" class="uk-input uk-form-width-medium uk-form-small" id="form-stacked-text" type="number" value=5000>
+                  <input v-model="port" class="uk-input uk-form-width-medium uk-form-small" id="form-stacked-text" type="number" value=5000>
               </div>
             </div>
           </li>
       </ul>
       </form>
   </div>
-
 </div>
 </template>
 
@@ -30,19 +30,13 @@ export default {
   name: 'hostInput',
 
   methods: {
-    IpChanged: function(event) {
-      if (!(event.target.value == this.$store.state.host)) {
-        this.hostname = event.target.value
-      }
-    },
-    portChanged: function(event) {
-      this.port = event.target.value
-    },
     handleSubmit: function(event) {
+      // Commit the hostname and port to store
       this.$store.commit('changeHost', [
         this.hostname, 
         this.port
       ]);
+      // Try to get config JSON from the newly submitted host
       this.$store.dispatch('updateConfig');
     }
   },
@@ -55,6 +49,7 @@ export default {
   },
 
   computed: {
+    // Stylises the hostname input box based on connection status
     IpFormClasses: function () {
       return {
         'uk-form-danger': !this.$store.state.available,
