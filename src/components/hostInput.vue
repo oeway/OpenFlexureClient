@@ -1,6 +1,5 @@
 <template>
-<div class="hello">
-  {{ msg }}
+<div class="host-input">
   <div class="uk-margin">
       <form @submit.prevent="handleSubmit">
         <div class="uk-inline">
@@ -17,30 +16,18 @@
 <script>
 
 export default {
-  name: 'HelloWorld',
-
-  props: {
-    msg: String
-  },
+  name: 'hostInput',
 
   methods: {
     IpChanged: function(event) {
-      if (!(event.target.value == this.$store.getters.host)) {
+      if (!(event.target.value == this.$store.state.host)) {
         this.hostname = event.target.value
       }
     },
     
     handleSubmit: function(event) {
-      if (this.hostname != "badhost") {
-        this.$store.commit('changeHost', this.hostname)
-        alert(`Connecting to ${this.$store.getters.host}`)
-        this.$store.commit('changeConnected', true)
-      }
-      else {
-        alert("I won't connect to a bad host!")
-        this.$store.commit('changeConnected', false)
-        this.$store.commit('changeAvailable', false)
-      }
+        this.$store.commit('changeHost', this.hostname);
+        this.$store.dispatch('updateConfig');
     }
   },
 
@@ -53,8 +40,8 @@ export default {
   computed: {
     IpFormClasses: function () {
       return {
-        'uk-form-danger': !this.$store.getters.available,
-        'uk-form-success': this.$store.getters.connected
+        'uk-form-danger': !this.$store.state.available,
+        'uk-form-success': this.$store.state.connected
       }
     }
   }

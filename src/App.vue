@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <IpInput msg="Is your name good or bad?."/>
+    <hostInput/>
     <img alt="Vue logo" src="./assets/images/logo.png">
-    <IpDisplay/>
+    <hostDisplay/>
   </div>
 </template>
 
@@ -16,15 +16,15 @@ import Icons from 'uikit/dist/js/uikit-icons';
 UIkit.use(Icons);
 
 // Import components
-import IpInput from './components/IpInput.vue'
-import IpDisplay from './components/IpDisplay'
+import hostInput from './components/hostInput.vue'
+import hostDisplay from './components/hostDisplay'
 
 // Export main app
 export default {
   name: 'app',
   components: {
-    IpInput,
-    IpDisplay
+    hostInput,
+    hostDisplay
   }
 }
 </script>
