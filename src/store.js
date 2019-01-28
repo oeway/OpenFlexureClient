@@ -20,7 +20,6 @@ export default new Vuex.Store({
 
   mutations: {
     changeHost(state, [host, port, apiVer='v1']) {
-      console.log(host, port)
       state.host = host;
       state.port = port;
       state.apiVer = apiVer;
@@ -50,25 +49,49 @@ export default new Vuex.Store({
       context.commit('changeWaiting', true);
       // Do GET request
       axios.get(uri)
-      .then((response)  =>  {
+      .then(response => { 
         context.commit('changeWaiting', false);
         context.commit('changeConnected', true);
         context.commit('changeAvailable', true);
         context.commit('commitError', '');
         context.commit('commitConfig', response.data);
-      }, (error)  =>  {
-        UIkit.notification({message: `<span uk-icon=\'icon: warning\'></span> ${error.message}`, status: 'danger'})
-        context.commit('changeWaiting', false);
-        context.commit('commitError', error.message);
-        context.commit('changeConnected', false);
-        context.commit('changeAvailable', false);
+      })
+      .catch(error => {
+        var errormsg = '';
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          errormsg = `${error.response.status}: ${error.response.data}`
+          console.log(errormsg)
+        } else if (error.request) {
+          // The request was made but no response was received
+          // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+          // http.ClientRequest in node.js
+          errormsg = `${error.message}`
+          console.log(errormsg)
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          errormsg = `${error.message}`
+          console.log(errormsg)
+        }
+        // Update store state for a major connection error
+        context.dispatch('errorState', errormsg);
+        // Show a notification
+        UIkit.notification({message: `<span uk-icon=\'icon: warning\'></span> ${errormsg}`, status: 'danger'})
       })
     },
+
     resetState(context) {
       context.commit('changeWaiting', false);
       context.commit('changeConnected', false);
       context.commit('changeAvailable', true);
       context.commit('commitError', '');
+    },
+    errorState(context, msg) {
+      context.commit('changeWaiting', false);
+      context.commit('changeConnected', false);
+      context.commit('changeAvailable', false);
+      context.commit('commitError', msg);
     }
   },
 
