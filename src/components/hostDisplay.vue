@@ -1,4 +1,6 @@
 <template>
+<div class="host-display">
+	<h2>Debug</h2>
 	<div v-if="$store.state.connected">
 		<p><b>Host:</b> {{ $store.state.host }}</p>
 		<p><b>Base URI:</b> {{ $store.getters.uri }}</p>
@@ -13,4 +15,5 @@
 	<div v-else>
 		Enter a hostname and connect to start.
 	</div>
+</div>
 </template>
