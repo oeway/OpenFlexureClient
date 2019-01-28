@@ -6,7 +6,18 @@
           <span class="uk-form-icon" uk-icon="icon: server"></span>
           <input @input="IpChanged" v-bind:class="IpFormClasses" class="uk-input uk-form-width-medium uk-form-small" type="text" name="flavor" placeholder="localhost">
         </div>
-        <button class="uk-button uk-button-default uk-form-small">Connect</button>
+        <button class="uk-button uk-button-default uk-form-small uk-float-right">Connect</button>
+        <ul uk-accordion>
+          <li>
+            <a class="uk-accordion-title" href="#">Advanced</a>
+            <div class="uk-accordion-content">
+              <label class="uk-form-label" for="form-stacked-text">Port</label>
+              <div class="uk-form-controls">
+                  <input @input="portChanged" class="uk-input uk-form-width-medium uk-form-small" id="form-stacked-text" type="number" value=5000>
+              </div>
+            </div>
+          </li>
+      </ul>
       </form>
   </div>
 
@@ -24,16 +35,22 @@ export default {
         this.hostname = event.target.value
       }
     },
-    
+    portChanged: function(event) {
+      this.port = event.target.value
+    },
     handleSubmit: function(event) {
-        this.$store.commit('changeHost', this.hostname);
-        this.$store.dispatch('updateConfig');
+      this.$store.commit('changeHost', [
+        this.hostname, 
+        this.port
+      ]);
+      this.$store.dispatch('updateConfig');
     }
   },
 
   data: function () {
     return {
-      hostname: "localhost"
+      hostname: "localhost",
+      port: 5000
     }  
   },
 
@@ -51,4 +68,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
+.host-input {
+  text-align: left;
+  width: 300px
+}
 </style>

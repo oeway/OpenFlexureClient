@@ -1,7 +1,6 @@
 <template>
   <div id="app">
     <hostInput/>
-    <img alt="Vue logo" src="./assets/images/logo.png">
     <hostDisplay/>
   </div>
 </template>
@@ -38,6 +37,7 @@ export default {
 #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  text-align: left;
+  padding-left: 20px;
 }
 </style>

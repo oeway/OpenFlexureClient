@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
+import UIkit from 'uikit';
 
 Vue.use(Vuex)
 
@@ -18,7 +19,8 @@ export default new Vuex.Store({
   },
 
   mutations: {
-    changeHost(state, host, port=5000, apiVer='v1') {
+    changeHost(state, [host, port, apiVer='v1']) {
+      console.log(host, port)
       state.host = host;
       state.port = port;
       state.apiVer = apiVer;
@@ -55,6 +57,7 @@ export default new Vuex.Store({
         context.commit('commitError', '');
         context.commit('commitConfig', response.data);
       }, (error)  =>  {
+        UIkit.notification({message: `<span uk-icon=\'icon: warning\'></span> ${error.message}`, status: 'danger'})
         context.commit('changeWaiting', false);
         context.commit('commitError', error.message);
         context.commit('changeConnected', false);
