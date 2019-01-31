@@ -356,6 +356,17 @@ addEventListener("keyup", function (e) {
     delete keysDown[e.keyCode]; //Remove key from array
 }, false);
 
+function ignoreCallback(value=null, code=0){
+    console.log("Intentionally ignoring a callback: ", value, code);
+}
+
+function doAutofocus(payload=null, callback=ignoreCallback){
+    safeRequest("POST", baseURI+"/plugin/default/autofocus/autofocus", payload, callback);
+}
+function calibrateCamera(callback=ignoreCallback){
+    safeRequest("POST", baseURI+"/plugin/default/camera_calibration/recalibrate/", null, callback);
+}
+
 // Methods for making requests
 function safeRequest(method, url, payload, callback, lock=true, force=false) {
     if (force == true) {

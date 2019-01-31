@@ -27,6 +27,9 @@
           <button type="button" onclick="setStagePositionsFromInput();">GO</button>
           <button type="button" onclick="getStagePositions();">Update</button>
         </p>
+        <p>
+          <button type="button" onclick="doAutofocus();">Autofocus</button>
+        </p>
 
         <p>
           Doubleclick to position: <input type="checkbox" id="clickPositionCheck" checked><br>
@@ -73,6 +76,11 @@
 
     
         <p>Scroll to focus: <input type="checkbox" id="scrollFocusCheck" checked></p>
+
+        <h4>Camera:</h4>
+        <div class="flexbox">
+          <button type="button" onclick="calibrateCamera();">Recalibrate Camera</button>
+        </div>
 
       </div>
 
