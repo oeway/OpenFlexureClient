@@ -65,6 +65,5 @@ export default {
 <style scoped lang="less">
 .host-input {
   text-align: left;
-  width: 300px
 }
 </style>
