@@ -28,7 +28,10 @@
           <button type="button" onclick="getStagePositions();">Update</button>
         </p>
         <p>
-          <button type="button" onclick="doAutofocus();">Autofocus</button>
+          Autofocus: 
+          <button type="button" onclick='doAutofocus({"dz":[-200, -100, 0, 100, 200]});'>Coarse</button>
+          <button type="button" onclick='doAutofocus({"dz":[-60, -30, 0, 30, 60]});'>Medium</button>
+          <button type="button" onclick='doAutofocus({"dz":[-20, -10, 0, 10, 20]});'>Fine</button>
         </p>
 
         <p>

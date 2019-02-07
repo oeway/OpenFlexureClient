@@ -17,6 +17,9 @@ body {
 }
 
 /* Create columns that float next to each other */
+.row {
+    height: 100%;
+}
 .column {
     padding: 10px;
     height: 100%;
