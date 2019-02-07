@@ -1,7 +1,6 @@
 <template>
   <div id="app">
-    <hostInput/>
-    <hostDisplay/>
+    <panelLeft/>
   </div>
 </template>
 
@@ -15,15 +14,13 @@ import Icons from 'uikit/dist/js/uikit-icons';
 UIkit.use(Icons);
 
 // Import components
-import hostInput from './components/hostInput.vue'
-import hostDisplay from './components/hostDisplay'
+import panelLeft from './components/panelLeft.vue'
 
 // Export main app
 export default {
   name: 'app',
   components: {
-    hostInput,
-    hostDisplay
+    panelLeft
   }
 }
 </script>
@@ -38,6 +35,11 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: left;
-  padding-left: 20px;
+  height: 100%
 }
+
+body, html {
+  height: 100%
+}
+
 </style>
