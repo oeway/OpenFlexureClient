@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <div v-bind:class="responsiveToggleButton" id="overlay-toggle">
+    <div id="overlay-toggle">
       <a href="" class="uk-icon-button" uk-icon="menu" uk-toggle="target: .toggle-hidden; animation: uk-animation-slide-left-small, uk-animation-slide-left-small" ></a>
     </div>
     <div uk-grid class="uk-height-1-1" margin=0>
@@ -11,7 +11,9 @@
         <panelLeft/>
       </div>
       <div class="uk-width-expand">
-        <div class="uk-card uk-card-default uk-card-body uk-height-1-1">Width: {{ window.width }}</div>
+        <div class="uk-card uk-card-default uk-card-body uk-height-1-1">
+          <panelDisplay/>
+        </div>
       </div>
     </div>
   </div>
@@ -28,13 +30,15 @@ UIkit.use(Icons);
 
 // Import components
 import panelLeft from './components/panelLeft.vue'
+import panelDisplay from './components/panelDisplay.vue'
 
 // Export main app
 export default {
   name: 'app',
 
   components: {
-    panelLeft
+    panelLeft,
+    panelDisplay
   },
 
   data: function () {
@@ -68,11 +72,6 @@ export default {
       return {
         //'uk-hidden': this.window.width<850,
         'overlay-panel': this.window.width<850
-      }
-    },
-    responsiveToggleButton: function () {
-      return {
-        //'uk-hidden': this.window.width>=850,
       }
     }
   }
