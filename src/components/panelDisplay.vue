@@ -1,6 +1,6 @@
 <template>
   <div id="panelDisplay" class="uk-flex uk-flex-column uk-margin-remove uk-padding-remove uk-height-1-1">
-    <ul class="uk-flex-none uk-flex-center uk-margin-remove-bottom" uk-tab>
+    <ul class="uk-flex-none uk-flex-center uk-margin-remove-bottom uk-text-center" uk-tab>
       <li><a href="#" uk-switcher-item="preview" uk-icon="play-circle" uk-tooltip="Live"></a></li>
       <li><a href="#" uk-switcher-item="gallery" uk-icon="image" uk-tooltip="Captures"></a></li>
     </ul>

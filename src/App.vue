@@ -3,7 +3,7 @@
     <div uk-grid class="uk-height-1-1 uk-margin-remove uk-padding-remove" margin=0>
       <div id="sidebar-container" v-bind:class="responsivePanelLeft" class="uk-padding-remove uk-first-column uk-inline uk-height-1-1">
         <div id="overlay-toggle">
-          <a href="" class="uk-icon-button" uk-icon="menu" uk-toggle="target: .toggle-hidden; animation: uk-animation-slide-left-small, uk-animation-slide-left-small" ></a>
+          <a href="" class="uk-icon-button uk-box-shadow-small uk-box-shadow-hover-medium action-btn-outline" uk-icon="menu" uk-toggle="target: .toggle-hidden; animation: uk-animation-slide-left-small, uk-animation-slide-left-small" ></a>
         </div>
         <div id="left-panel-container" class="toggle-hidden uk-padding-remove uk-card uk-card-default uk-width-auto uk-height-1-1">
           <panelLeft/>
@@ -106,5 +106,10 @@ body, html {
     right: -20px;
     top: 24px;
 }
+
+.action-btn-outline {
+  border: 1px solid lightgray;
+}
+
 
 </style>

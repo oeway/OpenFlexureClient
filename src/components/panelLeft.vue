@@ -30,9 +30,6 @@ export default {
 </script>
 
 <style lang="less">
-#panelLeft {
-  
-}
 .uk-tab {
     padding-left: 0;
 }
