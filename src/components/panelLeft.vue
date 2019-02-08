@@ -12,6 +12,7 @@
     </ul>
     <ul class="uk-switcher uk-padding-small uk-flex uk-flex-1 panel-content">
       <li class="uk-width-expand"><paneConnect/></li>
+      <li class="uk-width-expand"><paneNavigate/></li>
     </ul>
   </div>
 </template>
@@ -19,12 +20,14 @@
 <script>
 // Import components
 import paneConnect from './paneConnect.vue'
+import paneNavigate from './paneNavigate.vue'
 
 // Export main app
 export default {
   name: 'panelLeft',
   components: {
     paneConnect,
+    paneNavigate
   }
 }
 </script>
