@@ -1,13 +1,15 @@
 <template>
   <div id="app">
     <div uk-grid class="uk-height-1-1 uk-margin-remove uk-padding-remove" margin=0>
-      <div v-bind:class="responsivePanelLeft" class="toggle-hidden uk-first-column uk-padding-remove uk-card uk-card-default uk-width-auto uk-height-1-1">
-        <panelLeft/>
-      </div>
-      <div class="uk-padding-remove uk-height-1-1 uk-width-expand">
+      <div v-bind:class="responsivePanelLeft" class="uk-padding-remove uk-first-column uk-inline uk-height-1-1">
         <div id="overlay-toggle">
           <a href="" class="uk-icon-button" uk-icon="menu" uk-toggle="target: .toggle-hidden; animation: uk-animation-slide-left-small, uk-animation-slide-left-small" ></a>
         </div>
+        <div class="toggle-hidden uk-padding-remove uk-card uk-card-default uk-width-auto uk-height-1-1">
+          <panelLeft/>
+        </div>
+      </div>
+      <div class="uk-padding-remove uk-height-1-1 uk-width-expand">
         <panelDisplay/>
       </div>
     </div>
@@ -97,13 +99,12 @@ body, html {
 }
 
 #overlay-toggle {
-  width: 30px;
-  height: 30px;
-  position: fixed;
-  right: 0;
-  margin-right: 20px;
-  margin-top: 12px;
-  z-index: 999
+    width: 0px;
+    height: 30px;
+    z-index: 999;
+    position: absolute;
+    right: -20px;
+    top: 24px;
 }
 
 </style>
