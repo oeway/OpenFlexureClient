@@ -1,6 +1,12 @@
 <template>
-  <div id="panelDisplay">
-    <streamDisplay/>
+  <div id="panelDisplay" class="uk-flex uk-flex-column uk-margin-remove uk-padding-remove uk-height-1-1">
+    <ul class="uk-flex-none uk-flex-center uk-margin-remove-bottom" uk-tab>
+      <li><a href="#" uk-switcher-item="preview" uk-icon="play-circle" uk-tooltip="Live"></a></li>
+      <li><a href="#" uk-switcher-item="gallery" uk-icon="image" uk-tooltip="Captures"></a></li>
+    </ul>
+    <ul class="uk-switcher uk-flex uk-flex-1">
+      <li class="uk-height-1-1 uk-width-1-1 "><streamDisplay/></li>
+    </ul>
   </div>
 </template>
 
@@ -19,9 +25,5 @@ export default {
 }
 </script>
 
-<style lang="less">
-#panelDisplay {
-	width: 100%;
-	height: 100%;
-}
+<style scoped lang="less">
 </style>

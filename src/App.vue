@@ -1,19 +1,14 @@
 <template>
   <div id="app">
-    <div id="overlay-toggle">
-      <a href="" class="uk-icon-button" uk-icon="menu" uk-toggle="target: .toggle-hidden; animation: uk-animation-slide-left-small, uk-animation-slide-left-small" ></a>
-    </div>
-    <div uk-grid class="uk-height-1-1" margin=0>
-      <div v-bind:class="responsivePanelLeft" class="toggle-hidden uk-card uk-card-default uk-card-body uk-padding-remove-top uk-padding-remove-right uk-width-auto uk-height-1-1">
-        <div class="uk-card-header">
-            <h3 class="uk-card-title"><b>OpenFlexure</b> Microscope</h3>
-        </div>
+    <div uk-grid class="uk-height-1-1 uk-margin-remove uk-padding-remove" margin=0>
+      <div v-bind:class="responsivePanelLeft" class="toggle-hidden uk-first-column uk-padding-remove uk-card uk-card-default uk-width-auto uk-height-1-1">
         <panelLeft/>
       </div>
-      <div class="uk-width-expand">
-        <div class="uk-card uk-card-default uk-card-body uk-height-1-1">
-          <panelDisplay/>
+      <div class="uk-padding-remove uk-height-1-1 uk-width-expand">
+        <div id="overlay-toggle">
+          <a href="" class="uk-icon-button" uk-icon="menu" uk-toggle="target: .toggle-hidden; animation: uk-animation-slide-left-small, uk-animation-slide-left-small" ></a>
         </div>
+        <panelDisplay/>
       </div>
     </div>
   </div>
@@ -106,7 +101,8 @@ body, html {
   height: 30px;
   position: fixed;
   right: 0;
-  margin: 20px;
+  margin-right: 20px;
+  margin-top: 12px;
   z-index: 999
 }
 
