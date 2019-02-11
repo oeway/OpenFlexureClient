@@ -15,7 +15,8 @@ export default new Vuex.Store({
     available: true,
     waiting: false,
     error: '',
-    apiConfig: {}
+    apiConfig: {},
+    apiState: {}
   },
 
   mutations: {
@@ -38,6 +39,9 @@ export default new Vuex.Store({
     },
     commitConfig(state, configData) {
       state.apiConfig = configData;
+    },
+    commitState(state, stateData) {
+      state.apiState = stateData;
     }
   },
 
@@ -78,6 +82,28 @@ export default new Vuex.Store({
         context.dispatch('errorState', errormsg);
         // Show a notification
         UIkit.notification({message: `<span uk-icon=\'icon: warning\'></span> ${errormsg}`, status: 'danger'})
+      })
+    },
+
+    updateState(context, uri=`${context.getters.uri}/state`) {
+      axios.get(uri)
+      .then(response => { 
+        context.commit('commitError', '');
+        context.commit('commitState', response.data);
+      })
+      .catch(error => {
+        var errormsg = '';
+        if (error.response) {
+          errormsg = `${error.response.status}: ${error.response.data}`
+          console.log(errormsg)
+        } else if (error.request) {
+          errormsg = `${error.message}`
+          console.log(errormsg)
+        } else {
+          errormsg = `${error.message}`
+          console.log(errormsg)
+        }
+        context.dispatch('errorState', errormsg);
       })
     },
 
