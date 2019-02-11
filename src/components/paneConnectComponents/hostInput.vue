@@ -38,6 +38,8 @@ export default {
       ]);
       // Try to get config JSON from the newly submitted host
       this.$store.dispatch('updateConfig');
+      // Update the microscope state while we're at it
+      this.$store.dispatch('updateState');
     }
   },
 
