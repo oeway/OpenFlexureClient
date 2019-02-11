@@ -64,13 +64,12 @@
   </ul>
 
   <p>
-  TODO: Basic keyboard control by adding event listeners to this pane (e.g. v-on:keyup.)
+  <b>TODO:</b> Basic keyboard control by adding event listeners to this pane (e.g. v-on:keyup.)
   <br>
-  TODO: Add step-size boxes
+  <b>TODO:</b> Make step size and position boxes work.
   <br>
-  TODO: Add click-navigation (and scroll focus) by adding event listeners to the stream panel (e.g. v-on:click, v-on:scroll)
-  <br>
-  TODO: Add absolute-positioning input boxes
+  <b>TODO:</b> Add click-navigation (and scroll focus) by adding event listeners to the stream panel (e.g. v-on:click, v-on:scroll)
+
   </p>
 </div>
 </template>
