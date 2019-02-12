@@ -1,6 +1,5 @@
 <template>
 <div class="host-input">
-  <h2>Connect</h2>
   <div class="uk-margin">
       <form @submit.prevent="handleSubmit">
         <div class="uk-inline">

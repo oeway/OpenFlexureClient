@@ -1,6 +1,5 @@
 <template>
 	<div class="host-display">
-		<h2>Debug</h2>
 		<div v-if="$store.getters.ready">
 			<p><b>Host:</b> {{ $store.state.host }}</p>
 			<p><b>Base URI:</b> {{ $store.getters.uri }}</p>
