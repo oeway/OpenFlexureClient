@@ -101,16 +101,10 @@ export default {
   methods: {
     // Handle global mouse wheel events to be associated with navigation
     wheelMonitor: function(event) {
-      // TODO: Add logic
-      console.log(event.deltaY)
-      console.log(event.target.parentNode.classList)
-
       // Only capture scroll if the event target's parent contains the "scrollTarget" class
       if (event.target.parentNode.classList.contains("scrollTarget")) {
-        console.log("Wheel captured");
-      }
-      else {
-        console.log("Scrolled outside of a scroll capture target")
+        var z_rel = (event.deltaY)/100 * this.stepZz
+        this.moveRequest(0, 0, z_rel, false)
       }
     },
 
