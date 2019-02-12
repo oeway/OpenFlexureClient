@@ -98,6 +98,13 @@ export default {
     }
   },
 
+  mounted() {
+    // A global signal listener to perform a move action
+    this.$root.$on('globalMoveEvent', (x, y, z, absolute) => {
+      this.moveRequest(x, y, z, absolute)
+    })
+  },
+
   methods: {
     // Handle global mouse wheel events to be associated with navigation
     wheelMonitor: function(event) {

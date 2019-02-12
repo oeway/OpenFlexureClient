@@ -25,7 +25,7 @@ export default {
   computed: {
     disableIfDisconnected: function () {
       return {
-        'uk-disabled': !this.$store.state.connected
+        'uk-disabled': !this.$store.getters.ready
       }
     }
   }
