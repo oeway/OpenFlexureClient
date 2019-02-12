@@ -62,11 +62,6 @@
       </div>
     </li>
   </ul>
-
-  <p>
-  <b>TODO:</b> Add click-navigation (and scroll focus) by adding event listeners to the stream panel (e.g. v-on:click, v-on:scroll)
-
-  </p>
 </div>
 </template>
 
