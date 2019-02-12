@@ -26,7 +26,7 @@
       </div>
     </li>
 
-    <li>
+    <li class="uk-open">
       <a class="uk-accordion-title" href="#">Move-to</a>
       <div class="uk-accordion-content">
 
