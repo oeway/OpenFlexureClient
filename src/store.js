@@ -15,7 +15,8 @@ export default new Vuex.Store({
     waiting: false,
     error: '',
     apiConfig: {},
-    apiState: {}
+    apiState: {},
+    moveLock: false
   },
 
   mutations: {
@@ -29,6 +30,9 @@ export default new Vuex.Store({
     },
     changeWaiting(state, waiting) {
       state.waiting = waiting
+    },
+    changeMoveLock(state, lock) {
+      state.moveLock = lock
     },
     commitError(state, errorString) {
       state.error = errorString;
@@ -61,18 +65,7 @@ export default new Vuex.Store({
         context.dispatch('connectedState')
       })
       .catch(error => {
-        var errormsg = '';
-        if (error.response) {
-          errormsg = `${error.response.status}: ${error.response.data}`
-          console.log(errormsg)
-        } else if (error.request) {
-          errormsg = `${error.message}`
-          console.log(errormsg)
-        } else {
-          errormsg = `${error.message}`
-          console.log(errormsg)
-        }
-        context.dispatch('errorState', errormsg);
+        context.dispatch('handleHTTPError', error);
       })
     },
 
@@ -85,19 +78,23 @@ export default new Vuex.Store({
         context.dispatch('connectedState')
       })
       .catch(error => {
-        var errormsg = '';
-        if (error.response) {
-          errormsg = `${error.response.status}: ${error.response.data}`
-          console.log(errormsg)
-        } else if (error.request) {
-          errormsg = `${error.message}`
-          console.log(errormsg)
-        } else {
-          errormsg = `${error.message}`
-          console.log(errormsg)
-        }
-        context.dispatch('errorState', errormsg);
+        context.dispatch('handleHTTPError', error);
       })
+    },
+
+    handleHTTPError(context, error) {
+      var errormsg = '';
+      if (error.response) {
+        errormsg = `${error.response.status}: ${error.response.data}`
+        console.log(errormsg)
+      } else if (error.request) {
+        errormsg = `${error.message}`
+        console.log(errormsg)
+      } else {
+        errormsg = `${error.message}`
+        console.log(errormsg)
+      }
+      context.dispatch('errorState', errormsg);
     },
 
     resetState(context) {

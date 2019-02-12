@@ -31,7 +31,7 @@
       <div class="uk-accordion-content">
 
         <form @submit.prevent="handleSubmit">
-          <div class="uk-child-width-1-3" uk-grid>
+          <div class="uk-grid-small uk-child-width-1-3" uk-grid>
             <div>
               <label class="uk-form-label" for="form-stacked-text">x</label>
               <div class="uk-form-controls">
@@ -64,10 +64,6 @@
   </ul>
 
   <p>
-  <b>TODO:</b> Basic keyboard control by adding event listeners to this pane (e.g. v-on:keyup.)
-  <br>
-  <b>TODO:</b> Make step size and position boxes work.
-  <br>
   <b>TODO:</b> Add click-navigation (and scroll focus) by adding event listeners to the stream panel (e.g. v-on:click, v-on:scroll)
 
   </p>
@@ -75,25 +71,36 @@
 </template>
 
 <script>
+import axios from 'axios'
+
+// Key Codes
+const keyCodes = {
+  pgup: 33,
+  pgdn: 34,
+  left: 37,
+  up: 38,
+  right: 39,
+  down: 40,
+  enter: 13,
+  esc: 27
+}
+
 // Export main app
 export default {
   name: 'paneNavigate',
 
   data: function () {
     return {
-      stepXy: 50,
-      stepZz: 20,
-      setPosition: {
-        x: this.$store.state.apiState.stage.position.x,
-        y: this.$store.state.apiState.stage.position.y,
-        z: this.$store.state.apiState.stage.position.z
-      }
+      keysDown: {},
+      stepXy: 200,
+      stepZz: 50,
+      setPosition: this.$store.state.apiState.stage.position
     }
   },
 
   methods: {
     // Handle global mouse wheel events to be associated with navigation
-    wheelmonitor: function(event) {
+    wheelMonitor: function(event) {
       // TODO: Add logic
       console.log(event.deltaY)
       console.log(event.target.parentNode.classList)
@@ -108,22 +115,88 @@ export default {
     },
 
     // Handle global key press events to be associated with navigation
-    keymonitor: function(event) {
+    keyDownMonitor: function(event) {
+      this.keysDown[event.keyCode] = true; //Add key to array
       // TODO: Add logic
-      if (!(event.target instanceof HTMLInputElement)) {
-        console.log("A key was pressed:");
-        console.log(event.keyCode)
+
+      // Convert keyCode dict into a list of key codes
+      var keyCodeList = Object.keys(keyCodes).map(function(key){return keyCodes[key];});
+
+      if (!(event.target instanceof HTMLInputElement) && keyCodeList.includes(event.keyCode)) {
+        console.log(this.keysDown)
+        // Calculate movement array
+        var x_rel = 0;
+        var y_rel = 0;
+        var z_rel = 0;
+        if (keyCodes.left in this.keysDown) {
+          x_rel = x_rel + this.stepXy;
+        }
+        if (keyCodes.right in this.keysDown) {
+          x_rel = x_rel - this.stepXy;
+        }
+        if (keyCodes.up in this.keysDown) {
+          y_rel = y_rel + this.stepXy;
+        }
+        if (keyCodes.down in this.keysDown) {
+          y_rel = y_rel - this.stepXy;
+        }
+        if (keyCodes.pgup in this.keysDown) {
+          z_rel = z_rel - this.stepZz;
+        }
+        if (keyCodes.pgdn in this.keysDown) {
+          z_rel = z_rel + this.stepZz;
+        }
+
+        // Make a position request
+        this.moveRequest(x_rel, y_rel, z_rel, false)
       }
     },
 
+    keyUpMonitor: function(event) {
+      delete this.keysDown[event.keyCode]; //Remove key from array
+    },
+
     handleSubmit: function(event) {
-      console.log("Position form submitted!")
-    }
+      this.moveRequest(
+        this.setPosition.x,
+        this.setPosition.y,
+        this.setPosition.z,
+        true,
+      )
+    },
+
+    moveRequest: function(x, y, z, absolute) {
+      // If not movement-locked
+      if (!this.$store.state.moveLock) {
+        // Lock move requests
+        this.$store.commit('changeMoveLock', true)
+
+        // Send move request
+        axios.post(this.positionApiUri, {
+          x: x,
+          y: y,
+          z: z,
+          absolute: absolute
+        })
+        .then(response => { 
+          this.$store.dispatch('updateState');  // Update store state
+          this.setPosition = response.data.stage.position;  // Update boxes from response
+        })
+        .catch(error => {
+          this.$store.dispatch('handleHTTPError', error);  // Let store handle error
+        })
+        .then(() => {
+          this.$store.commit('changeMoveLock', false)  // Release the move lock
+        })
+      }
+    },
+
   },
 
   created: function () {
-    window.addEventListener('keydown', this.keymonitor);
-    window.addEventListener('wheel', this.wheelmonitor)
+    window.addEventListener('keydown', this.keyDownMonitor);
+    window.addEventListener("keyup", this.keyUpMonitor);
+    window.addEventListener('wheel', this.wheelMonitor);
   },
 
   computed: {
