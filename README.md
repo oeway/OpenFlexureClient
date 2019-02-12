@@ -1,29 +1,37 @@
-# vue3
+# OpenFlexure.vue
 
-## Project setup
-```
-npm install
-```
+## To-do
+* ~~Connect~~
+    * ~~Connect to user-input IP~~
+    * ~~Store connection in vuex store~~
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+* ~~Move~~
+    * ~~Read absolute position~~
+    * ~~Change absolute position~~
+    * ~~Keyboard movement~~
+    * ~~Mouse scroll focus~~
+    * ~~Double-click to centre~~
 
-### Compiles and minifies for production
-```
-npm run build
-```
+* Gallery
+    * ~~Basic card for each capture~~
+    * Thumbnails
+    * Download buttons
+    * Basic info
+    * Tags
+        * Read tag list
+        * Add tag button
+        * Delete tag button
 
-### Run your tests
-```
-npm run test
-```
+* Capture
+    * UI elements for capture options
+    * Big, friendly capture button
 
-### Lints and fixes files
-```
-npm run lint
-```
+* Plugins
+    * Placeholder for other plugins
+    * Accordion for:
+        * Autofocus
+        * Recalibrate
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+* Settings
+    * Field-of-view
+    * Some other settings (discuss which should be exposed)
