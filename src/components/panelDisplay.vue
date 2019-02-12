@@ -6,6 +6,7 @@
     </ul>
     <ul class="uk-switcher uk-flex uk-flex-1">
       <li class="uk-height-1-1 uk-width-1-1 "><streamDisplay/></li>
+      <li v-if="$store.getters.ready" class="uk-height-1-1 uk-width-1-1 "><galleryDisplay/></li>
     </ul>
   </div>
 </template>
@@ -13,13 +14,15 @@
 <script>
 // Import components
 import streamDisplay from './paneDisplayComponents/streamDisplay.vue'
+import galleryDisplay from './paneDisplayComponents/galleryDisplay.vue'
 
 // Export main app
 export default {
   name: 'panelDisplay',
 
   components: {
-    streamDisplay
+    streamDisplay,
+    galleryDisplay
   },
 
   computed: {
