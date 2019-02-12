@@ -1,5 +1,5 @@
 <template>
-<div v-if="$store.state.connected" id="paneNavigate">
+<div id="paneNavigate">
 
   <ul uk-accordion>
     <li>
@@ -35,21 +35,21 @@
             <div>
               <label class="uk-form-label" for="form-stacked-text">x</label>
               <div class="uk-form-controls">
-                <input v-model="$store.state.apiState.stage.position.x" class="uk-input uk-form-small" type="number" name="inputPositionX">
+                <input v-model="setPosition.x" class="uk-input uk-form-small" type="number" name="inputPositionX">
               </div>
             </div>
 
             <div>
               <label class="uk-form-label" for="form-stacked-text">y</label>
               <div class="uk-form-controls">
-                <input v-model="$store.state.apiState.stage.position.y" class="uk-input uk-form-small" type="number" name="inputPositionY">
+                <input v-model="setPosition.y" class="uk-input uk-form-small" type="number" name="inputPositionY">
               </div>
             </div>
 
             <div>
               <label class="uk-form-label" for="form-stacked-text">z</label>
               <div class="uk-form-controls">
-                <input v-model="$store.state.apiState.stage.position.z" class="uk-input uk-form-small" type="number" name="inputPositionZx">
+                <input v-model="setPosition.z" class="uk-input uk-form-small" type="number" name="inputPositionZx">
               </div>
             </div>
           </div>
@@ -82,7 +82,12 @@ export default {
   data: function () {
     return {
       stepXy: 50,
-      stepZz: 20
+      stepZz: 20,
+      setPosition: {
+        x: this.$store.state.apiState.stage.position.x,
+        y: this.$store.state.apiState.stage.position.y,
+        z: this.$store.state.apiState.stage.position.z
+      }
     }
   },
 

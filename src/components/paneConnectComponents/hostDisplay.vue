@@ -1,7 +1,7 @@
 <template>
 	<div class="host-display">
 		<h2>Debug</h2>
-		<div v-if="$store.state.connected">
+		<div v-if="$store.getters.ready">
 			<p><b>Host:</b> {{ $store.state.host }}</p>
 			<p><b>Base URI:</b> {{ $store.getters.uri }}</p>
 			<p v-if="$store.state.apiConfig.name"><b>Device name:</b> {{ $store.state.apiConfig.name }}</p>

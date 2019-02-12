@@ -12,7 +12,7 @@
     </ul>
     <ul class="uk-switcher uk-padding-small uk-flex uk-flex-1 panel-content">
       <li class="uk-width-expand"><paneConnect/></li>
-      <li class="uk-width-expand"><paneNavigate/></li>
+      <li v-if="$store.getters.ready" class="uk-width-expand"><paneNavigate/></li>
     </ul>
   </div>
 </template>
@@ -34,7 +34,7 @@ export default {
   computed: {
     disableIfDisconnected: function () {
       return {
-        'uk-disabled': !this.$store.state.connected
+        'uk-disabled': !this.$store.getters.ready
       }
     }
   }

@@ -11,7 +11,6 @@ export default new Vuex.Store({
     host: '',
     port: 5000,
     apiVer: 'v1',
-    connected: false,
     available: true,
     waiting: false,
     error: '',
@@ -24,9 +23,6 @@ export default new Vuex.Store({
       state.host = host;
       state.port = port;
       state.apiVer = apiVer;
-    },
-    changeConnected(state, connected) {
-      state.connected = connected
     },
     changeAvailable(state, available) {
       state.available = available
@@ -46,50 +42,47 @@ export default new Vuex.Store({
   },
 
   actions: {
-    updateConfig(context, uri=`${context.getters.uri}/config`) {
+    firstConnect(context) {
       // Reset the state when reconnecting starts
       context.dispatch('resetState');
       // Mark as loading
       context.commit('changeWaiting', true);
-      // Do GET request
+      // Do requests
+      context.dispatch('updateConfig')
+      context.dispatch('updateState')
+    },
+
+    updateConfig(context, uri=`${context.getters.uri}/config`) {
+      context.dispatch('waitingState')
+  
       axios.get(uri)
       .then(response => { 
-        context.commit('changeWaiting', false);
-        context.commit('changeConnected', true);
-        context.commit('changeAvailable', true);
-        context.commit('commitError', '');
         context.commit('commitConfig', response.data);
+        context.dispatch('connectedState')
       })
       .catch(error => {
         var errormsg = '';
         if (error.response) {
-          // The request was made and the server responded with a status code
-          // that falls out of the range of 2xx
           errormsg = `${error.response.status}: ${error.response.data}`
           console.log(errormsg)
         } else if (error.request) {
-          // The request was made but no response was received
-          // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-          // http.ClientRequest in node.js
           errormsg = `${error.message}`
           console.log(errormsg)
         } else {
-          // Something happened in setting up the request that triggered an Error
           errormsg = `${error.message}`
           console.log(errormsg)
         }
-        // Update store state for a major connection error
         context.dispatch('errorState', errormsg);
-        // Show a notification
-        UIkit.notification({message: `<span uk-icon=\'icon: warning\'></span> ${errormsg}`, status: 'danger'})
       })
     },
 
     updateState(context, uri=`${context.getters.uri}/state`) {
+      context.dispatch('waitingState')
+  
       axios.get(uri)
       .then(response => { 
-        context.commit('commitError', '');
         context.commit('commitState', response.data);
+        context.dispatch('connectedState')
       })
       .catch(error => {
         var errormsg = '';
@@ -109,20 +102,32 @@ export default new Vuex.Store({
 
     resetState(context) {
       context.commit('changeWaiting', false);
-      context.commit('changeConnected', false);
       context.commit('changeAvailable', true);
-      context.commit('commitError', '');
+      context.commit('commitError', null);
+      context.commit('commitConfig', {});
+      context.commit('commitState', {});
     },
+
+    waitingState(context) {
+      context.commit('changeWaiting', true);
+    },
+
+    connectedState(context) {
+      context.commit('changeWaiting', false);
+      context.commit('changeAvailable', true);
+    },
+
     errorState(context, msg) {
       context.commit('changeWaiting', false);
-      context.commit('changeConnected', false);
       context.commit('changeAvailable', false);
       context.commit('commitError', msg);
+      UIkit.notification({message: `<span uk-icon=\'icon: warning\'></span> ${msg}`, status: 'danger'})
     }
   },
 
   getters: {
-    uri: state => `http://${state.host}:${state.port}/api/${state.apiVer}`
+    uri: state => `http://${state.host}:${state.port}/api/${state.apiVer}`,
+    ready: state => ((Object.keys(state.apiConfig).length !== 0) && (Object.keys(state.apiState).length !== 0))
   }
 
 })

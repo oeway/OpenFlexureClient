@@ -1,7 +1,7 @@
 <template>
 	<div class="streamDisplay scrollTarget">
 
-		<img v-on:dblclick="clickmonitor" v-if="$store.state.connected" v-bind:src="streamImgUri" alt="Stream">
+		<img v-on:dblclick="clickmonitor" v-if="$store.getters.ready" v-bind:src="streamImgUri" alt="Stream">
 
 		<div v-else-if="$store.state.waiting" class="uk-position-center">
 			<div uk-spinner="ratio: 4.5" ></div>
