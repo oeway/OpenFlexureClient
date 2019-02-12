@@ -1,7 +1,7 @@
 <template>
-	<div class="galleryDisplay uk-padding">
+	<div class="galleryDisplay uk-padding uk-padding-remove-right">
     
-    <div class="uk-grid-medium uk-padding" uk-grid>
+    <div class="uk-grid-medium uk-padding uk-padding-remove-right" uk-grid>
         
       <captureCard 
         v-for="capture in captureList" 

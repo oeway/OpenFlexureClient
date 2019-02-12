@@ -2,7 +2,15 @@
 	<div class="captureCard uk-card uk-card-default uk-padding-small uk-width-medium uk-margin-right">
 
     <div class="uk-card-header uk-padding-small">
-  		<h3>Capture</h3>
+      <div class="uk-grid-small uk-flex-middle" uk-grid>
+          <div class="uk-width-auto">
+              <img class="uk-border-circle" width="40" height="40" src="../../../assets/images/logo.png">
+          </div>
+          <div class="uk-width-expand">
+              <h3 class="uk-card-title uk-margin-remove-bottom">Title</h3>
+              <p class="uk-text-meta uk-margin-remove-top"><time>{{ metadata.time }}</time></p>
+          </div>
+      </div>
     </div>
 
     <div class="uk-card-body uk-padding-small">
