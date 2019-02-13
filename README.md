@@ -14,13 +14,15 @@
 
 * Gallery
     * ~~Basic card for each capture~~
-    * Thumbnails
+    * ~~Thumbnails~~
     * Download buttons
+        * ~~Lightbox~~
+        * Save to disk
     * Basic info
-    * Tags
-        * Read tag list
-        * Add tag button
-        * Delete tag button
+    * ~~Tags~~
+        * ~~Read tag list~~
+        * ~~Add tag button~~
+        * ~~Delete tag button~~
 
 * Capture
     * UI elements for capture options
