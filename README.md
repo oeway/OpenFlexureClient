@@ -18,11 +18,12 @@
     * Download buttons
         * ~~Lightbox~~
         * Save to disk
-    * Basic info
+    * Basic info/metadata modal
     * ~~Tags~~
         * ~~Read tag list~~
         * ~~Add tag button~~
         * ~~Delete tag button~~
+    * Tag filter
 
 * Capture
     * UI elements for capture options
