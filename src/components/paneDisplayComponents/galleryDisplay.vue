@@ -1,14 +1,17 @@
 <template>
 	<div class="galleryDisplay uk-padding uk-padding-remove-right">
     
-    <div class="uk-grid-medium uk-padding uk-padding-remove-right" uk-grid>
-        
-      <captureCard 
-        v-for="capture in captureList" 
-        :key="capture.metadata.id"
-        :metadata="capture.metadata"
-        :temporary="capture.temporary"
-      />
+    <div uk-lightbox="toggle: .lightbox-link">
+      <div class="uk-grid-medium uk-padding uk-padding-remove-right uk-grid-match" uk-grid>
+      
+        <captureCard 
+          v-for="capture in captureList" 
+          :key="capture.metadata.id"
+          :metadata="capture.metadata"
+          :temporary="capture.temporary"
+        />
+    
+      </div>
 
     </div>
 
@@ -39,7 +42,6 @@ export default {
       axios.get(this.captureApiUri)
       .then(response => { 
         this.$store.dispatch('updateState');  // Update store state for good measure
-        console.log(response.data)
         this.captureList = response.data;  // Update boxes from response
       })
       .catch(error => {
@@ -55,8 +57,14 @@ export default {
   computed: {
     captureApiUri: function () {
       return this.$store.getters.uri + "/camera/capture"
+    },
+    orderedcaptureList: function () {
+      return _.orderBy(this.captureList, 'metadata_path', 'desc')
     }
   }
 
 }
 </script>
+
+<style scoped lang="less">
+</style>

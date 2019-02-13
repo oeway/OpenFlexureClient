@@ -6,7 +6,7 @@
     </ul>
     <ul class="uk-switcher uk-flex uk-flex-1">
       <li class="uk-height-1-1 uk-width-1-1 "><streamDisplay/></li>
-      <li v-if="$store.getters.ready" class="uk-height-1-1 uk-width-1-1 "><galleryDisplay/></li>
+      <li v-if="$store.getters.ready" class="uk-height-1-1 uk-width-1-1 uk-overflow-auto "><galleryDisplay/></li>
     </ul>
   </div>
 </template>
