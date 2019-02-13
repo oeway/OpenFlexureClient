@@ -15,6 +15,8 @@
 * Gallery
     * ~~Basic card for each capture~~
     * ~~Thumbnails~~
+    * Reload button
+        * Also reload whenever tab is entered
     * Download buttons
         * ~~Lightbox~~
         * Save to disk
