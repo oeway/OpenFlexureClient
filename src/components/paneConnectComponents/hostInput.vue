@@ -30,6 +30,10 @@ export default {
 
   methods: {
     handleSubmit: function(event) {
+      if (this.hostname.includes(':')) {
+        this.port = this.computedPort
+        this.hostname = this.hostname.split(':')[0];
+      }
       // Commit the hostname and port to store
       this.$store.commit('changeHost', [
         this.hostname, 
