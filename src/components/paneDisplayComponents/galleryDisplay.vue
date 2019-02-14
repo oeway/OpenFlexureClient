@@ -1,8 +1,12 @@
 <template>
 	<div class="galleryDisplay uk-padding uk-padding-remove-right">
     
+    <div id="refresh-btn">
+      <a href="#" v-on:click="updateCaptureList()" class="refresh-icon-align uk-icon-button uk-box-shadow-small uk-box-shadow-hover-medium action-btn-outline" uk-icon="refresh"></a>
+    </div>
+
     <div uk-lightbox="toggle: .lightbox-link">
-      <div class="uk-grid-medium uk-padding uk-padding-remove-right uk-grid-match" uk-grid>
+      <div class="uk-grid-medium uk-padding uk-padding-remove-right uk-grid-match" uk-grid="masonry: true">
       
         <captureCard 
           v-for="capture in captureList" 
@@ -38,6 +42,7 @@ export default {
 
   methods: {
     updateCaptureList: function() {
+      console.log("Updating capture list...")
       // Send move request
       axios.get(this.captureApiUri)
       .then(response => { 
@@ -67,4 +72,17 @@ export default {
 </script>
 
 <style scoped lang="less">
+#refresh-btn {
+  width: 0px;
+  height: 30px;
+  z-index: 999;
+  margin-top: -57px;
+  margin-left: 40px;
+  position: absolute;
+}
+
+.refresh-icon-align {
+  padding-bottom: 3px;
+}
+
 </style>
