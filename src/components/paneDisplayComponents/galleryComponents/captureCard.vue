@@ -3,28 +3,53 @@
 
     <div class="uk-card-media-top">
         
-          <a class="lightbox-link" v-bind:href="ImgURL" v-bind:data-caption="metadata.filename">
-            <img class="uk-width-1-1" v-bind:src="ThumbURL" v-bind:alt="metadata.id" uk-img>
+          <a class="lightbox-link" v-bind:href="imgURL" v-bind:data-caption="metadata.filename">
+            <img class="uk-width-1-1" v-bind:src="thumbURL" v-bind:alt="metadata.id" uk-img>
           </a>
 
     </div>
 
     <div class="uk-card-body uk-padding-small">
       <p> {{ metadata.filename }} </p>
-      <p class="uk-text-meta uk-margin-remove-top"><time>{{ metadata.time }}</time></p>
-      
+
+      <div class="uk-width-1-1" uk-grid>
+        <div class="uk-text-meta uk-margin-remove-top uk-width-expand"><time>{{ betterTimestring }}</time></div>
+        <div class="uk-text-meta uk-margin-remove-top uk-width-auto">
+          <a v-bind:href="metadataModalTarget" uk-toggle>More...</a>
+        </div>
+      </div>
+
     </div>
 
     <div class="uk-card-footer uk-padding-small">
+      <span v-if="temporary" class="uk-label uk-label-danger uk-margin-small-right" uk-tooltip="title: Capture will be removed automatically; delay: 500">Temporary</span>
+
       <span v-for="tag in tags" :key="tag" v-on:click="delTagConfirm(tag)" class="uk-label uk-margin-small-right deletable-label"> {{ tag }} </span>
 
-      <a v-bind:href="TagModalTarget" uk-toggle>
+      <a v-bind:href="tagModalTarget" uk-toggle>
         <span class="uk-label uk-label-success uk-margin-small-right">Add</span>
       </a>
 
     </div>
 
-    <div v-bind:id="TagModalID" uk-modal>
+    <div v-bind:id="metadataModalID" uk-modal>
+
+      <div class="uk-modal-dialog uk-modal-body">
+          <button class="uk-modal-close-default" type="button" uk-close></button>
+          <h2 class="uk-modal-title">{{ metadata.filename }}</h2>
+          <p><b>Time: </b>{{ betterTimestring }}</p>
+          <p><b>ID: </b>{{ metadata.id }}</p>
+          <p><b>Format: </b>{{ metadata.format }}</p>
+          <p><b>Path: </b>{{ metadata.path }}</p>
+
+          <div v-for="(value, key) in metadata.custom" :key="key" >
+            <p><b>{{ key }}: </b>{{ value }}</p>
+          </div>
+      </div>
+
+    </div>
+
+    <div v-bind:id="tagModalID" uk-modal>
 
       <form class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical" @submit.prevent="handleTagSubmit">
 
@@ -71,7 +96,7 @@ export default {
 
   methods: {
     handleTagSubmit: function(event) {
-      console.log(this.TagURL);
+      console.log(this.tagURL);
       console.log(this.newtag);
       this.newTagRequest(this.newtag);
       this.newtag = "";
@@ -80,7 +105,7 @@ export default {
 
     newTagRequest: function(tag_string) {
       // Send tag PUT request
-      axios.put(this.TagURL, [tag_string])
+      axios.put(this.tagURL, [tag_string])
       .then(response => { 
         // Update tag array
         this.getTagRequest()
@@ -102,7 +127,7 @@ export default {
     delTagRequest: function(tag_string) {
       console.log(tag_string)
       // Send tag DELETE request
-      axios.delete(this.TagURL, {data: [tag_string]})
+      axios.delete(this.tagURL, {data: [tag_string]})
       .then(response => { 
         // Update tag array
         this.getTagRequest()
@@ -114,7 +139,7 @@ export default {
 
     getTagRequest: function() {
       // Send tag request
-      axios.get(this.TagURL)
+      axios.get(this.tagURL)
       .then(response => { 
         this.tags = response.data.metadata.tags
       })
@@ -134,20 +159,32 @@ export default {
   },
 
   computed: {
-    TagModalID: function () {
+    tagModalID: function () {
       return this.makeModalName("tag-modal-")
     },
-    TagModalTarget: function () {
-      return "#" + this.TagModalID
+    tagModalTarget: function () {
+      return "#" + this.tagModalID
     },
-    ThumbURL: function () {
+    metadataModalID: function () {
+      return this.makeModalName("metadata-modal-")
+    },
+    metadataModalTarget: function () {
+      return "#" + this.metadataModalID
+    },
+    thumbURL: function () {
       return this.$store.getters.uri + "/camera/capture/" + this.metadata.id + "/download?thumbnail=true"
     },
-    ImgURL: function () {
+    imgURL: function () {
       return this.$store.getters.uri + "/camera/capture/" + this.metadata.id + "/download/" + this.metadata.filename
     },
-    TagURL: function () {
+    tagURL: function () {
       return this.$store.getters.uri + "/camera/capture/" + this.metadata.id + "/tags"
+    },
+    betterTimestring: function () {
+      var dtSplit = this.metadata.time.split("_");
+      var date = dtSplit[0]
+      var time = dtSplit[1].replace(/-/g, ":")
+      return date + " " + time
     }
   }
 
@@ -162,4 +199,5 @@ export default {
 .deletable-label:hover {
   background-color: #f0506e;
 }
+
 </style>
