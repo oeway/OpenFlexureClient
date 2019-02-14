@@ -13,6 +13,7 @@
     <ul class="uk-switcher uk-padding-small uk-flex uk-flex-1 panel-content">
       <li class="uk-width-expand"><paneConnect/></li>
       <li v-if="$store.getters.ready" class="uk-width-expand"><paneNavigate/></li>
+      <li v-if="$store.getters.ready" class="uk-width-expand"><paneCapture/></li>
     </ul>
   </div>
 </template>
@@ -21,6 +22,7 @@
 // Import components
 import paneConnect from './paneConnect.vue'
 import paneNavigate from './paneNavigate.vue'
+import paneCapture from './paneCapture.vue'
 
 // Export main app
 export default {
@@ -28,7 +30,8 @@ export default {
 
   components: {
     paneConnect,
-    paneNavigate
+    paneNavigate,
+    paneCapture
   },
 
   computed: {
