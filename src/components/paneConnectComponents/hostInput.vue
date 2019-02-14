@@ -13,7 +13,7 @@
             <div class="uk-accordion-content">
               <label class="uk-form-label" for="form-stacked-text">Port</label>
               <div class="uk-form-controls">
-                  <input v-model="port" class="uk-input uk-form-width-medium uk-form-small" id="form-stacked-text" type="number" value=5000>
+                  <input v-model="computedPort" class="uk-input uk-form-width-medium uk-form-small" id="form-stacked-text" type="number" value=5000>
               </div>
             </div>
           </li>
@@ -53,6 +53,24 @@ export default {
       return {
         'uk-form-danger': !this.$store.state.available,
         'uk-form-success': this.$store.getters.ready
+      }
+    },
+
+    computedPort: {
+      get: function() {
+        if (this.hostname.includes(':')) {
+          var port = parseInt(this.hostname.split(':')[1]);
+          return !isNaN(port) ? port : this.port
+        }
+        else {
+          return this.port
+        }
+      },
+      set: function(newPort) {
+        this.port = newPort
+        if (this.hostname.includes(':')) {
+          this.hostname = this.hostname.split(':')[0] + ":" + this.port
+        }
       }
     }
   }
