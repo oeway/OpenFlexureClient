@@ -15,21 +15,22 @@
 * Gallery
     * ~~Basic card for each capture~~
     * ~~Thumbnails~~
-    * Reload button
-        * Also reload whenever tab is entered
+    * ~~Reload button~~
     * Download buttons
         * ~~Lightbox~~
         * Save to disk
-    * Basic info/metadata modal
+    * ~~Basic info/metadata modal~~
     * ~~Tags~~
         * ~~Read tag list~~
         * ~~Add tag button~~
         * ~~Delete tag button~~
     * Tag filter
 
-* Capture
-    * UI elements for capture options
-    * Big, friendly capture button
+* ~~Capture~~
+    * ~~UI elements for capture options~~
+    * ~~Big, friendly capture button~~
+    * ~~Metadata for captures~~
+    * ~~Tags for captures~~
 
 * Plugins
     * Placeholder for other plugins
