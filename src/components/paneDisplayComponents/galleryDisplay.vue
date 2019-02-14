@@ -6,7 +6,7 @@
     </div>
 
     <div uk-lightbox="toggle: .lightbox-link">
-      <div class="uk-grid-medium uk-padding uk-padding-remove-right uk-grid-match" uk-grid="masonry: true">
+      <div class="uk-grid-medium uk-padding uk-padding-remove-right uk-grid-match" uk-grid>
       
         <captureCard 
           v-for="capture in captureList" 
@@ -38,6 +38,13 @@ export default {
     return {
       captureList: []
     }  
+  },
+
+  mounted() {
+    // A global signal listener to perform a gallery refresh
+    this.$root.$on('globalUpdateCaptureList', () => {
+      this.updateCaptureList()
+    })
   },
 
   methods: {

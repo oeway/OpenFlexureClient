@@ -10,14 +10,19 @@
     </div>
 
     <div class="uk-card-body uk-padding-small">
-      <p> {{ metadata.filename }} </p>
-
-      <div class="uk-width-1-1" uk-grid>
-        <div class="uk-text-meta uk-margin-remove-top uk-width-expand"><time>{{ betterTimestring }}</time></div>
-        <div class="uk-text-meta uk-margin-remove-top uk-width-auto">
-          <a v-bind:href="metadataModalTarget" uk-toggle>More...</a>
+      <div class="uk-width-1-1 uk-margin-small uk-margin-remove-left uk-margin-remove-right" uk-grid>
+        <div class="uk-margin-remove-top uk-padding-remove uk-width-expand">{{ metadata.filename }}</div>
+        <div class="uk-margin-remove-top uk-padding-remove uk-width-auto">
+          <a href="#" v-on:click="delCaptureConfirm()" class="uk-icon-link" uk-icon="trash"></a>
         </div>
       </div>
+
+
+      <div class="uk-text-meta uk-margin-remove-top uk-padding-remove uk-width-expand"><time>{{ betterTimestring }}</time></div>
+      <div class="uk-text-meta uk-margin-remove-top uk-padding-remove uk-width-auto">
+        <a v-bind:href="metadataModalTarget" uk-toggle>More...</a>
+      </div>
+
 
     </div>
 
@@ -103,6 +108,27 @@ export default {
       UIkit.modal(event.target.parentNode).hide();
     },
 
+    delCaptureConfirm: function(tag_string) {
+      var self = this;
+      UIkit.modal.confirm('Permanantly delete capture?').then(function() {
+        self.delCaptureRequest()
+      }, function () {
+        console.log('Rejected.')
+      });
+    },
+
+    delCaptureRequest: function() {
+      // Send tag DELETE request
+      axios.delete(this.captureURL)
+      .then(response => { 
+        // Emit signal to update capture list
+        this.$root.$emit('globalUpdateCaptureList')
+      })
+      .catch(error => {
+        this.$store.dispatch('handleHTTPError', error);  // Let store handle error
+      })
+    },
+
     newTagRequest: function(tag_string) {
       // Send tag PUT request
       axios.put(this.tagURL, [tag_string])
@@ -172,13 +198,16 @@ export default {
       return "#" + this.metadataModalID
     },
     thumbURL: function () {
-      return this.$store.getters.uri + "/camera/capture/" + this.metadata.id + "/download?thumbnail=true"
+      return this.captureURL + "/download?thumbnail=true"
     },
     imgURL: function () {
-      return this.$store.getters.uri + "/camera/capture/" + this.metadata.id + "/download/" + this.metadata.filename
+      return this.captureURL + "/download/" + this.metadata.filename
     },
     tagURL: function () {
-      return this.$store.getters.uri + "/camera/capture/" + this.metadata.id + "/tags"
+      return this.captureURL + "/tags"
+    },
+    captureURL: function () {
+      return this.$store.getters.uri + "/camera/capture/" + this.metadata.id
     },
     betterTimestring: function () {
       var dtSplit = this.metadata.time.split("_");
@@ -190,14 +219,3 @@ export default {
 
 }
 </script>
-
-<style scoped lang="less">
-.deletable-label {
-  cursor: pointer;
-}
-
-.deletable-label:hover {
-  background-color: #f0506e;
-}
-
-</style>
