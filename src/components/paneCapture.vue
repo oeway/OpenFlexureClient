@@ -164,7 +164,6 @@ export default {
       axios.post(this.captureApiUri, params)
         .then(response => { 
           this.$root.$emit('globalUpdateCaptureList')
-          //this.$store.dispatch('updateState');  // Update store state
         })
         .catch(error => {
           this.$store.dispatch('handleHTTPError', error);  // Let store handle error
