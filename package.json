@@ -1,11 +1,12 @@
 {
-  "name": "vue3",
+  "name": "openflexure-microscope-vue",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "dev": "set NODE_ENV=DEV && electron src/app.js"
+    "dev": "set NODE_ENV=DEV&& electron src/app.js",
+    "run": "vue-cli-service build && electron src/app.js"
   },
   "dependencies": {
     "axios": "^0.18.0",
