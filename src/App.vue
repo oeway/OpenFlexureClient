@@ -112,5 +112,9 @@ body, html {
   border: 1px solid lightgray;
 }
 
+.uk-disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}
 
 </style>
