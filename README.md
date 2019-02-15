@@ -39,5 +39,4 @@
         * Recalibrate
 
 * Settings
-    * Field-of-view
-    * Some other settings (discuss which should be exposed)
+    * Metadata keys to automatically add (e.g. userID, patientID)
