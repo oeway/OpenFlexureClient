@@ -1,7 +1,7 @@
 <template>
 	<div class="streamDisplay scrollTarget">
 
-		<img class="uk-align-center" v-on:dblclick="clickmonitor" v-if="$store.getters.ready" v-bind:src="streamImgUri" alt="Stream">
+		<img class="uk-align-center" v-on:dblclick="clickmonitor" v-if="showStream" v-bind:src="streamImgUri" alt="Stream">
 
 		<div v-else-if="$store.state.waiting" class="uk-position-center">
 			<div uk-spinner="ratio: 4.5" ></div>
@@ -32,6 +32,9 @@ export default {
   },
 
   computed: {
+		showStream: function () {
+			return this.$store.getters.ready && !this.$store.state.settings.disableStream
+		},
     streamImgUri: function () {
       return this.$store.getters.uri + "/stream"
     }

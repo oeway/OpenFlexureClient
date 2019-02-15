@@ -16,7 +16,11 @@ export default new Vuex.Store({
     error: '',
     apiConfig: {},
     apiState: {},
-    moveLock: false
+    moveLock: false,
+    settings: {
+      disableStream: false,
+      autoGpuPreview: false
+    }
   },
 
   mutations: {
@@ -42,6 +46,9 @@ export default new Vuex.Store({
     },
     commitState(state, stateData) {
       state.apiState = stateData;
+    },
+    changeSetting(state, [key, value]) {
+      state.settings[key] = value;
     }
   },
 
