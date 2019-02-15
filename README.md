@@ -33,7 +33,7 @@
     * ~~Tags for captures~~
 
 * Plugins
-    * Placeholder for other plugins
+    * ~~Placeholder for other plugins~~
     * Accordion for:
         * Autofocus
         * Recalibrate
