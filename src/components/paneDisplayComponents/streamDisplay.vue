@@ -6,6 +6,11 @@
 		<div v-else-if="$store.state.waiting" class="uk-position-center">
 			<div uk-spinner="ratio: 4.5" ></div>
 		</div>
+
+		<div v-else class="uk-position-center position-relative">
+			No active connection
+		</div>
+
 	</div>
 </template>
 
@@ -53,5 +58,9 @@ export default {
 .streamDisplay {
 	width: 100%;
 	height: 100%;
+}
+
+.position-relative {
+	position: relative !important;
 }
 </style>
