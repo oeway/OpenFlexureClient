@@ -8,12 +8,14 @@
       <li v-bind:class="disableIfDisconnected"><a href="#" uk-switcher-item="navigate" uk-icon="location" uk-tooltip="Navigate"></a></li>
       <li v-bind:class="disableIfDisconnected"><a href="#" uk-switcher-item="capture" uk-icon="camera" uk-tooltip="Capture"></a></li>
       <li v-bind:class="disableIfDisconnected"><a href="#" uk-switcher-item="plugins" uk-icon="git-fork" uk-tooltip="Plugins"></a></li>
-      <li v-bind:class="disableIfDisconnected"><a href="#" uk-switcher-item="settings" uk-icon="settings" uk-tooltip="Configure"></a></li>
+      <li v-bind:class="disableIfDisconnected"><a href="#" uk-switcher-item="settings" uk-icon="settings" uk-tooltip="Settings"></a></li>
     </ul>
     <ul class="uk-switcher uk-padding-small uk-flex uk-flex-1 panel-content">
       <li class="uk-width-expand"><paneConnect/></li>
       <li v-if="$store.getters.ready" class="uk-width-expand"><paneNavigate/></li>
       <li v-if="$store.getters.ready" class="uk-width-expand"><paneCapture/></li>
+      <li v-if="$store.getters.ready" class="uk-width-expand"><panePlugins/></li>
+      <li class="uk-width-expand"><paneSettings/></li>
     </ul>
   </div>
 </template>
@@ -23,6 +25,8 @@
 import paneConnect from './paneConnect.vue'
 import paneNavigate from './paneNavigate.vue'
 import paneCapture from './paneCapture.vue'
+import panePlugins from './panePlugins.vue'
+import paneSettings from './paneSettings.vue'
 
 // Export main app
 export default {
@@ -31,7 +35,9 @@ export default {
   components: {
     paneConnect,
     paneNavigate,
-    paneCapture
+    paneCapture,
+    panePlugins,
+    paneSettings
   },
 
   computed: {
