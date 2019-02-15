@@ -90,7 +90,8 @@ export default {
 }
 
 body, html {
-  height: 100%
+  height: 100%;
+  overflow: auto;
 }
 
 .overlay-panel {
