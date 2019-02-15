@@ -2,54 +2,51 @@
 <div class="host-input">
   <div class="uk-margin">
 
-      <form @submit.prevent="handleSubmit">
-        <div class="uk-inline">
-          <span class="uk-form-icon" uk-icon="icon: server"></span>
-          <input v-model="hostname" v-bind:class="IpFormClasses" class="uk-input uk-form-width-medium uk-form-small" type="text" name="flavor" placeholder="localhost">
-        </div>
-        <button class="uk-button uk-button-default uk-form-small uk-float-right">Connect</button>
+    <h3>Connect</h3>
 
-        <ul uk-accordion>
-          <li>
-            <a class="uk-accordion-title" href="#">Advanced</a>
-            <div class="uk-accordion-content">
-              <label class="uk-form-label" for="form-stacked-text">Port</label>
-              <div class="uk-form-controls">
-                  <input v-model="computedPort" class="uk-input uk-form-width-medium uk-form-small" id="form-stacked-text" type="number" value=5000>
-              </div>
-            </div>
-          </li>
-      </ul>
-      </form>
-
-      <div class="host-display">
-        <div v-if="$store.getters.ready">
-          <p><b>Host:</b> {{ $store.state.host }}</p>
-          <p><b>Base URI:</b> {{ $store.getters.uri }}</p>
-          <p v-if="$store.state.apiConfig.name"><b>Device name:</b> {{ $store.state.apiConfig.name }}</p>
-
-          <button v-on:click="saveHost()" class="uk-button uk-button-default uk-form-small uk-float-right uk-margin-small uk-width-1-1">Save Host</button>
-
-        </div>
-
-        <div v-else-if="$store.state.waiting">
-          <div uk-spinner></div>
-        </div>
-
-        <div v-else-if="$store.state.error">
-          <b>Error:</b> {{ $store.state.error }}
-        </div>
-
-        <div v-else>
-          Enter a hostname and connect to start.
-        </div>
+    <form @submit.prevent="handleSubmit">
+      <div class="uk-inline">
+        <span class="uk-form-icon" uk-icon="icon: server"></span>
+        <input v-model="hostname" v-bind:class="IpFormClasses" class="uk-input uk-form-width-medium uk-form-small" type="text" name="flavor" placeholder="localhost">
       </div>
+      <button class="uk-button uk-button-default uk-form-small uk-float-right">Connect</button>
+
+      <ul uk-accordion>
+        <li>
+          <a class="uk-accordion-title" href="#">Advanced</a>
+          <div class="uk-accordion-content">
+            <label class="uk-form-label" for="form-stacked-text">Port</label>
+            <div class="uk-form-controls">
+                <input v-model="computedPort" class="uk-input uk-form-width-medium uk-form-small" id="form-stacked-text" type="number" value=5000>
+            </div>
+          </div>
+        </li>
+    </ul>
+    </form>
+
+    <div class="host-display">
+
+      <h3>Status</h3>
+
+      <div v-if="$store.getters.ready">
+        <p><b>Host:</b> {{ $store.state.host }}</p>
+        <p><b>Base URI:</b> {{ $store.getters.uri }}</p>
+        <p v-if="$store.state.apiConfig.name"><b>Device name:</b> {{ $store.state.apiConfig.name }}</p>
+
+        <button v-on:click="saveHost()" class="uk-button uk-button-default uk-form-small uk-float-right uk-margin-small uk-width-1-1">Save Host</button>
+
+      </div>
+
+      <div v-else-if="$store.state.waiting"><div uk-spinner></div></div>
+      <div v-else-if="$store.state.error"><b>Error:</b> {{ $store.state.error }}</div>
+      <div v-else>No active connection</div>
+    </div>
 
     <h3>Saved hosts</h3>
 
-    <div v-for="host in savedHosts" :key="host.name">
-      <a href="#" v-on:click="delSavedHost(host)" class="uk-icon-link" uk-icon="trash"></a> 
-      <a href="#" v-on:click="autofillHost(host)">{{ host.name }} ({{ host.hostname }}:{{ host.port }})</a> 
+    <div v-for="host in savedHosts" :key="host.name" class="uk-margin-small uk-margin-remove-left uk-margin-remove-right uk-grid">
+      <a href="#" v-on:click="autofillHost(host)" class="uk-icon-link uk-padding-remove uk-width-expand"><b>{{ host.name }}</b> ({{ host.hostname }}:{{ host.port }})</a> 
+      <a href="#" v-on:click="delSavedHost(host)" class="uk-icon-link uk-width-auto" uk-icon="trash"></a> 
     </div>
 
   </div>
@@ -82,6 +79,25 @@ export default {
         }
       ]
     }  
+  },
+
+  mounted() {
+    // Try loading and parsing savedHosts from localStorage 
+    if (localStorage.getItem('savedHosts')) {
+      try {
+        this.savedHosts = JSON.parse(localStorage.getItem('savedHosts'));
+      } catch(e) {
+        localStorage.removeItem('savedHosts');
+      }
+    }
+  },
+
+  // When savedHosts changes, serialise to JSON and save to localStorage
+  watch: {
+    savedHosts(newSavedHosts) {
+      const parsed = JSON.stringify(this.savedHosts);
+      localStorage.setItem('savedHosts', parsed);
+    }
   },
 
   methods: {
