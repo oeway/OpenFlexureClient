@@ -4,7 +4,7 @@
 
     <div class="uk-child-width-1-2" uk-grid>
       <p><label><input v-model="disableStream" class="uk-checkbox" type="checkbox"> Disable stream</label></p>
-      <p><label><input v-model="autoGpuPreview" class="uk-checkbox" type="checkbox"> GPU preview</label></p>
+      <p><label class="uk-disabled"><input v-model="autoGpuPreview" class="uk-checkbox" type="checkbox"> GPU preview</label></p>
     </div>
 
   </div>
