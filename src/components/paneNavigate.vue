@@ -113,7 +113,6 @@ export default {
     // Handle global key press events to be associated with navigation
     keyDownMonitor: function(event) {
       this.keysDown[event.keyCode] = true; //Add key to array
-      // TODO: Add logic
 
       // Convert keyCode dict into a list of key codes
       var keyCodeList = Object.keys(keyCodes).map(function(key){return keyCodes[key];});
