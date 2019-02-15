@@ -70,11 +70,6 @@ export default {
         {
           name: "local",
           hostname: "localhost",
-          port: 80
-        },
-        {
-          name: "test",
-          hostname: "192.168.1.126",
           port: 5000
         }
       ]
