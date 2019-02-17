@@ -17,6 +17,7 @@
         <a class="uk-accordion-title" href="#">Microscope settings</a>
         <div class="uk-accordion-content">
           <div class="uk-placeholder uk-text-center">Microscope config coming soon...</div>
+        </div>
       </li>
 
     </ul>
