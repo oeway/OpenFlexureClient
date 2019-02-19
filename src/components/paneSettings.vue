@@ -4,20 +4,12 @@
     <ul uk-accordion="multiple: true">
       <li>
         <a class="uk-accordion-title" href="#">App settings</a>
-        <div class="uk-accordion-content">
-
-          <div class="uk-child-width-1-2" uk-grid>
-            <p><label><input v-model="disableStream" class="uk-checkbox" type="checkbox"> Disable stream</label></p>
-            <p><label class="uk-disabled"><input v-model="autoGpuPreview" class="uk-checkbox" type="checkbox"> GPU preview</label></p>
-          </div>
-        </div>
+        <div class="uk-accordion-content"><appSettings/></div>
       </li>
 
-      <li>
+      <li v-if="$store.getters.ready">
         <a class="uk-accordion-title" href="#">Microscope settings</a>
-        <div class="uk-accordion-content">
-          <div class="uk-placeholder uk-text-center">Microscope config coming soon...</div>
-        </div>
+        <div class="uk-accordion-content"><microscopeSettings/></div>
       </li>
 
     </ul>
@@ -26,28 +18,16 @@
 </template>
 
 <script>
+import appSettings from './paneSettingsComponents/appSettings.vue'
+import microscopeSettings from './paneSettingsComponents/microscopeSettings.vue'
 
 // Export main app
 export default {
   name: 'paneSettings',
 
-  computed: {
-    disableStream: {
-      get() {
-        return this.$store.state.settings.disableStream;
-      },
-      set(value) {
-        this.$store.commit("changeSetting", ['disableStream', value]);
-      }
-    },
-    autoGpuPreview: {
-      get() {
-        return this.$store.state.settings.autoGpuPreview;
-      },
-      set(value) {
-        this.$store.commit("changeSetting", ['autoGpuPreview', value]);
-      }
-    }
+  components: {
+    appSettings,
+    microscopeSettings
   }
 
 }
