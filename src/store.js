@@ -89,6 +89,40 @@ export default new Vuex.Store({
       })
     },
 
+    pollTask(context, [taskId, timeout, interval]) {
+      var endTime = Number(new Date()) + (timeout || 30000);
+      interval = interval || 500;
+
+      var checkCondition = function(resolve, reject) {
+        // If the condition is met, we're done! 
+        axios.get(`${context.getters.uri}/task/${taskId}`)
+        .then(response => { 
+          console.log(response.data.status)
+          var result = response.data.status;
+          // If the task ends with success
+          if(result == 'success') {
+              resolve(response.data.return);
+          }
+          // If task ends with an error
+          else if (result == 'error') {
+            reject(new Error(response.data.return));
+          }
+          // If the condition isn't met but the timeout hasn't elapsed, go again
+          else if (Number(new Date()) < endTime) {
+              setTimeout(checkCondition, interval, resolve, reject);
+          }
+          // Didn't match and too much time, reject!
+          else {
+            reject(new Error('Polling timed out'));
+          }
+        })
+
+      };
+
+      return new Promise(checkCondition);
+      
+    },
+
     handleHTTPError(context, error) {
       var errormsg = '';
       if (error.response) {
