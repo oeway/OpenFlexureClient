@@ -61,6 +61,30 @@
 
       </div>
     </li>
+
+    <li>
+      <a class="uk-accordion-title" href="#">Autofocus</a>
+      <div class="uk-accordion-content">
+
+          <div class="uk-grid-small uk-child-width-1-3" uk-grid>
+
+            <div>
+              <button class="uk-button uk-button-default uk-form-small uk-float-right uk-width-1-1 uk-disabled">Coarse</button>
+            </div>
+
+            <div>
+              <button class="uk-button uk-button-default uk-form-small uk-float-right uk-width-1-1 uk-disabled">Medium</button>
+            </div>
+
+            <div>
+              <button class="uk-button uk-button-default uk-form-small uk-float-right uk-width-1-1 uk-disabled">Fine</button>
+            </div>
+
+          </div>
+
+      </div>
+    </li>
+
   </ul>
 </div>
 </template>
