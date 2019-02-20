@@ -1,0 +1,37 @@
+{
+  "name": "openflexure-microscope-vue",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "dev": "set NODE_ENV=DEV&& electron src/app.js",
+    "run": "vue-cli-service build && electron src/app.js"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "electron": "^4.0.5",
+    "electron-context-menu": "^0.11.0",
+    "uikit": "^3.0.2",
+    "vue": "^2.5.21",
+    "vuex": "^3.0.1"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.3.0",
+    "@vue/cli-service": "^3.3.0",
+    "css-loader": "^2.1.0",
+    "less": "^3.9.0",
+    "less-loader": "^4.1.0",
+    "vue-template-compiler": "^2.5.21"
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ]
+}
