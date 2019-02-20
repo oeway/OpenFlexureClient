@@ -7,6 +7,10 @@
 			<div uk-spinner="ratio: 4.5" ></div>
 		</div>
 
+		<div v-else-if="$store.state.settings.disableStream" class="uk-position-center position-relative">
+			Stream preview disabled
+		</div>
+
 		<div v-else class="uk-position-center position-relative">
 			No active connection
 		</div>
