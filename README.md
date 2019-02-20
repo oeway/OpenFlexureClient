@@ -16,9 +16,9 @@
     * ~~Basic card for each capture~~
     * ~~Thumbnails~~
     * ~~Reload button~~
-    * Download buttons
+    * ~~Download buttons~~
         * ~~Lightbox~~
-        * Save to disk
+        * ~~Save to disk~~ (Redundant by context menu)
     * ~~Basic info/metadata modal~~
     * ~~Tags~~
         * ~~Read tag list~~
@@ -35,8 +35,8 @@
 * Plugins
     * ~~Placeholder for other plugins~~
     * Accordion for:
-        * Autofocus
-        * Recalibrate
+        * ~~Autofocus~~ (Needs functionality added to placeholders)
+        * ~~Recalibrate~~
 
 * Settings
     * Metadata keys to automatically add (e.g. userID, patientID)
