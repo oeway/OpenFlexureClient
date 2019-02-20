@@ -141,7 +141,7 @@ export default {
       // Convert keyCode dict into a list of key codes
       var keyCodeList = Object.keys(keyCodes).map(function(key){return keyCodes[key];});
 
-      if (!(event.target instanceof HTMLInputElement) && keyCodeList.includes(event.keyCode)) {
+      if (!(event.target instanceof HTMLInputElement) && !(event.target.classList.contains('lightbox-link')) && keyCodeList.includes(event.keyCode)) {
         console.log(this.keysDown)
         // Calculate movement array
         var x_rel = 0;
