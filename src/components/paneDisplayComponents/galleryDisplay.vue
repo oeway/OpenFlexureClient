@@ -1,32 +1,34 @@
 <template>
-	<div class="galleryDisplay uk-padding-remove">
+	<div class="galleryDisplay uk-padding uk-padding-remove-top">
 
-    <nav class="uk-navbar-container" uk-navbar="mode: click">
-        <div class="uk-navbar-left uk-padding uk-padding-remove-top uk-padding-remove-bottom">
+    <nav class="uk-navbar-container navbar" uk-navbar="mode: click">
+        <div class="uk-navbar-left uk-padding-remove-top uk-padding-remove-bottom">
 
             <ul class="uk-navbar-nav">
-                <li>
-                  <a href="#">Filter</a>
-                  <div class="uk-navbar-dropdown">
-                    <ul class="uk-nav uk-navbar-dropdown-nav">
-                      <form class="uk-form-stacked">
-                        <div v-for="tag in allTags" :key="tag" class="uk-margin-small">
-                          <label><input class="uk-checkbox" type="checkbox" v-bind:id="tag" v-bind:value="tag" v-model="checkedTags" checked> {{ tag }}</label>
-                        </div>
-                      </form>
-                    </ul>
-                  </div>
-                </li>
+              <li v-bind:class="[sortDescending ? 'uk-active' : '']"><a v-on:click="sortDescending=true;" class="uk-icon-link" href="#" uk-icon="icon: arrow-down"></a></li>
+              <li v-bind:class="[!sortDescending ? 'uk-active' : '']"><a v-on:click="sortDescending=false;" class="uk-icon-link" href="#" uk-icon="icon: arrow-up"></a></li>
+              <li>
+                <a href="#">Filter</a>
+                <div class="uk-navbar-dropdown">
+                  <ul class="uk-nav uk-navbar-dropdown-nav">
+                    <form class="uk-form-stacked">
+                      <div v-for="tag in allTags" :key="tag" class="uk-margin-small">
+                        <label><input class="uk-checkbox" type="checkbox" v-bind:id="tag" v-bind:value="tag" v-model="checkedTags" checked> {{ tag }}</label>
+                      </div>
+                    </form>
+                  </ul>
+                </div>
+              </li>
             </ul>
 
         </div>
     </nav>
 
-    <div class="uk-padding uk-padding-remove-top" uk-lightbox="toggle: .lightbox-link">
+    <div class="uk-padding-remove-top" uk-lightbox="toggle: .lightbox-link">
       <div class="uk-grid-medium uk-padding uk-padding-remove-right uk-grid-match" uk-grid>
       
         <captureCard 
-          v-for="capture in filteredCaptures" 
+          v-for="capture in sortedDateCaptures" 
           :key="capture.metadata.id"
           :metadata="capture.metadata"
           :temporary="capture.temporary"
@@ -54,7 +56,8 @@ export default {
   data: function () {
     return {
       captureList: [],
-      checkedTags: []
+      checkedTags: [],
+      sortDescending: true
     }  
   },
 
@@ -95,13 +98,13 @@ export default {
       for (var i in this.captureList) {
         var capture = this.captureList[i]
         for (var j in capture.metadata.tags) {
-          var tag = capture.metadata.tags[j]
+          var tag = capture.metadata.tags[j];
           if (!tags.includes(tag)) {
-            tags.push(tag)
+            tags.push(tag);
           };
         };
       };
-      return tags
+      return tags.sort()
     },
 
     filteredCaptures: function () {
@@ -116,23 +119,43 @@ export default {
         var tags = capture.metadata.tags;
         let checker = (arr, target) => target.every(v => arr.includes(v));
         // True if all tags match
-        includeCapture = checker(tags, this.checkedTags)
+        includeCapture = checker(tags, this.checkedTags);
 
         // Add to capture list if matched
         if (includeCapture == true) {
-          captures.push(capture)
-        }
+          captures.push(capture);
+        };
 
       };
 
     return captures
-      
+    },
+
+    sortedDateCaptures: function () {
+      function compare(a, b) {
+        if (a.metadata.time < b.metadata.time)
+          return -1;
+        if (a.metadata.time > b.metadata.time)
+          return 1;
+        return 0;
+      }
+
+      if (this.sortDescending == true) {
+        return this.filteredCaptures.sort(compare).reverse();
+      }
+      else {
+        return this.filteredCaptures.sort(compare);
+      }
     }
+
   }
 
 }
 </script>
 
 <style scoped lang="less">
-
+.navbar {
+  background-color: #fff !important;
+  border-bottom: 1px solid #e5e5e5;
+}
 </style>
