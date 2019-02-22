@@ -24,7 +24,7 @@
         * ~~Read tag list~~
         * ~~Add tag button~~
         * ~~Delete tag button~~
-    * Tag filter
+    * ~~Tag filter~~
 
 * ~~Capture~~
     * ~~UI elements for capture options~~
