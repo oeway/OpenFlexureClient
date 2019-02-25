@@ -24,7 +24,7 @@
         </div>
     </nav>
 
-    <div class="uk-padding-remove-top" uk-lightbox="toggle: .lightbox-link">
+    <div v-if="$store.getters.ready" class="uk-padding-remove-top" uk-lightbox="toggle: .lightbox-link">
       <div class="uk-grid-medium uk-padding uk-padding-remove-right uk-grid-match" uk-grid>
       
         <captureCard 
@@ -81,10 +81,6 @@ export default {
         this.$store.dispatch('handleHTTPError', error);  // Let store handle error
       })
     }
-  },
-
-  created: function () {
-    this.updateCaptureList()
   },
 
   computed: {
