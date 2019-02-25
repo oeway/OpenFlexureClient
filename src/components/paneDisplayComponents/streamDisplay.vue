@@ -1,5 +1,5 @@
 <template>
-	<div class="streamDisplay scrollTarget">
+	<div class="streamDisplay uk-width-1-1 uk-height-1-1 scrollTarget" id="streamDisplay" ref="streamDisplay">
 
 		<img class="uk-align-center uk-margin-remove-bottom" v-on:dblclick="clickmonitor" v-if="showStream" v-bind:src="streamImgUri" alt="Stream">
 
@@ -19,9 +19,35 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 // Export main app
 export default {
   name: 'streamDisplay',
+
+  data: function () {
+    return {
+			displaySize: [0, 0],
+			displayPosition: [0, 0],
+      resizeTeimoutId: setTimeout(this.doneResizing, 500)
+    }
+  },
+
+  mounted() {
+    // A global signal listener to perform a move action
+    this.$root.$on('globalTogglePreview', (state) => {
+			this.previewRequest(state)
+		})
+		console.log("View mounted")
+	},
+
+	created: function () {
+  	//window.addEventListener('resize', this.handleResize)
+	},
+
+	beforeDestroy: function () {
+		//window.removeEventListener('resize', this.handleResize)
+	},
 
   methods: {
     clickmonitor: function(event) {
@@ -37,7 +63,83 @@ export default {
 
 			// Emit a signal to move, acted on by panelNavigate.vue
 			this.$root.$emit('globalMoveEvent', xSteps, ySteps, 0, false)
-    }
+		},
+		
+		handleResize: function(event) {
+			clearTimeout(this.resizeTeimoutId);
+			this.resizeTeimoutId = setTimeout(this.handleDoneResize, 500)
+		},
+
+		handleDoneResize: function() {
+			// Recalculate size
+			this.recalculateSize();
+			if (this.$store.state.settings.autoGpuPreview == true) {
+				// Reload preview
+				this.$root.$emit('globalTogglePreview', true)
+			}
+		},
+
+		recalculateSize: function () {
+			console.log("Recalculating window dimensions...")
+			// Stacking parentNode is a hacky fix
+			// For some reason, when switching tabs, width was always half what it should be,
+			// until the size was recalculated at some later time. Probably something to do
+			// with tab transition. This parentNode stuff instead reads the size of the tab
+			// container, irrespective of WHICH tab is selected. It's nasty, but works.
+			let element = this.$refs.streamDisplay.parentNode.parentNode;
+			console.log(element)
+
+			let size = [element.clientWidth, element.clientHeight];
+			console.log(size)
+			console.log([element.offsetWidth, element.offsetHeight])
+
+			let elem_pos = [element.getBoundingClientRect().left, element.getBoundingClientRect().top];
+			let wind_pos = [window.screenX, window.screenY];
+			let navHeight = window.outerHeight - window.innerHeight;
+			let position = [wind_pos[0] + elem_pos[0], wind_pos[1] + elem_pos[1] + navHeight];
+
+			this.displaySize = size;
+			this.displayPosition = position;
+		},
+
+    previewRequest: function(state) {
+			if (this.$store.getters.ready == true) {
+				// Create URI depending on if starting or stopping preview
+				// TODO: Messy. Should be cleaned up
+				if (state == true) {
+					var requestUri = this.startPreviewUri;
+				}
+				else {
+					var requestUri = this.stopPreviewUri;
+				}
+
+				// Generate payload if tracking window position
+				if (this.$store.state.settings.trackWindow == true && state == true) {
+					this.recalculateSize()
+					var payload = {
+						window : [
+							this.displayPosition[0],
+							this.displayPosition[1],
+							this.displaySize[0],
+							this.displaySize[1],
+						]
+					}
+				}
+				else {
+					var letpayload = {}
+				}
+
+				// Send preview request
+				axios.post(requestUri, payload)
+				.then(response => { 
+					this.$store.dispatch('updateState');  // Update store state
+				})
+				.catch(error => {
+					this.$store.dispatch('handleHTTPError', error);  // Let store handle error
+				})
+			}
+    },
+
   },
 
   computed: {
@@ -46,8 +148,14 @@ export default {
 		},
     streamImgUri: function () {
       return this.$store.getters.uri + "/stream"
-    }
-  }
+		},
+		startPreviewUri: function () {
+			return this.$store.getters.uri + "/camera/preview/start"
+		},
+		stopPreviewUri: function () {
+			return this.$store.getters.uri + "/camera/preview/stop"
+		}
+	}
 
 }
 </script>
