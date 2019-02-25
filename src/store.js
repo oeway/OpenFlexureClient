@@ -19,7 +19,8 @@ export default new Vuex.Store({
     moveLock: false,
     settings: {
       disableStream: false,
-      autoGpuPreview: false
+      autoGpuPreview: false,
+      trackWindow: true
     }
   },
 
