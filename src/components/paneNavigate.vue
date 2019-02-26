@@ -62,22 +62,25 @@
       </div>
     </li>
 
-    <li>
+    <li class="uk-open">
       <a class="uk-accordion-title" href="#">Autofocus</a>
-      <div class="uk-accordion-content">
+      <div class="uk-text-center uk-container" v-if="isAutofocusing">
+        <div class="center-spinner" uk-spinner></div>
+      </div>
+      <div class="uk-accordion-content" v-else>
 
           <div class="uk-grid-small uk-child-width-1-3" uk-grid>
 
             <div>
-              <button class="uk-button uk-button-default uk-form-small uk-float-right uk-width-1-1 uk-disabled">Coarse</button>
+              <button v-on:click="runAutofocus([-200,-100,0,100,200]);" class="uk-button uk-button-default uk-form-small uk-float-right uk-width-1-1">Coarse</button>
             </div>
 
             <div>
-              <button class="uk-button uk-button-default uk-form-small uk-float-right uk-width-1-1 uk-disabled">Medium</button>
+              <button v-on:click="runAutofocus([-60,-30,0,30,60]);" class="uk-button uk-button-default uk-form-small uk-float-right uk-width-1-1">Medium</button>
             </div>
 
             <div>
-              <button class="uk-button uk-button-default uk-form-small uk-float-right uk-width-1-1 uk-disabled">Fine</button>
+              <button v-on:click="runAutofocus([-20,-10,0,10,20]);" class="uk-button uk-button-default uk-form-small uk-float-right uk-width-1-1">Fine</button>
             </div>
 
           </div>
@@ -113,7 +116,8 @@ export default {
       keysDown: {},
       stepXy: 200,
       stepZz: 50,
-      setPosition: this.$store.state.apiState.stage.position
+      setPosition: this.$store.state.apiState.stage.position,
+      isAutofocusing: false
     }
   },
 
@@ -210,6 +214,36 @@ export default {
       }
     },
 
+    runAutofocus: function(dz) {
+      if (!this.$store.state.moveLock) {
+        // Lock move requests
+        this.$store.commit('changeMoveLock', true);
+        axios.post(this.autofocusApiUri, {dz: dz})
+        .then(response => { 
+          console.log("Autofocus Task ID: " + response.data[0].id)
+          this.isAutofocusing = true
+          // Start the store polling TaskId for success
+          self = this;
+          this.$store.dispatch('pollTask', [response.data[0].id, null, null])
+          .then(function() {
+            UIkit.notification({message: "Finished recalibration.", status: 'success'})
+          })
+          .catch(error => {
+            UIkit.notification({message: `<span uk-icon=\'icon: warning\'></span> ${error}`, status: 'danger'})
+          })
+          .finally(() => {
+            self.isAutofocusing = false
+            this.$store.commit('changeMoveLock', false)  // Release the move lock
+          })
+        })
+        .catch(error => {
+          this.$store.dispatch('handleHTTPError', error);  // Let store handle error
+          self.isAutofocusing = false
+          this.$store.commit('changeMoveLock', false)  // Release the move lock
+        })
+      }
+    }
+
   },
 
   created: function () {
@@ -221,6 +255,9 @@ export default {
   computed: {
     positionApiUri: function () {
       return this.$store.getters.uri + "/stage/position"
+    },
+    autofocusApiUri: function () {
+      return this.$store.getters.uri + "/plugin/default/autofocus/autofocus"
     }
   }
 
