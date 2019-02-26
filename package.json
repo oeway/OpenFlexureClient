@@ -1,12 +1,13 @@
 {
-  "name": "openflexure-microscope-vue",
+  "name": "openflexure-microscope-js",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "dev": "set NODE_ENV=DEV&& electron src/app.js",
-    "run": "vue-cli-service build && electron src/app.js"
+    "run": "vue-cli-service build && electron src/app.js",
+    "make-icons": "electron-icon-maker --input=C:\\Users\\jtc92\\Source\\openflexure-microscope-jsclient\\src\\assets\\icons\\icon_base.png --output=./src/assets"
   },
   "dependencies": {
     "axios": "^0.18.0",
@@ -20,6 +21,7 @@
     "@vue/cli-plugin-babel": "^3.3.0",
     "@vue/cli-service": "^3.3.0",
     "css-loader": "^2.1.0",
+    "electron-packager": "^13.1.0",
     "less": "^3.9.0",
     "less-loader": "^4.1.0",
     "vue-template-compiler": "^2.5.21"
