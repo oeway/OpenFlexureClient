@@ -87,16 +87,13 @@ export default {
 			// with tab transition. This parentNode stuff instead reads the size of the tab
 			// container, irrespective of WHICH tab is selected. It's nasty, but works.
 			let element = this.$refs.streamDisplay.parentNode.parentNode;
-			console.log(element)
 
 			let size = [element.clientWidth, element.clientHeight];
-			console.log(size)
-			console.log([element.offsetWidth, element.offsetHeight])
 
 			let elem_pos = [element.getBoundingClientRect().left, element.getBoundingClientRect().top];
 			let wind_pos = [window.screenX, window.screenY];
 			let navHeight = window.outerHeight - window.innerHeight;
-			let position = [wind_pos[0] + elem_pos[0], wind_pos[1] + elem_pos[1] + navHeight];
+			let position = [Math.max(0, wind_pos[0] + elem_pos[0]), Math.max(0, wind_pos[1] + elem_pos[1] + navHeight)];
 
 			this.displaySize = size;
 			this.displayPosition = position;
