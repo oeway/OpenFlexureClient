@@ -42,10 +42,12 @@ export default {
 	},
 
 	created: function () {
+		// Add resize listener
   	window.addEventListener('resize', this.handleResize)
 	},
 
 	beforeDestroy: function () {
+		// Remove resize listener
 		window.removeEventListener('resize', this.handleResize)
 	},
 
@@ -66,6 +68,7 @@ export default {
 		},
 		
 		handleResize: function(event) {
+			// Only fires resize event after no resize in 500ms (prevents resize event spam)
 			clearTimeout(this.resizeTeimoutId);
 			this.resizeTeimoutId = setTimeout(this.handleDoneResize, 500)
 		},
@@ -101,8 +104,7 @@ export default {
 
     previewRequest: function(state) {
 			if (this.$store.getters.ready == true) {
-				// Create URI depending on if starting or stopping preview
-				// TODO: Messy. Should be cleaned up
+				// Create URI and set this.GpuPreviewActive depending on if starting or stopping preview
 				if (state == true) {
 					this.GpuPreviewActive = true
 					var requestUri = this.startPreviewUri;
