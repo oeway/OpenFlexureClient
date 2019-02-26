@@ -3,8 +3,8 @@
     
     <ul uk-accordion="multiple: true">
       <li>
-        <a class="uk-accordion-title" href="#">App settings</a>
-        <div class="uk-accordion-content"><appSettings/></div>
+        <a class="uk-accordion-title" href="#">Stream settings</a>
+        <div class="uk-accordion-content"><streamSettings/></div>
       </li>
 
       <li v-if="$store.getters.ready">
@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import appSettings from './paneSettingsComponents/appSettings.vue'
+import streamSettings from './paneSettingsComponents/streamSettings.vue'
 import microscopeSettings from './paneSettingsComponents/microscopeSettings.vue'
 
 // Export main app
@@ -26,7 +26,7 @@ export default {
   name: 'paneSettings',
 
   components: {
-    appSettings,
+    streamSettings,
     microscopeSettings
   }
 
