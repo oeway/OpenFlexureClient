@@ -29,24 +29,24 @@ export default {
     return {
 			displaySize: [0, 0],
 			displayPosition: [0, 0],
+			GpuPreviewActive: false,
       resizeTeimoutId: setTimeout(this.doneResizing, 500)
     }
   },
 
   mounted() {
-    // A global signal listener to perform a move action
+    // A global signal listener to change the GPU preview state
     this.$root.$on('globalTogglePreview', (state) => {
 			this.previewRequest(state)
 		})
-		console.log("View mounted")
 	},
 
 	created: function () {
-  	//window.addEventListener('resize', this.handleResize)
+  	window.addEventListener('resize', this.handleResize)
 	},
 
 	beforeDestroy: function () {
-		//window.removeEventListener('resize', this.handleResize)
+		window.removeEventListener('resize', this.handleResize)
 	},
 
   methods: {
@@ -73,7 +73,7 @@ export default {
 		handleDoneResize: function() {
 			// Recalculate size
 			this.recalculateSize();
-			if (this.$store.state.settings.autoGpuPreview == true) {
+			if (this.$store.state.settings.autoGpuPreview == true && this.GpuPreviewActive == true) {
 				// Reload preview
 				this.$root.$emit('globalTogglePreview', true)
 			}
@@ -104,15 +104,19 @@ export default {
 				// Create URI depending on if starting or stopping preview
 				// TODO: Messy. Should be cleaned up
 				if (state == true) {
+					this.GpuPreviewActive = true
 					var requestUri = this.startPreviewUri;
 				}
 				else {
+					this.GpuPreviewActive = false;
 					var requestUri = this.stopPreviewUri;
 				}
 
 				// Generate payload if tracking window position
 				if (this.$store.state.settings.trackWindow == true && state == true) {
+					// Recalculate frame dimensions and position
 					this.recalculateSize()
+					// Copy data into payload array
 					var payload = {
 						window : [
 							this.displayPosition[0],
