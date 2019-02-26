@@ -43,7 +43,20 @@ export default {
 
 	created: function () {
 		// Add resize listener
-  	window.addEventListener('resize', this.handleResize)
+		window.addEventListener('resize', this.handleResize);
+		
+		// Watch for host 'ready'
+		this.$store.watch(
+			(state)=>{
+				return this.$store.getters.ready
+			},
+			(newValue, oldValue)=>{
+				// 'ready' changed, so do something
+				console.log(oldValue)
+				console.log(newValue)
+				this.previewRequest(this.$store.state.settings.autoGpuPreview)
+			}
+		)
 	},
 
 	beforeDestroy: function () {
