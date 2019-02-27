@@ -1,6 +1,6 @@
 {
   "dest": "release-builds/",
-  "icon": "src/assets/icons/png/1024x1024.png",
+  "icon": "icons/png/1024x1024.png",
   "categories": [
     "Science"
   ],
