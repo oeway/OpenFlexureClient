@@ -6,11 +6,11 @@
   <Identity Name="OpenFlexureMicroscopeJS"
     ProcessorArchitecture="x64"
     Publisher="CN=bath-open-instrumentation-group"
-    Version="1.0.0.0" />
+    Version="0.1.0.0" />
   <Properties>
     <DisplayName>OpenFlexure Microscope JS</DisplayName>
-    <PublisherDisplayName>Bath Open Instrumentation Group</PublisherDisplayName>
-    <Description>No description entered</Description>
+    <PublisherDisplayName>OpenFlexure</PublisherDisplayName>
+    <Description>A user client for the OpenFlexure Microscope Server</Description>
     <Logo>assets\SampleAppx.50x50.png</Logo>
   </Properties>
   <Resources>
