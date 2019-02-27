@@ -218,28 +218,22 @@ export default {
       if (!this.$store.state.moveLock) {
         // Lock move requests
         this.$store.commit('changeMoveLock', true);
+        this.isAutofocusing = true
         axios.post(this.autofocusApiUri, {dz: dz})
         .then(response => { 
           console.log("Autofocus Task ID: " + response.data[0].id)
-          this.isAutofocusing = true
           // Start the store polling TaskId for success
-          self = this;
-          this.$store.dispatch('pollTask', [response.data[0].id, null, null])
-          .then(function() {
-            UIkit.notification({message: "Finished recalibration.", status: 'success'})
-          })
-          .catch(error => {
-            UIkit.notification({message: `<span uk-icon=\'icon: warning\'></span> ${error}`, status: 'danger'})
-          })
-          .finally(() => {
-            self.isAutofocusing = false
-            this.$store.commit('changeMoveLock', false)  // Release the move lock
-          })
+          return this.$store.dispatch('pollTask', [response.data[0].id, null, null])
         })
+        .then(() => { console.log("Successfully finished autofocus"); })
         .catch(error => {
+          UIkit.notification({message: `<span uk-icon=\'icon: warning\'></span> ${error}`, status: 'danger'})
           this.$store.dispatch('handleHTTPError', error);  // Let store handle error
-          self.isAutofocusing = false
-          this.$store.commit('changeMoveLock', false)  // Release the move lock
+        })
+        .finally(() => {
+          console.log("Cleaning up after autofocus.")
+          this.isAutofocusing = false;
+          this.$store.commit('changeMoveLock', false);  // Release the move lock
         })
       }
     }
