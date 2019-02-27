@@ -1,6 +1,7 @@
 {
   "name": "openflexure-microscope-js",
   "productName": "OpenFlexure Microscope JS",
+  "description": "A user client for the OpenFlexure Microscope Server",
   "main": "app.js",
   "version": "0.1.0",
   "private": true,
@@ -9,10 +10,12 @@
     "build": "vue-cli-service build",
     "dev": "set NODE_ENV=DEV&& electron app.dev.js",
     "run": "vue-cli-service build && electron app.js",
-    "make-icons": "electron-icon-maker --input=C:\\Users\\jtc92\\Source\\openflexure-microscope-jsclient\\src\\assets\\icons\\icon_base.png --output=./src/assets",
     "package-win": "electron-packager . openflexure-microscope-js --overwrite --asar=true --platform=win32 --arch=ia32 --icon=src/assets/icons/win/icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"OpenFlexure Microscope JS\"",
     "package-linux": "electron-packager . openflexure-microscope-js --overwrite --asar=true --platform=linux --arch=x64 --icon=src/assets/icons/png/1024x1024.png --prune=true --out=release-builds",
-    "package-darwin": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=src/assets/icons/mac/icon.icns --prune=true --out=release-builds"
+    "package-rpi": "electron-packager . openflexure-microscope-js --overwrite --asar=true --platform=linux --electron-version=3.0.13 --arch=armv7l --icon=src/assets/icons/png/1024x1024.png --prune=true --out=release-builds",
+    "package-darwin": "electron-packager . openflexure-microscope-js --overwrite --platform=darwin --arch=x64 --icon=src/assets/icons/mac/icon.icns --prune=true --out=release-builds",
+    "installer-rpi": "electron-installer-debian --src release-builds/openflexure-microscope-js-linux-armv7l/ --arch armhf --config debian.json",
+    "installer-deb": "electron-installer-debian --src release-builds/openflexure-microscope-js-linux-armv7l/ --arch x64 --config debian.json"
   },
   "dependencies": {
     "electron-context-menu": "^0.11.0",
