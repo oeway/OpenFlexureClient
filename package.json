@@ -17,7 +17,8 @@
     "package-linux": "electron-packager . openflexure-microscope-js --ignore=^/src --overwrite --asar=true --platform=linux --arch=x64 --icon=icons/png/1024x1024.png --prune=true --out=release-builds",
     "package-rpi": "electron-packager . openflexure-microscope-js --ignore=^/src --overwrite --asar=true --platform=linux --electron-version=3.0.13 --arch=armv7l --icon=icons/png/1024x1024.png --prune=true --out=release-builds",
     "package-darwin": "electron-packager . openflexure-microscope-js --ignore=^/src --overwrite --platform=darwin --arch=x64 --icon=icons/mac/icon.icns --prune=true --out=release-builds",
-    "package-all": "npm run package-win && npm run package-linux && npm run package-rpi && npm run package-darwin"
+    "package-all": "npm run package-win && npm run package-linux && npm run package-rpi && npm run package-darwin",
+    "make": "npm run build && npm run package-all"
   },
   "dependencies": {
     "axios": "^0.18.0",
