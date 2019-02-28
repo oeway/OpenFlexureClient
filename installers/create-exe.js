@@ -15,7 +15,7 @@ function getInstallerConfig () {
     appDirectory: path.join(__dirname, '../release-builds/openflexure-microscope-js-win32-x64'),
     authors: 'OpenFlexure',
     noMsi: true,
-    outputDirectory: path.join(__dirname, '/release-builds'),
+    outputDirectory: path.join(__dirname, '../release-builds/installers'),
     exe: 'openflexure-microscope-js.exe',
     setupExe: 'OpenFlexureMicroscopeJsInstaller.exe',
     setupIcon: path.join(__dirname, '../icons/win/icon.ico')

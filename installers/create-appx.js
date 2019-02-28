@@ -4,7 +4,7 @@ const path = require('path')
 convertToWindowsStore({
    containerVirtualization: false,
    inputDirectory: path.join(__dirname, '../release-builds/openflexure-microscope-js-win32-x64'),
-   outputDirectory: path.join(__dirname, '/release-builds'),
+   outputDirectory: path.join(__dirname, '../release-builds/installers'),
    assets: path.join(__dirname, '/appx/assets'),
    manifest: path.join(__dirname, '/appx/AppXManifest.xml'),
    packageName: 'OpenFlexureMicroscopeJS',

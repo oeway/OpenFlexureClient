@@ -21,13 +21,13 @@
     "make": "npm run build && npm run package-all"
   },
   "dependencies": {
-    "axios": "^0.18.0",
-    "electron-context-menu": "^0.11.0",
-    "uikit": "^3.0.2",
-    "vue": "^2.5.21",
-    "vuex": "^3.0.1"
+    "electron-context-menu": "^0.11.0"
   },
   "devDependencies": {
+    "uikit": "^3.0.2",
+    "vue": "^2.5.21",
+    "vuex": "^3.0.1",
+    "axios": "^0.18.0",
     "@vue/cli-plugin-babel": "^3.3.0",
     "@vue/cli-service": "^3.3.0",
     "css-loader": "^2.1.0",

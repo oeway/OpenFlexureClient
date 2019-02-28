@@ -3,7 +3,7 @@ const path = require('path')
 
 const options = {
   src: path.join(__dirname, '../release-builds/openflexure-microscope-js-linux-x64/'),
-  dest: path.join(__dirname, '/release-builds'),
+  dest: path.join(__dirname, '../release-builds/installers'),
   arch: 'amd64',
   icon: path.join(__dirname, '../icons/png/1024x1024.png'),
   categories: [
