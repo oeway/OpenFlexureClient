@@ -7,11 +7,11 @@
 			<div uk-spinner="ratio: 4.5" ></div>
 		</div>
 
-		<div v-else-if="$store.state.settings.disableStream" class="uk-position-center position-relative">
+		<div v-else-if="$store.state.settings.disableStream" class="uk-position-center position-relative text-center">
 			Stream preview disabled
 		</div>
 
-		<div v-else class="uk-position-center position-relative">
+		<div v-else class="uk-position-center position-relative text-center">
 			No active connection
 		</div>
 
@@ -190,5 +190,9 @@ export default {
 
 .position-relative {
 	position: relative !important;
+}
+
+.text-center {
+	text-align: center;
 }
 </style>
