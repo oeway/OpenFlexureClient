@@ -32,7 +32,6 @@
     "@vue/cli-service": "^3.3.0",
     "css-loader": "^2.1.0",
     "electron": "^4.0.5",
-    "electron-installer-debian": "^1.1.1",
     "electron-packager": "^13.1.0",
     "electron-windows-store": "^2.1.0",
     "electron-winstaller": "^2.7.0",
