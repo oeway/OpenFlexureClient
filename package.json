@@ -2,7 +2,7 @@
   "name": "openflexure-microscope-js",
   "productName": "OpenFlexure Microscope JS",
   "isplayName": "OpenFlexure Microscope JS",
-  "publisher": "OpenFlexure",
+  "publisher": "Bath Open Instrumentation Group",
   "author": "OpenFlexure",
   "description": "A user client for the OpenFlexure Microscope Server",
   "main": "app.js",
