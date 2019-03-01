@@ -2,7 +2,7 @@ const installer = require('electron-installer-debian')
 const path = require('path')
 
 const options = {
-  src: path.join(__dirname, '../release-builds/openflexure-microscope-js-linux-armv7l/'),
+  src: path.join(__dirname, '../release-builds/openflexure-ev-linux-armv7l/'),
   dest: path.join(__dirname, '../release-builds/installers'),
   arch: 'armhf',
   icon: path.join(__dirname, '../icons/png/1024x1024.png'),

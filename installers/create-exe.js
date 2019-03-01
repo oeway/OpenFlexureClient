@@ -12,13 +12,13 @@ function getInstallerConfig () {
   console.log('creating windows installer')
 
   return Promise.resolve({
-    appDirectory: path.join(__dirname, '../release-builds/openflexure-microscope-js-win32-x64'),
+    appDirectory: path.join(__dirname, '../release-builds/openflexure-ev-win32-x64'),
     authors: 'OpenFlexure',
     noMsi: true,
     outputDirectory: path.join(__dirname, '../release-builds/installers'),
-    exe: 'openflexure-microscope-js.exe',
-    setupExe: 'OpenFlexureMicroscopeJsInstaller.exe',
+    exe: 'openflexure-ev.exe',
+    setupExe: 'OpenFlexureEvInstaller.exe',
     setupIcon: path.join(__dirname, '../icons/win/icon.ico'),
-    certificateFile: "C:\\Certs\\openflexure-microscope-js-exe\\openflexure-microscope-js-exe.pfx"
+    certificateFile: "C:\\Certs\\openflexure-ev-exe\\openflexure-ev-exe.pfx"
   })
 }

@@ -1,4 +1,4 @@
-# OpenFlexure.vue
+# OpenFlexure eV
 A user client for the OpenFlexure Microscope, written in Vue.js.
 
 ## Install
