@@ -13,7 +13,7 @@ function getInstallerConfig () {
   console.log('creating windows installer')
 
   return Promise.resolve({
-    setupExe: `${package.name}_${package.version}`,
+    setupExe: `${package.name}_${package.version}.exe`,
     appDirectory: path.join(__dirname, '../release-builds/openflexure-ev-win32-x64'),
     authors: 'OpenFlexure',
     noMsi: true,
