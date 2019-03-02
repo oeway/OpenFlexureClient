@@ -1,7 +1,7 @@
 <template>
   <div id="panelLeft" class="uk-flex uk-flex-column uk-margin-remove uk-padding-remove uk-height-1-1">
-    <div class="uk-flex-none uk-card-header">
-      <h3 class="uk-card-title uk-align-center"><b>OpenFlexure</b> Microscope</h3>
+    <div class="uk-flex-none uk-padding-small uk-card-header">
+      <h3 class="uk-card-title uk-text-center"><b>OpenFlexure</b> eV</h3>
     </div>
     <ul class="uk-flex-none uk-flex-center uk-margin-remove-top uk-margin-remove-bottom" uk-tab="swiping: false">
       <li><a href="#" uk-switcher-item="connect" uk-icon="server" uk-tooltip="Connect"></a></li>
