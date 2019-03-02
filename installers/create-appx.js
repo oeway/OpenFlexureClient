@@ -17,6 +17,6 @@ convertToWindowsStore({
    publisherDisplayName: 'J. T. Collins',
    deploy: false,
    publisher: 'CN=CC867BEF-0715-4D48-8035-8881993DBB68',
-   devCert: "C:\\Certs\\openflexure-ev-appx\\openflexure-ev-appx.pfx",
+   devCert: "C:\\Certs\\CC867BEF-0715-4D48-8035-8881993DBB68.pfx",
    windowsKit: 'C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.17763.0\\x64'
 })
