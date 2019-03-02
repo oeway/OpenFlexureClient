@@ -1,5 +1,6 @@
 const createWindowsInstaller = require('electron-winstaller').createWindowsInstaller
 const path = require('path')
+const package = require('../package.json');
 
 getInstallerConfig()
   .then(createWindowsInstaller)
@@ -12,10 +13,11 @@ function getInstallerConfig () {
   console.log('creating windows installer')
 
   return Promise.resolve({
+    setupExe: `${package.name}_${package.version}`,
     appDirectory: path.join(__dirname, '../release-builds/openflexure-ev-win32-x64'),
     authors: 'OpenFlexure',
     noMsi: true,
-    outputDirectory: path.join(__dirname, '../release-builds/installers'),
+    outputDirectory: path.join(__dirname, '../release-builds/installers', package.version),
     exe: 'openflexure-ev.exe',
     setupExe: 'OpenFlexureEvInstaller.exe',
     setupIcon: path.join(__dirname, '../icons/win/icon.ico'),

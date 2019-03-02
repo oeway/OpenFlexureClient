@@ -5,7 +5,7 @@ const package = require('../package.json');
 convertToWindowsStore({
    containerVirtualization: false,
    inputDirectory: path.join(__dirname, '../release-builds/openflexure-ev-win32-x64'),
-   outputDirectory: path.join(__dirname, '../release-builds/installers'),
+   outputDirectory: path.join(__dirname, '../release-builds/installers', package.version),
    assets: path.join(__dirname, '/appx/assets'),
    identityName: '60425J.T.Collins.OpenFlexureeV',
    packageExecutable: 'app/openflexure-ev.exe',
