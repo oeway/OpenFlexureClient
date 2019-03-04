@@ -30,6 +30,7 @@
     "css-loader": "^2.1.0",
     "electron": "^4.0.5",
     "electron-installer-common": "^0.6.1",
+    "electron-installer-dmg": "^2.0.0",
     "electron-packager": "^13.1.0",
     "electron-windows-store": "^2.1.0",
     "electron-winstaller": "^2.7.0",
