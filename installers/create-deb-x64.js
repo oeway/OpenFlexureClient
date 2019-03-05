@@ -4,7 +4,7 @@ const package = require('../package.json');
 
 const options = {
   src: path.join(__dirname, '../release-builds/openflexure-ev-linux-x64/'),
-  dest: path.join(__dirname, '../release-builds/installers', package.version),
+  dest: path.join(__dirname, '../release-builds/dist', package.version),
   arch: 'amd64',
   icon: path.join(__dirname, '../icons/png/1024x1024.png'),
   categories: [

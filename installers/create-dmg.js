@@ -6,7 +6,7 @@ var opts = {
   appPath: path.join(__dirname, '../release-builds/openflexure-ev-darwin-x64/openflexure-ev.app'),
   name: package.productName,
   icon: path.join(__dirname, '../icons/mac/icon.icns'),
-  out: path.join(__dirname, '../release-builds/installers', package.version)
+  out: path.join(__dirname, '../release-builds/dist', package.version)
 }
 
 createDMG(opts, function done (err) {

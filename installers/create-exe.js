@@ -17,7 +17,7 @@ function getInstallerConfig () {
     appDirectory: path.join(__dirname, '../release-builds/openflexure-ev-win32-x64'),
     authors: 'OpenFlexure',
     noMsi: true,
-    outputDirectory: path.join(__dirname, '../release-builds/installers', package.version),
+    outputDirectory: path.join(__dirname, '../release-builds/dist', package.version),
     exe: 'openflexure-ev.exe',
     setupIcon: path.join(__dirname, '../icons/win/icon.ico'),
     certificateFile: "C:\\Certs\\BATH-OPEN-INSTRUMENTATION-GROUP.pfx"
