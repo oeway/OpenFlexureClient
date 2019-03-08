@@ -20,6 +20,7 @@ convertToWindowsStore({
    inputDirectory: path.join(__dirname, '../release-builds/openflexure-ev-win32-x64'),
    outputDirectory: path.join(__dirname, '../release-builds/dist', package.version),
    assets: path.join(__dirname, '/appx/assets'),
+   makePri: true,
    identityName: '60425J.T.Collins.OpenFlexureeV',
    packageExecutable: 'app/openflexure-ev.exe',
    packageName: 'OpenFlexureEV',
