@@ -225,7 +225,9 @@ export default {
           // Start the store polling TaskId for success
           return this.$store.dispatch('pollTask', [response.data[0].id, null, null])
         })
-        .then(() => { console.log("Successfully finished autofocus"); })
+        .then(() => {
+          console.log("Successfully finished autofocus")
+        })
         .catch(error => {
           UIkit.notification({message: `<span uk-icon=\'icon: warning\'></span> ${error}`, status: 'danger'})
           this.$store.dispatch('handleHTTPError', error);  // Let store handle error
