@@ -29,22 +29,22 @@ export default {
 
   mounted() {
     // Attach methods to UIkit events for tab switching
-    var self=this;
+    var context = this;
     // Gallery tab
     UIkit.util.on('#galleryDisplayTab', 'shown', function(event, area) {
       console.log("Gallery tab entered")
-      if (self.$store.state.settings.trackWindow == true) {
-        self.$root.$emit('globalTogglePreview', false)
+      if (context.$store.state.settings.trackWindow == true) {
+        context.$root.$emit('globalTogglePreview', false)
       }
-      self.$root.$emit('globalUpdateCaptureList');
+      context.$root.$emit('globalUpdateCaptureList');
     });
 
     // Stream tab
     UIkit.util.on('#streamDisplayTab', 'shown', function(event, area) {
       console.log("Stream tab entered")
       UIkit.update()
-      if (self.$store.state.settings.trackWindow == true) {
-        self.$root.$emit('globalTogglePreview', true)
+      if (context.$store.state.settings.trackWindow == true) {
+        context.$root.$emit('globalTogglePreview', true)
       }
     });
 

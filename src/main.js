@@ -9,10 +9,10 @@ Vue.config.productionTip = false
 Vue.mixin({
   methods: {
     modalConfirm: function(modalText) {
-      var self = this;
+      var context = this;
 
       // Stop GPU preview to show modal
-      self.$root.$emit('globalTogglePreview', false)
+      context.$root.$emit('globalTogglePreview', false)
   
       var showModal = function(resolve, reject) {
         UIkit.modal.confirm(modalText)
@@ -24,9 +24,9 @@ Vue.mixin({
         .finally(function() {
           // Reenable the GPU preview, if it was active before the modal
           console.log("Re-enabling GPU preview")
-          if (self.$store.state.settings.autoGpuPreview) {
+          if (context.$store.state.settings.autoGpuPreview) {
             console.log("Re-enabling preview")
-            self.$root.$emit('globalTogglePreview', true)
+            context.$root.$emit('globalTogglePreview', true)
           }
         })
       }

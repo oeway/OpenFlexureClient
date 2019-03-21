@@ -109,9 +109,9 @@ export default {
     },
 
     delCaptureConfirm: function(tag_string) {
-      var self = this;
+      var context = this
       UIkit.modal.confirm('Permanantly delete capture?').then(function() {
-        self.delCaptureRequest()
+        context.delCaptureRequest()
       }, function () {
         console.log('Rejected.')
       });
@@ -142,9 +142,9 @@ export default {
     },
 
     delTagConfirm: function(tag_string) {
-      var self = this;
+      var context = this;
       UIkit.modal.confirm(`Remove tag '${tag_string}'?`).then(function() {
-        self.delTagRequest(tag_string)
+        context.delTagRequest(tag_string)
       }, function () {
         console.log('Rejected.')
       });
