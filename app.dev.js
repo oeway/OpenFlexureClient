@@ -10,9 +10,9 @@ app.on('ready', () => {
     width: 1124, 
     height: 800,
     // Remove the window frame from windows applications
-    frame: false,
+    //frame: false,
     // Hide the titlebar from MacOS applications while keeping the stop lights
-    titleBarStyle: 'hidden', // or 'customButtonsOnHover',
+    //titleBarStyle: 'hidden', // or 'customButtonsOnHover',
   })
   //window.setMenu(null);
 
