@@ -37,7 +37,15 @@ export default {
   mounted() {
     // A global signal listener to change the GPU preview state
     this.$root.$on('globalTogglePreview', (state) => {
+			console.log(`Toggling preview to ${state}`)
 			this.previewRequest(state)
+		})
+
+		this.$root.$on('globalReenablePreview', () => {
+			if (this.$store.state.settings.autoGpuPreview) {
+				console.log("Re-enabling preview")
+				this.previewRequest(true)
+			}
 		})
 	},
 
