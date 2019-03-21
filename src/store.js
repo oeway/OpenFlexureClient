@@ -137,13 +137,26 @@ export default new Vuex.Store({
     },
 
     handleHTTPError(context, error) {
+      console.log(error.response)
       var errormsg = '';
+
+      // If a response was obtained
       if (error.response) {
-        errormsg = `${error.response.status}: ${error.response.data}`
-        console.log(errormsg)
+        // If the response is a nicely formatted JSON response from the server
+        if (error.response.data.message) {
+          errormsg = `${error.response.status}: ${error.response.data.message}`
+          console.log(errormsg)
+        }
+        // If the response is just some generic error response
+        else {
+          errormsg = `${error.response.status}: ${error.response.data}`
+          console.log(errormsg)
+        }
+      // If the error occured during the request
       } else if (error.request) {
         errormsg = `${error.message}`
         console.log(errormsg)
+      // Everything else
       } else {
         errormsg = `${error.message}`
         console.log(errormsg)
