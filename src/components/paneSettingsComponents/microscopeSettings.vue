@@ -73,12 +73,14 @@ export default {
     },
 
     recalibrateConfirm: function() {
-      var self = this;
-      UIkit.modal.confirm('Start recalibration? This may take a while, and the microscope will be locked during this time.').then(function() {
-        self.recalibrateRequest()
-      }, function () {
-        console.log('Rejected.')
-      });
+      self = this;
+
+      this.modalConfirm('Start recalibration? This may take a while, and the microscope will be locked during this time.')
+        .then(function() {
+          self.recalibrateRequest()
+        }, function () {
+          console.log('Rejected recalibration.')
+        })
     },
 
     recalibrateRequest: function() {
@@ -87,20 +89,16 @@ export default {
         .then(response => { 
           console.log("Task ID: " + response.data[0].id)
           this.isCalibrating = true
-          // Start the store polling TaskId for success
-          self = this;
-          this.$store.dispatch('pollTask', [response.data[0].id, null, null])
-          .then(function() {
-            self.isCalibrating = false
-            UIkit.notification({message: "Finished recalibration.", status: 'success'})
-          })
-          .catch(error => {
-            self.isCalibrating = false
-            UIkit.notification({message: `<span uk-icon=\'icon: warning\'></span> ${error}`, status: 'danger'})
-          })
+          return this.$store.dispatch('pollTask', [response.data[0].id, null, null])
+        })
+        .then(() => {
+          UIkit.notification({message: "Finished recalibration.", status: 'success'})
         })
         .catch(error => {
           this.$store.dispatch('handleHTTPError', error);  // Let store handle error
+        })
+        .finally(() => {
+          this.isCalibrating = false
         })
     },
 
