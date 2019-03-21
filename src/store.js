@@ -56,38 +56,50 @@ export default new Vuex.Store({
   actions: {
     firstConnect(context) {
       // Reset the state when reconnecting starts
-      context.dispatch('resetState');
+      context.dispatch('resetState')
       // Mark as loading
-      context.commit('changeWaiting', true);
+      context.commit('changeWaiting', true)
       // Do requests
       context.dispatch('updateConfig')
-      context.dispatch('updateState')
+      .then (() => {
+        context.dispatch('updateState')
+      })
     },
 
     updateConfig(context, uri=`${context.getters.uri}/config`) {
       context.dispatch('waitingState')
   
-      axios.get(uri)
-      .then(response => { 
-        context.commit('commitConfig', response.data);
-        context.dispatch('connectedState')
-      })
-      .catch(error => {
-        context.dispatch('handleHTTPError', error);
-      })
+      var sendRequest = function(resolve, reject) {
+        axios.get(uri)
+        .then(response => { 
+          context.commit('commitConfig', response.data)
+          context.dispatch('connectedState')
+          resolve()
+        })
+        .catch(error => {
+          context.dispatch('handleHTTPError', error)
+          reject(new Error(error))
+        })
+      }
+      return new Promise(sendRequest)
     },
 
     updateState(context, uri=`${context.getters.uri}/state`) {
       context.dispatch('waitingState')
   
-      axios.get(uri)
-      .then(response => { 
-        context.commit('commitState', response.data);
-        context.dispatch('connectedState')
-      })
-      .catch(error => {
-        context.dispatch('handleHTTPError', error);
-      })
+      var sendRequest = function(resolve, reject) {
+        axios.get(uri)
+        .then(response => { 
+          context.commit('commitState', response.data)
+          context.dispatch('connectedState')
+          resolve()
+        })
+        .catch(error => {
+          context.dispatch('handleHTTPError', error)
+          reject(new Error(error))
+        })
+      }
+      return new Promise(sendRequest)
     },
 
     pollTask(context, [taskId, timeout, interval]) {
@@ -99,22 +111,22 @@ export default new Vuex.Store({
         axios.get(`${context.getters.uri}/task/${taskId}`)
         .then(response => { 
           console.log(response.data.status)
-          var result = response.data.status;
+          var result = response.data.status
           // If the task ends with success
           if(result == 'success') {
-              resolve(response.data.return);
+              resolve(response.data.return)
           }
           // If task ends with an error
           else if (result == 'error') {
-            reject(new Error(response.data.return));
+            reject(new Error(response.data.return))
           }
           // If the condition isn't met but the timeout hasn't elapsed, go again
           else if (Number(new Date()) < endTime) {
-              setTimeout(checkCondition, interval, resolve, reject);
+              setTimeout(checkCondition, interval, resolve, reject)
           }
           // Didn't match and too much time, reject!
           else {
-            reject(new Error('Polling timed out'));
+            reject(new Error('Polling timed out'))
           }
         })
 
@@ -140,26 +152,26 @@ export default new Vuex.Store({
     },
 
     resetState(context) {
-      context.commit('changeWaiting', false);
-      context.commit('changeAvailable', true);
-      context.commit('commitError', null);
-      context.commit('commitConfig', {});
-      context.commit('commitState', {});
+      context.commit('changeWaiting', false)
+      context.commit('changeAvailable', true)
+      context.commit('commitError', null)
+      context.commit('commitConfig', {})
+      context.commit('commitState', {})
     },
 
     waitingState(context) {
-      context.commit('changeWaiting', true);
+      context.commit('changeWaiting', true)
     },
 
     connectedState(context) {
-      context.commit('changeWaiting', false);
-      context.commit('changeAvailable', true);
+      context.commit('changeWaiting', false)
+      context.commit('changeAvailable', true)
     },
 
     errorState(context, msg) {
-      context.commit('changeWaiting', false);
-      context.commit('changeAvailable', false);
-      context.commit('commitError', msg);
+      context.commit('changeWaiting', false)
+      context.commit('changeAvailable', false)
+      context.commit('commitError', msg)
       UIkit.notification({message: `<span uk-icon=\'icon: warning\'></span> ${msg}`, status: 'danger'})
     }
   },
