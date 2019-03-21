@@ -35,6 +35,10 @@ export default {
   },
 
   mounted() {
+		// A global signal listener to change the GPU preview state
+    this.$root.$on('globalResizePreview', (state) => {
+			this.handleDoneResize()
+		})
     // A global signal listener to change the GPU preview state
     this.$root.$on('globalTogglePreview', (state) => {
 			console.log(`Toggling preview to ${state}`)

@@ -48,6 +48,14 @@ export default {
   },
 
   created: function () {
+    var context = this
+    UIkit.util.on(document, 'hidden', '.toggle-hidden', function () {
+      context.$root.$emit('globalResizePreview')
+    })
+    UIkit.util.on(document, 'shown', '.toggle-hidden', function () {
+      context.$root.$emit('globalResizePreview')
+    })
+
     window.addEventListener('resize', this.handleResize)
     this.handleResize();
   },
