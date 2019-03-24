@@ -5,17 +5,21 @@
     return;
  }
 
+// Required packages
 const electron = require('electron')
-const contextMenu = require('electron-context-menu');
+const contextMenu = require('electron-context-menu')
 const path = require('path')
 
+// Set up the app
 const app = electron.app
 const BrowserWindow = electron.BrowserWindow
 
-const isDev = (process.env.NODE_ENV === 'DEV');
-
+// Set the window content
 let url = `file://${path.join(__dirname, '/dist/index.html')}`
 let mainWindow
+
+// Set the application menu
+require('./menu.js')
 
 function createWindow() {
   // Create the browser window.
@@ -25,12 +29,10 @@ function createWindow() {
     icon: path.join(__dirname, '/icons/png/64x64.png')
   })
 
-  mainWindow.setMenu(null);
-
   contextMenu({
     showCopyImageAddress: true,
     showSaveImageAs: true,
-    showInspectElement: isDev,
+    showInspectElement: false,
   });
 
   mainWindow.loadURL(url)
