@@ -6,7 +6,7 @@
   "author": "OpenFlexure",
   "description": "An electron-based user client for the OpenFlexure Microscope Server",
   "main": "app.js",
-  "version": "0.1.1-alpha",
+  "version": "0.1.1-beta",
   "license": "GNU General Public License v3.0 ",
   "private": true,
   "scripts": {
@@ -14,24 +14,25 @@
     "build": "vue-cli-service build",
     "dev": "set NODE_ENV=DEV&& electron app.dev.js",
     "run": "vue-cli-service build && electron .",
-    "package-win": "electron-packager . openflexure-ev --ignore=^/src --overwrite --asar=true --platform=win32 --arch=x64 --icon=icons/win/icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"OpenFlexure Microscope JS\"",
-    "package-linux": "electron-packager . openflexure-ev --ignore=^/src --overwrite --asar=true --platform=linux --arch=x64 --icon=icons/png/1024x1024.png --prune=true --out=release-builds",
-    "package-rpi": "electron-packager . openflexure-ev --ignore=^/src --overwrite --asar=true --platform=linux --electron-version=3.0.13 --arch=armv7l --icon=icons/png/1024x1024.png --prune=true --out=release-builds",
-    "package-darwin": "electron-packager . openflexure-ev --ignore=^/src --overwrite --platform=darwin --arch=x64 --icon=icons/mac/icon.icns --prune=true --out=release-builds",
+    "package-win": "electron-packager . openflexure-ev --ignore=\"^/(src|installers|\\..*)\" --overwrite --asar --platform=win32 --arch=x64 --icon=icons/win/icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"OpenFlexure Microscope JS\"",
+    "package-linux": "electron-packager . openflexure-ev --ignore=\"^/(src|installers|\\..*)\" --overwrite --asar --platform=linux --arch=x64 --icon=icons/png/1024x1024.png --prune=true --out=release-builds",
+    "package-rpi": "electron-packager . openflexure-ev --ignore=\"^/(src|installers|\\..*)\" --overwrite --asar --platform=linux --electron-version=3.0.13 --arch=armv7l --icon=icons/png/1024x1024.png --prune=true --out=release-builds",
+    "package-darwin": "electron-packager . openflexure-ev --ignore=\"^/(src|installers|\\..*)\" --overwrite --platform=darwin --arch=x64 --icon=icons/mac/icon.icns --prune=true --out=release-builds",
     "package-all": "npm run package-win && npm run package-linux && npm run package-rpi && npm run package-darwin",
     "make": "npm run build && npm run package-all"
   },
   "dependencies": {
-    "electron-context-menu": "^0.11.0"
+    "electron-context-menu": "^0.11.0",
+    "about-window": "^1.12.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.3.0",
     "@vue/cli-service": "^3.3.0",
-    "about-window": "^1.12.1",
     "axios": "^0.18.0",
     "css-loader": "^2.1.0",
     "electron": "^4.0.5",
     "electron-installer-common": "^0.6.1",
+    "electron-installer-debian": "^1.1.1",
     "electron-installer-dmg": "^2.0.0",
     "electron-packager": "^13.1.0",
     "electron-windows-store": "^2.1.0",
