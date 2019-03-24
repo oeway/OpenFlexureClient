@@ -17,7 +17,7 @@
         </div>
       </div>
 
-      <ul uk-accordion>
+      <ul uk-accordion="multiple: true">
         <li>
           <a class="uk-accordion-title" href="#">Advanced</a>
           <div class="uk-accordion-content">
