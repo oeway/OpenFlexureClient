@@ -27,7 +27,7 @@ convertToWindowsStore({
    packageVersion: appxVersion,
    packageDisplayName: package.productName,
    packageDescription: package.description,
-   packageBackgroundColor: '#9C1561',
+   packageBackgroundColor: '#C5247F',
    publisherDisplayName: 'J. T. Collins',
    deploy: false,
    publisher: 'CN=CC867BEF-0715-4D48-8035-8881993DBB68',
