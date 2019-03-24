@@ -27,39 +27,36 @@
             </div>
           </div>
         </li>
+        <li>
+          <a class="uk-accordion-title" href="#">Status</a>
+          <div class="uk-accordion-content">
+            <div v-if="$store.getters.ready">
+              <p><b>Host:</b> {{ $store.state.host }}</p>
+              <p><b>Base URI:</b> {{ $store.getters.uri }}</p>
+              <p v-if="$store.state.apiConfig.name"><b>Device name:</b> {{ $store.state.apiConfig.name }}</p>
+            </div>
+
+            <div v-else-if="$store.state.waiting"><div uk-spinner></div></div>
+            <div v-else-if="$store.state.error"><b>Error:</b> {{ $store.state.error }}</div>
+            <div v-else>No active connection</div>
+          </div>
+        </li>
+        <li v-if="!localMode" class="uk-open">
+          <a class="uk-accordion-title" href="#">Saved hosts</a>
+          <div class="uk-accordion-content">
+            <button v-on:click="saveHost()" class="uk-button uk-button-default uk-form-small uk-margin-small uk-width-1-1">Save Current</button>
+
+            <div v-for="host in savedHosts" :key="host.name" class="uk-margin-small uk-margin-remove-left uk-margin-remove-right uk-grid">
+              <a href="#" v-on:click="autofillHost(host)" class="uk-icon-link uk-padding-remove uk-width-expand"><b>{{ host.name }}</b> ({{ host.hostname }}:{{ host.port }})</a> 
+              <a href="#" v-on:click="delSavedHost(host)" class="uk-icon-link uk-width-auto" uk-icon="trash"></a> 
+            </div>
+          </div>
+        </li>
       </ul>
 
-      <button class="uk-button uk-button-default uk-form-small uk-float-right uk-margin uk-margin-remove-top uk-width-1-1">Connect</button>
+      <button class="uk-button uk-button-primary uk-form-small uk-float-right uk-margin uk-margin-remove-top uk-width-1-1">Connect</button>
 
     </form>
-
-    <div class="host-display">
-
-      <h3>Status</h3>
-
-      <div v-if="$store.getters.ready">
-        <p><b>Host:</b> {{ $store.state.host }}</p>
-        <p><b>Base URI:</b> {{ $store.getters.uri }}</p>
-        <p v-if="$store.state.apiConfig.name"><b>Device name:</b> {{ $store.state.apiConfig.name }}</p>
-
-        <button v-on:click="saveHost()" class="uk-button uk-button-default uk-form-small uk-float-right uk-margin-small uk-width-1-1">Save Host</button>
-
-      </div>
-
-      <div v-else-if="$store.state.waiting"><div uk-spinner></div></div>
-      <div v-else-if="$store.state.error"><b>Error:</b> {{ $store.state.error }}</div>
-      <div v-else>No active connection</div>
-    </div>
-
-
-    <div v-if="!localMode">
-      <h3>Saved hosts</h3>
-
-      <div v-for="host in savedHosts" :key="host.name" class="uk-margin-small uk-margin-remove-left uk-margin-remove-right uk-grid">
-        <a href="#" v-on:click="autofillHost(host)" class="uk-icon-link uk-padding-remove uk-width-expand"><b>{{ host.name }}</b> ({{ host.hostname }}:{{ host.port }})</a> 
-        <a href="#" v-on:click="delSavedHost(host)" class="uk-icon-link uk-width-auto" uk-icon="trash"></a> 
-      </div>
-    </div>
 
   </div>
 
