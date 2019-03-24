@@ -13,7 +13,7 @@
       <div v-if="!localMode">
         <div class="uk-inline uk-width-1-1">
           <span class="uk-form-icon" uk-icon="icon: server"></span>
-          <input v-model="hostname" v-bind:class="IpFormClasses" class="uk-input uk-form-small" type="text" name="flavor" placeholder="localhost">
+          <input v-model="hostname" v-bind:class="IpFormClasses" class="uk-input uk-form-small" type="text" placeholder="Hostname or IP address">
         </div>
       </div>
 
@@ -74,7 +74,7 @@ export default {
   data: function () {
     return {
       localMode: true,
-      hostname: "localhost",
+      hostname: "",
       port: 5000,
       selectedHost: "",
       savedHosts: [
