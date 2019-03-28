@@ -73,7 +73,7 @@ export default {
     },
 
     recalibrateConfirm: function() {
-      context = this
+      var context = this
       this.modalConfirm('Start recalibration? This may take a while, and the microscope will be locked during this time.')
         .then(function() {
           context.recalibrateRequest()

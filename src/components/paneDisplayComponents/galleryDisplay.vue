@@ -26,13 +26,19 @@
 
     <div v-if="$store.getters.ready" class="uk-padding-remove-top" uk-lightbox="toggle: .lightbox-link">
       <div class="uk-grid-medium uk-padding uk-padding-remove-right uk-grid-match" uk-grid>
-      
-        <captureCard 
-          v-for="capture in sortedDateCaptures" 
-          :key="capture.metadata.id"
-          :metadata="capture.metadata"
-          :temporary="capture.temporary"
-        />
+        
+        <div v-for="item in sortedItems" :key="item.metadata.id">
+          <captureCard 
+            v-if="!('isScan' in item)"
+            :metadata="item.metadata"
+            :temporary="item.temporary"
+          />
+          <scanCard 
+            v-else
+            :metadata="item.metadata"
+            :thumbnail="item.thumbnail"
+          />
+        </div>
     
       </div>
 
@@ -44,20 +50,23 @@
 <script>
 import axios from 'axios'
 import captureCard from './galleryComponents/captureCard.vue'
+import scanCard from './galleryComponents/scanCard.vue'
 
 // Export main app
 export default {
   name: 'galleryDisplay',
 
   components: {
-    captureCard
+    captureCard,
+    scanCard
   },
 
   data: function () {
     return {
       captureList: [],
       checkedTags: [],
-      sortDescending: true
+      sortDescending: true,
+      scanTag: 'scan'
     }  
   },
 
@@ -80,7 +89,47 @@ export default {
       .catch(error => {
         this.$store.dispatch('handleHTTPError', error);  // Let store handle error
       })
+    },
+
+    filterCaptureList: function(list, filterTags) {
+      var result = [];
+      for (var capture of list) {
+        // Assume exclusion
+        var includeCapture = false;
+
+        // Filter by selected tags
+        var tags = capture.metadata.tags;
+        let checker = (arr, target) => target.every(v => arr.includes(v));
+        // True if all tags match
+        includeCapture = checker(tags, filterTags);
+
+        // Add to capture list if matched
+        if (includeCapture == true) {
+          result.push(capture);
+        };
+
+      };
+
+      return result
+    },
+
+    sortCaptureList: function(list) {
+      function compare(a, b) {
+        if (a.metadata.time < b.metadata.time)
+          return -1;
+        if (a.metadata.time > b.metadata.time)
+          return 1;
+        return 0;
+      }
+
+      if (this.sortDescending == true) {
+        return list.sort(compare).reverse();
+      }
+      else {
+        return list.sort(compare);
+      }
     }
+
   },
 
   computed: {
@@ -91,10 +140,8 @@ export default {
     allTags: function () {
       // Return an array of unique tags across all captures
       var tags = [];
-      for (var i in this.captureList) {
-        var capture = this.captureList[i]
-        for (var j in capture.metadata.tags) {
-          var tag = capture.metadata.tags[j];
+      for (var capture of this.captureList) {
+        for (var tag of capture.metadata.tags) {
           if (!tags.includes(tag)) {
             tags.push(tag);
           };
@@ -103,45 +150,92 @@ export default {
       return tags.sort()
     },
 
-    filteredCaptures: function () {
+    noScanCaptureList: function () {
       var captures = [];
-      for (var i in this.captureList) {
-        // Quickly access capture object
-        var capture = this.captureList[i];
+      for (var capture of this.captureList) {
         // Assume exclusion
         var includeCapture = false;
 
         // Filter by selected tags
         var tags = capture.metadata.tags;
-        let checker = (arr, target) => target.every(v => arr.includes(v));
-        // True if all tags match
-        includeCapture = checker(tags, this.checkedTags);
 
         // Add to capture list if matched
-        if (includeCapture == true) {
+        if (!tags.includes(this.scanTag)) {
           captures.push(capture);
         };
 
       };
 
-    return captures
+      return captures
     },
 
-    sortedDateCaptures: function () {
-      function compare(a, b) {
-        if (a.metadata.time < b.metadata.time)
-          return -1;
-        if (a.metadata.time > b.metadata.time)
-          return 1;
-        return 0;
-      }
+    allScans: function () {
+      // Return an array of unique tags across all captures
+      var scans = {};
 
-      if (this.sortDescending == true) {
-        return this.filteredCaptures.sort(compare).reverse();
-      }
-      else {
-        return this.filteredCaptures.sort(compare);
-      }
+      for (var capture of this.captureList) {
+        var custom = capture.metadata.custom;
+        var tags = capture.metadata.tags;
+
+        if ('scan_id' in custom) {
+          var id = custom['scan_id']
+          
+          // If this scan ID hasn't been seen before
+          if (!(id in scans)) {
+            scans[id] = {}
+            scans[id].isScan = true
+            scans[id].captureList = []
+            scans[id].metadata = {
+              filename: custom.basename,
+              time: custom.time,
+              id: custom.scan_id
+            }
+            scans[id].metadata.tags = []
+            scans[id].metadata.custom = {}
+          };
+
+          // Add the capture object to the scan
+          scans[id].captureList.push(capture)
+
+          // Add missing scan metadata, prioritising first capture
+          for (var key of Object.keys(custom)) {
+            if (!(key in scans[id].metadata.custom)) {
+              scans[id].metadata.custom[key] = custom[key]
+            };
+          };
+
+          // Append missing tags
+          for (var tag of tags) {
+            if (!scans[id].metadata.tags.includes(tag)) {
+              scans[id].metadata.tags.push(tag)
+            };
+          };
+
+          // Create a preview thumbnail
+          if (!('thumbnail' in scans[id])) {
+            scans[id].thumbnail = this.$store.getters.uri + "/camera/capture/" + capture.metadata.id + "/download?thumbnail=true"
+          }
+
+        }
+
+      };
+      return scans
+    },
+
+    scanList: function () {
+      return Object.values(this.allScans)
+    },
+
+    itemList: function () {
+      return this.noScanCaptureList.concat(this.scanList)
+    },
+
+    filteredItems: function () {
+      return this.filterCaptureList(this.itemList, this.checkedTags)
+    },
+
+    sortedItems: function () {
+      return this.sortCaptureList(this.filteredItems)
     }
 
   }
