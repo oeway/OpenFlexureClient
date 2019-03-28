@@ -28,16 +28,17 @@
       <div class="uk-grid-medium uk-padding uk-padding-remove-right uk-grid-match" uk-grid>
         
         <div v-for="item in sortedItems" :key="item.metadata.id">
-          <captureCard 
-            v-if="!('isScan' in item)"
-            :metadata="item.metadata"
-            :temporary="item.temporary"
-          />
           <scanCard 
-            v-else
+            v-if="'isScan' in item"
             :metadata="item.metadata"
             :thumbnail="item.thumbnail"
           />
+          <captureCard 
+            v-else
+            :metadata="item.metadata"
+            :temporary="item.temporary"
+          />
+
         </div>
     
       </div>
