@@ -27,7 +27,7 @@
     <div v-if="$store.getters.ready" class="uk-padding-remove-top" uk-lightbox="toggle: .lightbox-link">
       <div class="uk-grid-medium uk-padding uk-padding-remove-right uk-grid-match" uk-grid>
         
-        <div v-for="item in sortedItems" :key="item.metadata.id">
+        <div v-for="item in sortedItems" :key="item.metadata.id" class="uk-remove-padding-remove-left" >
           <scanCard 
             v-if="'isScan' in item"
             :metadata="item.metadata"
