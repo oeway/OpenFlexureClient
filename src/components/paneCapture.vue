@@ -69,17 +69,83 @@
 
     </ul>
 
-
-
     <hr>
 
-    <button v-on:click="handleCapture()" class="uk-button uk-button-default uk-form-small uk-float-right uk-width-1-1">Capture</button>
+    <ul uk-accordion="multiple: true">
+      <li>
+        <a class="uk-accordion-title" href="#">Stack and Scan</a>
+        <div v-if="isScanning" class="uk-accordion-content">
+          <div class="uk-text-center uk-container" >
+            <div class="center-spinner" uk-spinner></div>
+          </div>
+        </div>
+        <div v-else class="uk-accordion-content">
+          <label><input v-model="scanCapture" class="uk-checkbox" type="checkbox"> Scan capture</label>
+
+          <div v-bind:class="{ 'uk-disabled': !scanCapture }" > 
+
+            <div class="uk-grid-small uk-child-width-1-3" uk-grid>
+              <div>
+                <label class="uk-form-label" for="form-stacked-text">x step-size</label>
+                <div class="uk-form-controls">
+                  <input v-model="scanStepSize.x" class="uk-input uk-form-small" type="number" name="inputPositionX">
+                </div>
+              </div>
+
+              <div>
+                <label class="uk-form-label" for="form-stacked-text">y step-size</label>
+                <div class="uk-form-controls">
+                  <input v-model="scanStepSize.y" class="uk-input uk-form-small" type="number" name="inputPositionY">
+                </div>
+              </div>
+
+              <div>
+                <label class="uk-form-label" for="form-stacked-text">z step-size</label>
+                <div class="uk-form-controls">
+                  <input v-model="scanStepSize.z" class="uk-input uk-form-small" type="number" name="inputPositionZx">
+                </div>
+              </div>
+            </div>
+
+            <div class="uk-grid-small uk-child-width-1-3" uk-grid>
+              <div>
+                <label class="uk-form-label" for="form-stacked-text">x steps</label>
+                <div class="uk-form-controls">
+                  <input v-model="scanSteps.x" class="uk-input uk-form-small" type="number" name="inputPositionX">
+                </div>
+              </div>
+
+              <div>
+                <label class="uk-form-label" for="form-stacked-text">y steps</label>
+                <div class="uk-form-controls">
+                  <input v-model="scanSteps.y" class="uk-input uk-form-small" type="number" name="inputPositionY">
+                </div>
+              </div>
+
+              <div>
+                <label class="uk-form-label" for="form-stacked-text">z steps</label>
+                <div class="uk-form-controls">
+                  <input v-model="scanSteps.z" class="uk-input uk-form-small" type="number" name="inputPositionZx">
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+
+        </div>
+      </li>
+    </ul>
+
+    <button v-if="scanCapture" v-on:click="handleScan()" v-bind:class="{ 'uk-disabled': isScanning }" class="uk-button uk-button-default uk-form-small uk-float-right uk-width-1-1">Start Scan</button>
+    <button v-else v-on:click="handleCapture()" class="uk-button uk-button-default uk-form-small uk-float-right uk-width-1-1">Capture</button>
 
   </div>
 </template>
 
 <script>
 import axios from 'axios'
+import UIkit from 'uikit';
 
 // Export main app
 export default {
@@ -92,6 +158,18 @@ export default {
       fullResolution: false,
       storeBayer: false,
       resizeCapture: false,
+      scanCapture: false,
+      isScanning: false,
+      scanStepSize: {
+        x: parseInt(0.8*this.$store.state.apiConfig.fov[0]), 
+        y: parseInt(0.8*this.$store.state.apiConfig.fov[1]), 
+        z: 50
+      },
+      scanSteps: {
+        x: 3, 
+        y: 3, 
+        z: 5
+      },
       resizeDims: [640, 480],
       newTag: "",
       tags: [],
@@ -159,6 +237,39 @@ export default {
       this.newCaptureRequest(payload)
     },
 
+    handleScan: function() {
+      var payload = {}
+      
+      // Filename
+      if (Boolean(this.filename)) {
+        payload.filename = this.filename
+      }
+
+      // Basic boolean params
+      payload.temporary = this.temporary;
+      payload.use_video_port = !this.fullResolution;
+      payload.bayer = this.storeBayer;
+
+      // Resizing
+      if (this.resizeCapture) {
+        payload.size = {
+          width: this.resizeDims[0],
+          height: this.resizeDims[1]
+        }
+      }
+
+      // Additional metadata
+      payload.metadata = this.customMetadata
+      payload.tags = this.tags
+
+      // Scan params
+      payload.grid = [this.scanSteps.x, this.scanSteps.y, this.scanSteps.z]
+      payload.step_size = [this.scanStepSize.x, this.scanStepSize.y, this.scanStepSize.z]
+
+      // Do capture
+      this.newScanRequest(payload)
+    },
+
     newCaptureRequest: function(params) {
       // Send move request
       axios.post(this.captureApiUri, params)
@@ -168,7 +279,26 @@ export default {
         .catch(error => {
           this.$store.dispatch('handleHTTPError', error);  // Let store handle error
         })
+    },
+
+    newScanRequest: function(params) {
+      axios.post(this.scanApiUri, params)
+        .then(response => { 
+          console.log("Task ID: " + response.data[0].id)
+          this.isScanning = true
+          return this.$store.dispatch('pollTask', [response.data[0].id, 3600, 5])
+        })
+        .then(() => {
+          UIkit.notification({message: "Finished scan.", status: 'success'})
+        })
+        .catch(error => {
+          this.$store.dispatch('handleHTTPError', error);  // Let store handle error
+        })
+        .finally(() => {
+          this.isScanning = false
+        })
     }
+
   },
 
   computed: {
@@ -179,6 +309,9 @@ export default {
     },
     captureApiUri: function () {
       return this.$store.getters.uri + "/camera/capture"
+    },
+    scanApiUri: function () {
+      return this.$store.getters.uri + "/plugin/default/scan/tile"
     }
   }
 
