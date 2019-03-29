@@ -2,7 +2,11 @@
 	<div class="captureCard uk-card uk-card-primary uk-card-hover uk-padding-remove uk-width-medium uk-margin-right">
 
     <div class="uk-card-media-top">
-      <img class="uk-width-1-1" v-bind:src="thumbnail" v-bind:alt="metadata.scan_id" v-on:click="$root.$emit('globalUpdateCaptureFolder', metadata.custom.scan_id)" uk-img>
+
+      <a href="#" >
+        <img class="uk-width-1-1" v-bind:src="thumbnail" v-bind:alt="metadata.scan_id" v-on:click="$root.$emit('globalUpdateCaptureFolder', metadata.custom.scan_id)" uk-img>
+      </a>
+
     </div>
 
     <div class="uk-card-body uk-padding-small">
