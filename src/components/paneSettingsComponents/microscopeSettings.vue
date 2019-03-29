@@ -42,7 +42,7 @@
       <input v-model="microscopeName" class="uk-input uk-width-1-1 uk-form-small" name="inputFilename" placeholder="Leave blank for default">
     </div>
 
-    <button type="submit" class="uk-button uk-button-default uk-form-small uk-float-right uk-margin-small uk-width-1-1">Apply Settings</button>
+    <button type="submit" class="uk-button uk-button-primary uk-form-small uk-float-right uk-margin-small uk-width-1-1">Apply Settings</button>
 
   </form>
 

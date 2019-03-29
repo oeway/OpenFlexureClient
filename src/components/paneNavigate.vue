@@ -55,7 +55,7 @@
           </div>
 
           <p>
-            <button class="uk-button uk-button-default uk-form-small uk-float-right uk-width-1-1">Move</button>
+            <button class="uk-button uk-button-primary uk-form-small uk-float-right uk-width-1-1">Move</button>
           </p>
         </form>
 
