@@ -103,8 +103,8 @@ export default new Vuex.Store({
     },
 
     pollTask(context, [taskId, timeout, interval]) {
-      var endTime = Number(new Date()) + (timeout || 30000);
-      interval = interval || 500;
+      var endTime = Number(new Date()) + (timeout*1000 || 30000);
+      interval = interval*1000 || 500;
 
       var checkCondition = function(resolve, reject) {
         // If the condition is met, we're done! 
