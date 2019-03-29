@@ -30,6 +30,15 @@
 
     <ul uk-accordion="multiple: true">
       <li>
+        <a class="uk-accordion-title" href="#">Notes</a>
+        <div class="uk-accordion-content">
+          <div class="uk-margin-small">
+            <textarea v-model="captureNotes" class="uk-textarea" rows="5" placeholder="Capture notes"></textarea>
+          </div>
+        </div>
+      </li>
+
+      <li>
         <a class="uk-accordion-title" href="#">Metadata</a>
         <div class="uk-accordion-content">
 
@@ -80,7 +89,10 @@
           </div>
         </div>
         <div v-else class="uk-accordion-content">
-          <label><input v-model="scanCapture" class="uk-checkbox" type="checkbox"> Scan capture</label>
+
+          <div class="uk-margin">
+            <label><input v-model="scanCapture" class="uk-checkbox" type="checkbox"> Scan capture</label>
+          </div>
 
           <div v-bind:class="{ 'uk-disabled': !scanCapture }" > 
 
@@ -130,15 +142,32 @@
               </div>
             </div>
 
-          </div>
+            <div class="uk-margin-small uk-margin-remove-bottom">
+              <label class="uk-form-label" for="form-stacked-text">Autofocus</label>
+              <select v-model="scanDeltaZ" class="uk-select">
+                <option>Off</option>
+                <option>Coarse</option>
+                <option>Medium</option>
+                <option>Fine</option>
+              </select>
+            </div>
 
+            <div class="uk-margin-small uk-margin-remove-bottom">
+              <label class="uk-form-label" for="form-stacked-text">Scan Style</label>
+              <select v-model="scanStyle" class="uk-select">
+                <option>Raster</option>
+                <option>Snake</option>
+              </select>
+            </div>
+
+          </div>
 
         </div>
       </li>
     </ul>
 
-    <button v-if="scanCapture" v-on:click="handleScan()" v-bind:class="{ 'uk-disabled': isScanning }" class="uk-button uk-button-default uk-form-small uk-float-right uk-width-1-1">Start Scan</button>
-    <button v-else v-on:click="handleCapture()" class="uk-button uk-button-default uk-form-small uk-float-right uk-width-1-1">Capture</button>
+    <button v-if="scanCapture" v-on:click="handleScan()" v-bind:class="{ 'uk-disabled': isScanning }" class="uk-button uk-button-primary uk-form-small uk-margin uk-float-right uk-width-1-1">Start Scan</button>
+    <button v-else v-on:click="handleCapture()" class="uk-button uk-button-primary uk-form-small uk-margin uk-float-right uk-width-1-1">Capture</button>
 
   </div>
 </template>
@@ -158,8 +187,11 @@ export default {
       fullResolution: false,
       storeBayer: false,
       resizeCapture: false,
+      captureNotes: "",
       scanCapture: false,
       isScanning: false,
+      scanDeltaZ: 'Medium',
+      scanStyle: 'Raster',
       scanStepSize: {
         x: parseInt(0.8*this.$store.state.apiConfig.fov[0]), 
         y: parseInt(0.8*this.$store.state.apiConfig.fov[1]), 
@@ -209,62 +241,29 @@ export default {
     },
 
     handleCapture: function() {
-      var payload = {}
-      
-      // Filename
-      if (Boolean(this.filename)) {
-        payload.filename = this.filename
-      }
-
-      // Basic boolean params
-      payload.temporary = this.temporary;
-      payload.use_video_port = !this.fullResolution;
-      payload.bayer = this.storeBayer;
-
-      // Resizing
-      if (this.resizeCapture) {
-        payload.size = {
-          width: this.resizeDims[0],
-          height: this.resizeDims[1]
-        }
-      }
-
-      // Additional metadata
-      payload.metadata = this.customMetadata
-      payload.tags = this.tags
+      var payload = this.basePayload
 
       // Do capture
       this.newCaptureRequest(payload)
     },
 
     handleScan: function() {
-      var payload = {}
-      
-      // Filename
-      if (Boolean(this.filename)) {
-        payload.filename = this.filename
-      }
-
-      // Basic boolean params
-      payload.temporary = this.temporary;
-      payload.use_video_port = !this.fullResolution;
-      payload.bayer = this.storeBayer;
-
-      // Resizing
-      if (this.resizeCapture) {
-        payload.size = {
-          width: this.resizeDims[0],
-          height: this.resizeDims[1]
-        }
-      }
-
-      // Additional metadata
-      payload.metadata = this.customMetadata
-      payload.tags = this.tags
+      var payload = this.basePayload
 
       // Scan params
       payload.grid = [this.scanSteps.x, this.scanSteps.y, this.scanSteps.z]
       payload.step_size = [this.scanStepSize.x, this.scanStepSize.y, this.scanStepSize.z]
+      payload.style = this.scanStyle.toLowerCase()
+
+      // Convert AF selector to dz
+      var afDeltas = {
+        Off: 0,
+        Coarse: 100,
+        Medium: 30,
+        Fine: 10
+      }
+
+      payload.autofocus_dz = afDeltas[this.scanDeltaZ]
 
       // Do capture
       this.newScanRequest(payload)
@@ -312,6 +311,38 @@ export default {
     },
     scanApiUri: function () {
       return this.$store.getters.uri + "/plugin/default/scan/tile"
+    },
+    basePayload: function () {
+      var payload = {}
+      
+      // Filename
+      if (Boolean(this.filename)) {
+        payload.filename = this.filename
+      }
+
+      // Basic boolean params
+      payload.temporary = this.temporary;
+      payload.use_video_port = !this.fullResolution;
+      payload.bayer = this.storeBayer;
+
+      // Resizing
+      if (this.resizeCapture) {
+        payload.size = {
+          width: this.resizeDims[0],
+          height: this.resizeDims[1]
+        }
+      }
+
+      // Additional metadata
+      payload.metadata = this.customMetadata
+      payload.tags = this.tags
+
+      // Attach notes
+      if (this.captureNotes) {
+        payload.metadata['Notes'] = this.captureNotes
+      }
+
+      return payload
     }
   }
 
