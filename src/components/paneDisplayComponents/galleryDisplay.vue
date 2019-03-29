@@ -25,6 +25,12 @@
     </nav>
 
     <div v-if="$store.getters.ready" class="uk-padding-remove-top" uk-lightbox="toggle: .lightbox-link">
+
+      <div v-if="(galleryFolder)" class="uk-padding uk-padding-remove-right uk-padding-remove-bottom">
+        <a href="#" v-on:click="galleryFolder=''" class="uk-icon-button" uk-icon="arrow-left"></a> 
+        <h3 class="uk-inline uk-float-right uk-margin-remove"><b>SCAN</b> {{ allScans[galleryFolder].metadata.filename }}</h3>
+      </div>
+
       <div class="uk-grid-medium uk-padding uk-padding-remove-right uk-grid-match" uk-grid>
         
         <div v-for="item in sortedItems" :key="item.metadata.id" class="uk-remove-padding-remove-left" >
@@ -67,6 +73,7 @@ export default {
       captureList: [],
       checkedTags: [],
       sortDescending: true,
+      galleryFolder: "",
       scanTag: 'scan'
     }  
   },
@@ -75,6 +82,10 @@ export default {
     // A global signal listener to perform a gallery refresh
     this.$root.$on('globalUpdateCaptureList', () => {
       this.updateCaptureList()
+    })
+    // A global signal listener to set the gallery folder
+    this.$root.$on('globalUpdateCaptureFolder', (folder) => {
+      this.galleryFolder = folder
     })
   },
 
@@ -228,7 +239,13 @@ export default {
     },
 
     itemList: function () {
-      return this.noScanCaptureList.concat(this.scanList)
+      if (this.galleryFolder) {
+        console.log(this.allScans[this.galleryFolder].captureList)
+        return this.allScans[this.galleryFolder].captureList
+      }
+      else {
+        return this.noScanCaptureList.concat(this.scanList)
+      }
     },
 
     filteredItems: function () {
