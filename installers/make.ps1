@@ -12,7 +12,7 @@ $wslroot = (wsl wslpath -a ("$root" -Replace '\\','\\'))
 mkdir "$root/release-builds/dist/$version/"
 
 echo "Gzipping PWA..."
-wsl tar -czvf "$wslroot/release-builds/dist/$version/${name}_${version}_pwa.tar.gz" -C "$wslroot/dist" .
+wsl tar -czvf "$wslroot/release-builds/dist/$version/${name}_${version}_web.tar.gz" -C "$wslroot/dist" .
 
 echo "Building deb packages..."
 wsl node "$wslhere/create-deb-x64.js"
