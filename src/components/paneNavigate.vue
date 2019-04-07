@@ -72,7 +72,7 @@
           <div class="uk-grid-small uk-child-width-1-3" uk-grid>
 
             <div>
-              <button v-on:click="runAutofocus([-200,-100,0,100,200]);" class="uk-button uk-button-default uk-form-small uk-float-right uk-width-1-1">Coarse</button>
+              <button v-on:click="runFastAutofocus(2000, 300);" class="uk-button uk-button-default uk-form-small uk-float-right uk-width-1-1">Coarse</button>
             </div>
 
             <div>
@@ -214,16 +214,16 @@ export default {
       }
     },
 
-    runAutofocus: function(dz) {
+    runFastAutofocus: function(dz, backlash) {
       if (!this.$store.state.moveLock) {
         // Lock move requests
         this.$store.commit('changeMoveLock', true);
         this.isAutofocusing = true
-        axios.post(this.autofocusApiUri, {dz: dz})
+        axios.post(this.fastAutofocusApiUri, {dz: dz, backlash: backlash})
         .then(response => { 
-          console.log("Autofocus Task ID: " + response.data[0].id)
+          console.log("Autofocus Task ID: " + response.data.id)
           // Start the store polling TaskId for success
-          return this.$store.dispatch('pollTask', [response.data[0].id, null, null])
+          return this.$store.dispatch('pollTask', [response.data.id, null, null])
         })
         .then(() => {
           console.log("Successfully finished autofocus")
@@ -254,6 +254,9 @@ export default {
     },
     autofocusApiUri: function () {
       return this.$store.getters.uri + "/plugin/default/autofocus/autofocus"
+    },
+    fastAutofocusApiUri: function () {
+      return this.$store.getters.uri + "/plugin/default/fast_autofocus/fast_autofocus"
     }
   }
 
