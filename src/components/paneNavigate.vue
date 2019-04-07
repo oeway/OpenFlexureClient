@@ -214,6 +214,32 @@ export default {
       }
     },
 
+    runAutofocus: function(dz) {
+      if (!this.$store.state.moveLock) {
+        // Lock move requests
+        this.$store.commit('changeMoveLock', true);
+        this.isAutofocusing = true
+        axios.post(this.autofocusApiUri, {dz: dz})
+        .then(response => { 
+          console.log("Autofocus Task ID: " + response.data[0].id)
+          // Start the store polling TaskId for success
+          return this.$store.dispatch('pollTask', [response.data[0].id, null, null])
+        })
+        .then(() => {
+          console.log("Successfully finished autofocus")
+        })
+        .catch(error => {
+          UIkit.notification({message: `<span uk-icon=\'icon: warning\'></span> ${error}`, status: 'danger'})
+          this.$store.dispatch('handleHTTPError', error);  // Let store handle error
+        })
+        .finally(() => {
+          console.log("Cleaning up after autofocus.")
+          this.isAutofocusing = false;
+          this.$store.commit('changeMoveLock', false);  // Release the move lock
+        })
+      }
+    },
+
     runFastAutofocus: function(dz, backlash) {
       if (!this.$store.state.moveLock) {
         // Lock move requests
