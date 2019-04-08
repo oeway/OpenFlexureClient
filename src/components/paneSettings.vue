@@ -8,6 +8,11 @@
       </li>
 
       <li v-if="$store.getters.ready">
+        <a class="uk-accordion-title" href="#">Camera settings</a>
+        <div class="uk-accordion-content"><cameraSettings/></div>
+      </li>
+      
+      <li v-if="$store.getters.ready">
         <a class="uk-accordion-title" href="#">Microscope settings</a>
         <div class="uk-accordion-content"><microscopeSettings/></div>
       </li>
@@ -20,6 +25,7 @@
 <script>
 import streamSettings from './paneSettingsComponents/streamSettings.vue'
 import microscopeSettings from './paneSettingsComponents/microscopeSettings.vue'
+import cameraSettings from './paneSettingsComponents/cameraSettings.vue'
 
 // Export main app
 export default {
@@ -27,6 +33,7 @@ export default {
 
   components: {
     streamSettings,
+    cameraSettings,
     microscopeSettings
   }
 
