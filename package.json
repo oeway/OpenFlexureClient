@@ -6,7 +6,7 @@
   "author": "OpenFlexure",
   "description": "An electron-based user client for the OpenFlexure Microscope Server",
   "main": "app.js",
-  "version": "0.1.1",
+  "version": "0.1.2-beta",
   "license": "GNU General Public License v3.0 ",
   "private": true,
   "scripts": {

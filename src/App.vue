@@ -50,9 +50,11 @@ export default {
   created: function () {
     var context = this
     UIkit.util.on(document, 'hidden', '.toggle-hidden', function () {
+      console.log("Sidebar hidden")
       context.$root.$emit('globalResizePreview')
     })
     UIkit.util.on(document, 'shown', '.toggle-hidden', function () {
+      console.log("Sidebar shown")
       context.$root.$emit('globalResizePreview')
     })
 
