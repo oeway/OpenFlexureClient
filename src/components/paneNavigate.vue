@@ -282,7 +282,7 @@ export default {
       return this.$store.getters.uri + "/plugin/default/autofocus/autofocus"
     },
     fastAutofocusApiUri: function () {
-      return this.$store.getters.uri + "/plugin/default/fast_autofocus/fast_autofocus"
+      return this.$store.getters.uri + "/plugin/default/autofocus/fast_autofocus"
     }
   }
 

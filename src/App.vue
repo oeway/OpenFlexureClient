@@ -50,9 +50,13 @@ export default {
   created: function () {
     var context = this
     UIkit.util.on(document, 'hidden', '.toggle-hidden', function () {
+      // BUG: This gets called every time a tab switches. Really shouldn't
+      console.log("Sidebar hidden")
       context.$root.$emit('globalResizePreview')
     })
     UIkit.util.on(document, 'shown', '.toggle-hidden', function () {
+      // BUG: This gets called every time a tab switches. Really shouldn't
+      console.log("Sidebar shown")
       context.$root.$emit('globalResizePreview')
     })
 
