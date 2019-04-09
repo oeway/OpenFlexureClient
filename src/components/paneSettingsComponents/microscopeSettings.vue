@@ -1,14 +1,6 @@
 <template>
 <div id="microscopeSettings">
   <form @submit.prevent="applyConfigRequest">
-    <h4>Camera</h4>
-    <div class="uk-text-center uk-container" v-if="isCalibrating">
-      <div class="center-spinner" uk-spinner></div>
-    </div>
-    <div v-else>
-      <button type="button" v-on:click="recalibrateConfirm()" class="uk-button uk-button-default uk-form-small uk-float-right uk-margin-small uk-width-1-1">Auto-Calibrate</button>
-    </div>
-
     <h4>Stage</h4>
 
     <label class="uk-form-label" for="form-stacked-text">Backlash compensation</label>
@@ -61,8 +53,7 @@ export default {
   data: function () {
     return {
       microscopeName: this.$store.state.apiConfig.name,
-      stageBacklash: this.$store.state.apiConfig.backlash,
-      isCalibrating: false
+      stageBacklash: this.$store.state.apiConfig.backlash
     }
   },
 
@@ -70,35 +61,6 @@ export default {
     updateInputValues: function () {
       this.microscopeName = this.$store.state.apiConfig.name;
       this.stageBacklash = this.$store.state.apiConfig.backlash
-    },
-
-    recalibrateConfirm: function() {
-      var context = this
-      this.modalConfirm('Start recalibration? This may take a while, and the microscope will be locked during this time.')
-        .then(function() {
-          context.recalibrateRequest()
-        }, function () {
-          console.log('Rejected recalibration.')
-        })
-    },
-
-    recalibrateRequest: function() {
-      // Send move request
-      axios.post(this.recalibrateApiUri)
-        .then(response => { 
-          console.log("Task ID: " + response.data[0].id)
-          this.isCalibrating = true
-          return this.$store.dispatch('pollTask', [response.data[0].id, null, null])
-        })
-        .then(() => {
-          UIkit.notification({message: "Finished recalibration.", status: 'success'})
-        })
-        .catch(error => {
-          this.$store.dispatch('handleHTTPError', error);  // Let store handle error
-        })
-        .finally(() => {
-          this.isCalibrating = false
-        })
     },
 
     applyConfigRequest: function() {
@@ -112,7 +74,7 @@ export default {
         payload.backlash = this.stageBacklash
       }
 
-      // Send move request
+      // Send request to update config
       axios.post(this.configApiUri, payload)
         .then(response => { 
           this.$store.dispatch('updateConfig');
@@ -127,9 +89,6 @@ export default {
   },
 
   computed: {
-    recalibrateApiUri: function () {
-      return this.$store.getters.uri + "/plugin/default/camera_calibration/recalibrate"
-    },
     configApiUri: function () {
       return this.$store.getters.uri + "/config"
     }
