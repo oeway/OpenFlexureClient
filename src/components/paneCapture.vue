@@ -149,6 +149,7 @@
                 <option>Coarse</option>
                 <option>Medium</option>
                 <option>Fine</option>
+                <option>Fast</option>
               </select>
             </div>
 
@@ -260,10 +261,12 @@ export default {
         Off: 0,
         Coarse: 100,
         Medium: 30,
-        Fine: 10
+        Fine: 10,
+        Fast: 1500
       }
 
       payload.autofocus_dz = afDeltas[this.scanDeltaZ]
+      payload.fast_autofocus = this.scanDeltaZ == "Fast"
 
       // Do capture
       this.newScanRequest(payload)
@@ -283,9 +286,9 @@ export default {
     newScanRequest: function(params) {
       axios.post(this.scanApiUri, params)
         .then(response => { 
-          console.log("Task ID: " + response.data[0].id)
+          console.log("Task ID: " + response.data.id)
           this.isScanning = true
-          return this.$store.dispatch('pollTask', [response.data[0].id, 3600, 5])
+          return this.$store.dispatch('pollTask', [response.data.id, 3600, 5])
         })
         .then(() => {
           UIkit.notification({message: "Finished scan.", status: 'success'})
