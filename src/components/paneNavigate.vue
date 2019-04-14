@@ -94,6 +94,7 @@
 
 <script>
 import axios from 'axios'
+import UIkit from 'uikit'
 
 // Key Codes
 const keyCodes = {
@@ -221,9 +222,9 @@ export default {
         this.isAutofocusing = true
         axios.post(this.autofocusApiUri, {dz: dz})
         .then(response => { 
-          console.log("Autofocus Task ID: " + response.data[0].id)
+          console.log("Autofocus Task ID: " + response.data.id)
           // Start the store polling TaskId for success
-          return this.$store.dispatch('pollTask', [response.data[0].id, null, null])
+          return this.$store.dispatch('pollTask', [response.data.id, null, null])
         })
         .then(() => {
           console.log("Successfully finished autofocus")
