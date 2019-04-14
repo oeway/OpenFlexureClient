@@ -3,9 +3,9 @@
     <div uk-grid class="uk-height-1-1 uk-margin-remove uk-padding-remove" margin=0>
       <div id="sidebar-container" v-bind:class="responsivePanelLeft" class="uk-padding-remove uk-first-column uk-inline uk-height-1-1">
         <div id="overlay-toggle">
-          <a href="" class="uk-icon-button uk-box-shadow-small uk-box-shadow-hover-medium action-btn-outline" uk-icon="menu" uk-toggle="target: .toggle-hidden; animation: uk-animation-slide-left-small, uk-animation-slide-left-small" ></a>
+          <a href="" class="uk-icon-button uk-box-shadow-small uk-box-shadow-hover-medium action-btn-outline" uk-icon="menu" uk-toggle="target: #left-panel-container; animation: uk-animation-slide-left-small, uk-animation-slide-left-small" ></a>
         </div>
-        <div id="left-panel-container" class="toggle-hidden uk-padding-remove uk-card uk-card-default uk-width-auto uk-height-1-1">
+        <div id="left-panel-container" class="uk-padding-remove uk-card uk-card-default uk-width-auto uk-height-1-1">
           <panelLeft/>
         </div>
       </div>
@@ -49,15 +49,19 @@ export default {
 
   created: function () {
     var context = this
-    UIkit.util.on(document, 'hidden', '.toggle-hidden', function () {
-      // BUG: This gets called every time a tab switches. Really shouldn't
-      console.log("Sidebar hidden")
-      context.$root.$emit('globalResizePreview')
+
+    function handleSidebarEvent(context, event){
+      if (event.target.id == 'left-panel-container') {
+        console.log("Sidebar hidden")
+        context.$root.$emit('globalResizePreview')
+      }
+    }
+
+    UIkit.util.on(document, 'hidden', '#left-panel-container', function (e) {
+      handleSidebarEvent(context, e)
     })
-    UIkit.util.on(document, 'shown', '.toggle-hidden', function () {
-      // BUG: This gets called every time a tab switches. Really shouldn't
-      console.log("Sidebar shown")
-      context.$root.$emit('globalResizePreview')
+    UIkit.util.on(document, 'shown', '#left-panel-container', function (e) {
+      handleSidebarEvent(context, e)
     })
 
     window.addEventListener('resize', this.handleResize)
