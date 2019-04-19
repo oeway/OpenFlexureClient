@@ -6,7 +6,7 @@
   "author": "OpenFlexure",
   "description": "An electron-based user client for the OpenFlexure Microscope Server",
   "main": "app.js",
-  "version": "0.2.0-alpha.1",
+  "version": "0.2.0",
   "license": "GNU General Public License v3.0 ",
   "private": true,
   "scripts": {
@@ -27,10 +27,10 @@
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.3.0",
-    "@vue/cli-service": "^3.3.0",
+    "@vue/cli-service": "^3.6.0",
     "axios": "^0.18.0",
     "css-loader": "^2.1.0",
-    "electron": "^4.0.5",
+    "electron": "^4.1.4",
     "electron-installer-common": "^0.6.1",
     "electron-installer-debian": "^1.1.1",
     "electron-installer-dmg": "^2.0.0",
