@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div uk-grid class="uk-height-1-1 uk-margin-remove uk-padding-remove" margin=0>
-      <div id="sidebar-container" v-bind:class="responsivePanelLeft" class="uk-padding-remove uk-first-column uk-inline uk-height-1-1">
+      <div id="sidebar-container" v-bind:class="{ 'overlay-panel': this.window.width<850 }" class="uk-padding-remove uk-first-column uk-inline uk-height-1-1">
         <div id="overlay-toggle">
           <a href="" class="uk-icon-button uk-box-shadow-small uk-box-shadow-hover-medium action-btn-outline" uk-icon="menu" uk-toggle="target: #left-panel-container; animation: uk-animation-slide-left-small, uk-animation-slide-left-small" ></a>
         </div>
@@ -76,16 +76,6 @@ export default {
     handleResize: function(event) {
       this.window.width = window.innerWidth;
       this.window.height = window.innerHeight;
-    }
-  },
-
-  computed: {
-    // Stylises the hostname input box based on connection status
-    responsivePanelLeft: function () {
-      return {
-        //'uk-hidden': this.window.width<850,
-        'overlay-panel': this.window.width<850
-      }
     }
   }
 
