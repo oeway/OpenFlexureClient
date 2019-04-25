@@ -1,9 +1,18 @@
 <template>
   <Page>
     <ActionBar title="OpenFlexure Native Demo"/>
-    <GridLayout rows="auto, auto">
-      <Label class="message" text="No content currently ported" row="0" horizontalAlignment="center"/>
-    </GridLayout>
+    <TabView id="tabViewContainer" androidTabsPosition="bottom">
+        <TabViewItem title="First Tab" iconSource="res://icon">
+            <StackLayout>
+                <Label text="First tab content" textWrap="true" class="m-15 h2 text-left" color="blue" />
+            </StackLayout>
+        </TabViewItem>
+        <TabViewItem title="Second Tab" iconSource="res://icon">
+            <StackLayout>
+                <Label text="Second tab content" textWrap="true" class="m-15 h2 text-left" color="blue" />
+            </StackLayout>
+        </TabViewItem>
+    </TabView>
   </Page>
 </template>
 
@@ -35,4 +44,5 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+</style>
