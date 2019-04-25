@@ -21,9 +21,6 @@
 import axios from 'axios'
 // Import basic UIkit
 import UIkit from 'uikit';
-// Import UIkit icon set
-import Icons from 'uikit/dist/js/uikit-icons';
-UIkit.use(Icons);
 
 // Import components
 import panelLeft from './components/panelLeft.vue'

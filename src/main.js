@@ -3,6 +3,9 @@ import App from './App.vue'
 import store from './store'
 
 import UIkit from 'uikit';
+// Import UIkit icon set
+import Icons from 'uikit/dist/js/uikit-icons';
+UIkit.use(Icons);
 
 Vue.config.productionTip = false
 
