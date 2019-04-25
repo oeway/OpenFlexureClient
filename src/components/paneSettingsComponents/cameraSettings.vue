@@ -40,7 +40,6 @@
 
 <script>
 import axios from 'axios'
-import UIkit from 'uikit';
 
 // Export main app
 export default {
@@ -81,7 +80,7 @@ export default {
         .then(this.updateInputValues)
         .then(r=>{console.log("Updated Config: ", payload.picamera_settings)})
         .catch(error => {
-          this.$store.dispatch('handleHTTPError', error);  // Let store handle error
+          this.modalError(error) // Let mixin handle error
         })
     },
     recalibrateConfirm: function() {
@@ -102,7 +101,7 @@ export default {
           return this.$store.dispatch('pollTask', [response.data.id, null, null])
         })
         .then(() => {
-          UIkit.notification({message: "Finished recalibration.", status: 'success'})
+          this.modalNotify("Finished recalibration.")
           return new Promise(r => setTimeout(r, 500)) // wait 500ms before updating config, so it's fresh
         })
         .then(() => {
@@ -110,7 +109,7 @@ export default {
         })
         .then(this.updateInputValues)
         .catch(error => {
-          this.$store.dispatch('handleHTTPError', error);  // Let store handle error
+          this.modalError(error) // Let mixin handle error
         })
         .finally(() => {
           this.isCalibrating = false

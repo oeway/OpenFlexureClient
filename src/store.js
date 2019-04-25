@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
-import UIkit from 'uikit';
 
 Vue.use(Vuex)
 
@@ -58,12 +57,22 @@ export default new Vuex.Store({
       // Reset the state when reconnecting starts
       context.dispatch('resetState')
       // Mark as loading
-      context.commit('changeWaiting', true)
-      // Do requests
-      context.dispatch('updateConfig')
-      .then (() => {
-        context.dispatch('updateState')
-      })
+      context.dispatch('waitingState')
+
+      var sendRequest = function(resolve, reject) {
+        // Do requests
+        context.dispatch('updateConfig')
+        .then (() => {
+          context.dispatch('updateState')
+        })
+        .then (() => {
+          resolve()
+        })
+        .catch(error => {
+          reject(error)
+        })
+      }
+      return new Promise(sendRequest)
     },
 
     updateConfig(context, uri=`${context.getters.uri}/config`) {
@@ -77,7 +86,6 @@ export default new Vuex.Store({
           resolve()
         })
         .catch(error => {
-          context.dispatch('handleHTTPError', error)
           reject(new Error(error))
         })
       }
@@ -95,7 +103,6 @@ export default new Vuex.Store({
           resolve()
         })
         .catch(error => {
-          context.dispatch('handleHTTPError', error)
           reject(new Error(error))
         })
       }
@@ -136,34 +143,6 @@ export default new Vuex.Store({
       
     },
 
-    handleHTTPError(context, error) {
-      console.log(error.response)
-      var errormsg = '';
-
-      // If a response was obtained
-      if (error.response) {
-        // If the response is a nicely formatted JSON response from the server
-        if (error.response.data.message) {
-          errormsg = `${error.response.status}: ${error.response.data.message}`
-          console.log(errormsg)
-        }
-        // If the response is just some generic error response
-        else {
-          errormsg = `${error.response.status}: ${error.response.data}`
-          console.log(errormsg)
-        }
-      // If the error occured during the request
-      } else if (error.request) {
-        errormsg = `${error.message}`
-        console.log(errormsg)
-      // Everything else
-      } else {
-        errormsg = `${error.message}`
-        console.log(errormsg)
-      }
-      context.dispatch('errorState', errormsg);
-    },
-
     resetState(context) {
       context.commit('changeWaiting', false)
       context.commit('changeAvailable', true)
@@ -185,7 +164,7 @@ export default new Vuex.Store({
       context.commit('changeWaiting', false)
       context.commit('changeAvailable', false)
       context.commit('commitError', msg)
-      UIkit.notification({message: `<span uk-icon=\'icon: warning\'></span> ${msg}`, status: 'danger'})
+      // TODO: Re-implement error notifications as mixins
     }
   },
 

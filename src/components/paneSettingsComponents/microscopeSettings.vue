@@ -44,7 +44,6 @@
 
 <script>
 import axios from 'axios'
-import UIkit from 'uikit';
 
 // Export main app
 export default {
@@ -79,10 +78,10 @@ export default {
         .then(response => { 
           this.$store.dispatch('updateConfig');
           this.updateInputValues
-          UIkit.notification({message: "Microscope config applied.", status: 'success'})
+          this.modalNotify("Microscope config applied.")
         })
         .catch(error => {
-          this.$store.dispatch('handleHTTPError', error);  // Let store handle error
+          this.modalError(error) // Let mixin handle error
         })
     }
 

@@ -156,7 +156,7 @@ export default {
 					this.$store.dispatch('updateState');  // Update store state
 				})
 				.catch(error => {
-					this.$store.dispatch('handleHTTPError', error);  // Let store handle error
+					this.modalError(error) // Let mixin handle error
 				})
 			}
     },

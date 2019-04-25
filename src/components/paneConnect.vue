@@ -126,6 +126,12 @@ export default {
       ]);
       // Try to get config and state JSON from the newly submitted host
       this.$store.dispatch('firstConnect')
+      .then (() => {
+        console.log("Connected!")
+      })
+      .catch(error => {
+        this.modalError(error) // Let mixin handle error
+      })
     },
 
     setLocalMode: function (state) {

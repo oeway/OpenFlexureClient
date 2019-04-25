@@ -175,7 +175,6 @@
 
 <script>
 import axios from 'axios'
-import UIkit from 'uikit';
 
 // Export main app
 export default {
@@ -279,7 +278,7 @@ export default {
           this.$root.$emit('globalUpdateCaptureList')
         })
         .catch(error => {
-          this.$store.dispatch('handleHTTPError', error);  // Let store handle error
+          this.modalError(error) // Let mixin handle error
         })
     },
 
@@ -291,10 +290,10 @@ export default {
           return this.$store.dispatch('pollTask', [response.data.id, 3600, 5])
         })
         .then(() => {
-          UIkit.notification({message: "Finished scan.", status: 'success'})
+          this.modalNotify("Finished scan.")
         })
         .catch(error => {
-          this.$store.dispatch('handleHTTPError', error);  // Let store handle error
+          this.modalError(error)
         })
         .finally(() => {
           this.isScanning = false

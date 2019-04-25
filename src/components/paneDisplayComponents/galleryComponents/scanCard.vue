@@ -44,7 +44,6 @@
 </template>
 
 <script>
-import UIkit from 'uikit';
 import axios from 'axios'
 
 // Export main app

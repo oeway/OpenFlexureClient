@@ -105,15 +105,14 @@ export default {
       console.log(this.newtag);
       this.newTagRequest(this.newtag);
       this.newtag = "";
-      UIkit.modal(event.target.parentNode).hide();
+      UIkit.modal(event.target.parentNode).hide();  // TODO: Remove somehow
     },
 
     delCaptureConfirm: function(tag_string) {
       var context = this
-      UIkit.modal.confirm('Permanantly delete capture?').then(function() {
+      this.modalConfirm('Permanantly delete capture?')
+      .then(function() {
         context.delCaptureRequest()
-      }, function () {
-        console.log('Rejected.')
       });
     },
 
@@ -125,7 +124,7 @@ export default {
         this.$root.$emit('globalUpdateCaptureList')
       })
       .catch(error => {
-        this.$store.dispatch('handleHTTPError', error);  // Let store handle error
+        this.modalError(error) // Let mixin handle error
       })
     },
 
@@ -137,16 +136,14 @@ export default {
         this.getTagRequest()
       })
       .catch(error => {
-        this.$store.dispatch('handleHTTPError', error);  // Let store handle error
+        this.modalError(error) // Let mixin handle error
       })
     },
 
     delTagConfirm: function(tag_string) {
       var context = this;
-      UIkit.modal.confirm(`Remove tag '${tag_string}'?`).then(function() {
+      this.modalConfirm(`Remove tag '${tag_string}'?`).then(function() {
         context.delTagRequest(tag_string)
-      }, function () {
-        console.log('Rejected.')
       });
     },
 
@@ -159,7 +156,7 @@ export default {
         this.getTagRequest()
       })
       .catch(error => {
-        this.$store.dispatch('handleHTTPError', error);  // Let store handle error
+        this.modalError(error) // Let mixin handle error
       })
     },
 
@@ -170,7 +167,7 @@ export default {
         this.tags = response.data.metadata.tags
       })
       .catch(error => {
-        this.$store.dispatch('handleHTTPError', error);  // Let store handle error
+        this.modalError(error) // Let mixin handle error
       })
     },
 

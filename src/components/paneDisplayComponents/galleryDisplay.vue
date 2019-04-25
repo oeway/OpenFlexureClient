@@ -99,7 +99,7 @@ export default {
         this.captureList = response.data;  // Update boxes from response
       })
       .catch(error => {
-        this.$store.dispatch('handleHTTPError', error);  // Let store handle error
+        this.modalError(error) // Let mixin handle error
       })
     },
 

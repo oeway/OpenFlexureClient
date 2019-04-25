@@ -94,7 +94,6 @@
 
 <script>
 import axios from 'axios'
-import UIkit from 'uikit'
 
 // Key Codes
 const keyCodes = {
@@ -207,7 +206,7 @@ export default {
           this.setPosition = response.data.stage.position;  // Update boxes from response
         })
         .catch(error => {
-          this.$store.dispatch('handleHTTPError', error);  // Let store handle error
+          this.modalError(error) // Let mixin handle error
         })
         .then(() => {
           this.$store.commit('changeMoveLock', false)  // Release the move lock
@@ -230,8 +229,7 @@ export default {
           console.log("Successfully finished autofocus")
         })
         .catch(error => {
-          UIkit.notification({message: `<span uk-icon=\'icon: warning\'></span> ${error}`, status: 'danger'})
-          this.$store.dispatch('handleHTTPError', error);  // Let store handle error
+          this.modalError(error) // Let mixin handle error
         })
         .finally(() => {
           console.log("Cleaning up after autofocus.")
@@ -256,8 +254,7 @@ export default {
           console.log("Successfully finished autofocus")
         })
         .catch(error => {
-          UIkit.notification({message: `<span uk-icon=\'icon: warning\'></span> ${error}`, status: 'danger'})
-          this.$store.dispatch('handleHTTPError', error);  // Let store handle error
+          this.modalError(error) // Let mixin handle error
         })
         .finally(() => {
           console.log("Cleaning up after autofocus.")
