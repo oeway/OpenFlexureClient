@@ -1,9 +1,9 @@
- //handle setupevents as quickly as possible
- const setupEvents = require('./setupEvents')
- if (setupEvents.handleSquirrelEvent()) {
-    // squirrel event handled and app will exit in 1000ms, so don't do anything else
-    return;
- }
+//handle setupevents as quickly as possible
+const setupEvents = require('./setupEvents')
+if (setupEvents.handleSquirrelEvent()) {
+  // squirrel event handled and app will exit in 1000ms, so don't do anything else
+  return;
+}
 
 // Required packages
 const electron = require('electron')
