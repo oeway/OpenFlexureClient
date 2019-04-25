@@ -1,34 +1,47 @@
 {
   "name": "openflexure-ev",
-  "productName": "OpenFlexure eV",
-  "displayName": "OpenFlexure eV",
-  "publisher": "Bath Open Instrumentation Group",
-  "author": "OpenFlexure",
-  "description": "An electron-based user client for the OpenFlexure Microscope Server",
-  "main": "app.js",
-  "version": "0.2.0",
-  "license": "GNU General Public License v3.0 ",
+  "version": "0.3.0-alpha.1",
   "private": true,
+  "description": "An electron-based user client for the OpenFlexure Microscope Server",
+  "author": "OpenFlexure",
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "dev": "set NODE_ENV=DEV&& electron app.dev.js",
-    "run": "vue-cli-service build && electron .",
-    "package-win": "electron-packager . openflexure-ev --ignore=\"^/(src|installers|\\..*)\" --overwrite --asar --platform=win32 --arch=x64 --icon=icons/win/icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"OpenFlexure Microscope JS\"",
-    "package-linux": "electron-packager . openflexure-ev --ignore=\"^/(src|installers|\\..*)\" --overwrite --asar --platform=linux --arch=x64 --icon=icons/png/1024x1024.png --prune=true --out=release-builds",
-    "package-rpi": "electron-packager . openflexure-ev --ignore=\"^/(src|installers|\\..*)\" --overwrite --asar --platform=linux --electron-version=3.0.13 --arch=armv7l --icon=icons/png/1024x1024.png --prune=true --out=release-builds",
-    "package-darwin": "electron-packager . openflexure-ev --ignore=\"^/(src|installers|\\..*)\" --overwrite --platform=darwin --arch=x64 --icon=icons/mac/icon.icns --prune=true --out=release-builds",
-    "package-all": "npm run package-win && npm run package-linux && npm run package-rpi && npm run package-darwin",
-    "make": "npm run build && npm run package-all"
+    "build:android": "npm run setup-webpack-config && tns build android --bundle --env.production && npm run remove-webpack-config",
+    "build:ios": "npm run setup-webpack-config && tns build ios --bundle --env.production && npm run remove-webpack-config",
+    "build:web": "vue-cli-service build --mode production.web",
+    "clean:android": "rimraf platforms/android",
+    "clean:ios": "rimraf platforms/ios",
+    "clean:platforms": "rimraf platforms",
+    "debug:android": "npm run setup-webpack-config && tns debug android --bundle --env.development",
+    "debug:ios": "npm run setup-webpack-config && tns debug ios --bundle --env.development",
+    "electron:run": "electron .",
+    "electron:dev": "electron app.dev.js",
+    "package:all": "npm run package:win && npm run package:linux && npm run package:rpi && npm run package:darwin",
+    "package:darwin": "electron-packager . openflexure-ev --ignore=\"^/(src|installers|\\..*)\" --overwrite --platform=darwin --arch=x64 --icon=icons/mac/icon.icns --prune=true --out=release-builds",
+    "package:linux": "electron-packager . openflexure-ev --ignore=\"^/(src|installers|\\..*)\" --overwrite --asar --platform=linux --arch=x64 --icon=icons/png/1024x1024.png --prune=true --out=release-builds",
+    "package:rpi": "electron-packager . openflexure-ev --ignore=\"^/(src|installers|\\..*)\" --overwrite --asar --platform=linux --electron-version=3.0.13 --arch=armv7l --icon=icons/png/1024x1024.png --prune=true --out=release-builds",
+    "package:win": "electron-packager . openflexure-ev --ignore=\"^/(src|installers|\\..*)\" --overwrite --asar --platform=win32 --arch=x64 --icon=icons/win/icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"OpenFlexure Microscope JS\"",
+    "preview:android": "npm run setup-webpack-config && tns preview --bundle --env.development --env.android",
+    "preview:ios": "npm run setup-webpack-config && tns preview --bundle --env.development --env.ios",
+    "remove-webpack-config": "node ./node_modules/vue-cli-plugin-nativescript-vue/lib/scripts/webpack-maintenance post",
+    "serve:android": "npm run setup-webpack-config && tns run android --bundle --env.development",
+    "serve:ios": "npm run setup-webpack-config && tns run ios --bundle --env.development",
+    "serve:web": "vue-cli-service serve --mode development.web",
+    "setup-webpack-config": "node ./node_modules/vue-cli-plugin-nativescript-vue/lib/scripts/webpack-maintenance pre"
   },
   "dependencies": {
+    "about-window": "^1.12.1",
     "electron-context-menu": "^0.11.0",
-    "about-window": "^1.12.1"
+    "nativescript-vue": "^2.2.0",
+    "tns-core-modules": "^5.2.2"
   },
   "devDependencies": {
+    "@babel/core": "^7.4.0",
+    "@babel/preset-env": "^7.4.1",
+    "@babel/traverse": "^7.4.0",
     "@vue/cli-plugin-babel": "^3.3.0",
     "@vue/cli-service": "^3.6.0",
     "axios": "^0.18.0",
+    "babel-loader": "^8.0.5",
     "css-loader": "^2.1.0",
     "electron": "^4.1.4",
     "electron-installer-common": "^0.6.1",
@@ -39,10 +52,19 @@
     "electron-winstaller": "^2.7.0",
     "less": "^3.9.0",
     "less-loader": "^4.1.0",
+    "nativescript-dev-webpack": "^0.20.3",
+    "nativescript-vue-template-compiler": "^2.2.0",
+    "nativescript-worker-loader": "~0.9.5",
+    "node-sass": "^4.11.0",
+    "rimraf": "^2.6.3",
+    "string-replace-loader": "^2.1.1",
     "uikit": "^3.0.2",
     "vue": "^2.5.21",
+    "vue-cli-plugin-nativescript-vue": "0.0.14",
     "vue-template-compiler": "^2.5.21",
-    "vuex": "^3.0.1"
+    "vuex": "^3.0.1",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0"
   },
   "postcss": {
     "plugins": {
@@ -53,5 +75,19 @@
     "> 1%",
     "last 2 versions",
     "not ie <= 8"
-  ]
+  ],
+  "displayName": "OpenFlexure eV",
+  "license": "GNU General Public License v3.0 ",
+  "main": "app.js",
+  "nativescript": {
+    "id": "org.nativescript.application",
+    "tns-ios": {
+      "version": "5.2.0"
+    },
+    "tns-android": {
+      "version": "5.2.1"
+    }
+  },
+  "productName": "OpenFlexure eV",
+  "publisher": "Bath Open Instrumentation Group"
 }
