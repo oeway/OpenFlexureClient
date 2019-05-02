@@ -15,11 +15,11 @@
     "debug:ios": "npm run setup-webpack-config && tns debug ios --bundle --env.development",
     "electron:run": "electron .",
     "electron:dev": "electron app.dev.js",
-    "package:all": "npm run package:win && npm run package:linux && npm run package:rpi && npm run package:darwin",
-    "package:darwin": "electron-packager . openflexure-ev --ignore=\"^/(src|installers|\\..*)\" --overwrite --platform=darwin --arch=x64 --icon=icons/mac/icon.icns --prune=true --out=release-builds",
-    "package:linux": "electron-packager . openflexure-ev --ignore=\"^/(src|installers|\\..*)\" --overwrite --asar --platform=linux --arch=x64 --icon=icons/png/1024x1024.png --prune=true --out=release-builds",
-    "package:rpi": "electron-packager . openflexure-ev --ignore=\"^/(src|installers|\\..*)\" --overwrite --asar --platform=linux --electron-version=3.0.13 --arch=armv7l --icon=icons/png/1024x1024.png --prune=true --out=release-builds",
-    "package:win": "electron-packager . openflexure-ev --ignore=\"^/(src|installers|\\..*)\" --overwrite --asar --platform=win32 --arch=x64 --icon=icons/win/icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"OpenFlexure Microscope JS\"",
+    "package:all": "npm run build:web && npm run package:win && npm run package:linux && npm run package:rpi && npm run package:darwin",
+    "package:darwin": "electron-packager . openflexure-ev --ignore=\"^/(src|installers|platforms|hooks|\\..*)\" --overwrite --asar --platform=darwin --arch=x64 --icon=icons/mac/icon.icns --prune=true --out=release-builds",
+    "package:linux": "electron-packager . openflexure-ev --ignore=\"^/(src|installers|platforms|hooks|\\..*)\" --overwrite --asar --platform=linux --arch=x64 --icon=icons/png/1024x1024.png --prune=true --out=release-builds",
+    "package:rpi": "electron-packager . openflexure-ev --ignore=\"^/(src|installers|platforms|hooks|\\..*)\" --overwrite --asar --platform=linux --electron-version=3.0.13 --arch=armv7l --icon=icons/png/1024x1024.png --prune=true --out=release-builds",
+    "package:win": "electron-packager . openflexure-ev --ignore=\"^/(src|installers|platforms|hooks|\\..*)\" --overwrite --asar --platform=win32 --arch=x64 --icon=icons/win/icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"OpenFlexure Microscope JS\"",
     "preview:android": "npm run setup-webpack-config && tns preview --bundle --env.development --env.android",
     "preview:ios": "npm run setup-webpack-config && tns preview --bundle --env.development --env.ios",
     "remove-webpack-config": "node ./node_modules/vue-cli-plugin-nativescript-vue/lib/scripts/webpack-maintenance post",
@@ -30,9 +30,7 @@
   },
   "dependencies": {
     "about-window": "^1.12.1",
-    "electron-context-menu": "^0.11.0",
-    "nativescript-vue": "^2.2.0",
-    "tns-core-modules": "^5.2.2"
+    "electron-context-menu": "^0.11.0"
   },
   "devDependencies": {
     "@babel/core": "^7.4.0",
@@ -49,24 +47,25 @@
     "less": "^3.9.0",
     "less-loader": "^4.1.0",
     "nativescript-dev-webpack": "^0.20.3",
+    "nativescript-vue": "^2.2.0",
     "nativescript-vue-template-compiler": "^2.2.0",
     "nativescript-worker-loader": "~0.9.5",
     "node-sass": "^4.11.0",
     "rimraf": "^2.6.3",
     "string-replace-loader": "^2.1.1",
+    "tns-core-modules": "^5.2.2",
     "uikit": "^3.0.2",
     "vue": "^2.5.21",
     "vue-cli-plugin-nativescript-vue": "0.0.14",
     "vue-template-compiler": "^2.5.21",
     "vuex": "^3.0.1",
     "webpack": "^4.29.6",
-    "webpack-cli": "^3.3.0"
+    "webpack-cli": "^3.3.0",
+    "electron-winstaller": "^2.7.0",
+    "electron-installer-debian": "^1.1.1",
+    "electron-windows-store": "^2.1.0"
   },
   "optionalDependencies": {
-    "electron-installer-debian": "^1.1.1",
-    "electron-installer-dmg": "^2.0.0",
-    "electron-windows-store": "^2.1.0",
-    "electron-winstaller": "^2.7.0"
   },
   "postcss": {
     "plugins": {
