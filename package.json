@@ -39,7 +39,7 @@
   },
   "build": {
     "appId": "org.openflexure.ev",
-    "asar": false,
+    "asar": true,
     "files": [
       "**/*",
       "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}",
