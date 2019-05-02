@@ -4,6 +4,11 @@
   "private": true,
   "description": "An electron-based user client for the OpenFlexure Microscope Server",
   "author": "OpenFlexure",
+  "productName": "OpenFlexure eV",
+  "publisher": "Bath Open Instrumentation Group",
+  "displayName": "OpenFlexure eV",
+  "license": "GNU General Public License v3.0 ",
+  "main": "app/app.js",
   "scripts": {
     "build:android": "npm run setup-webpack-config && tns build android --bundle --env.production && npm run remove-webpack-config",
     "build:ios": "npm run setup-webpack-config && tns build ios --bundle --env.production && npm run remove-webpack-config",
@@ -16,10 +21,10 @@
     "electron:run": "electron .",
     "electron:dev": "electron app.dev.js",
     "package:all": "npm run build:web && npm run package:win && npm run package:linux && npm run package:rpi && npm run package:darwin",
-    "package:darwin": "electron-packager . openflexure-ev --ignore=\"^/(src|installers|platforms|hooks|\\..*)\" --overwrite --asar --platform=darwin --arch=x64 --icon=icons/mac/icon.icns --prune=true --out=release-builds",
-    "package:linux": "electron-packager . openflexure-ev --ignore=\"^/(src|installers|platforms|hooks|\\..*)\" --overwrite --asar --platform=linux --arch=x64 --icon=icons/png/1024x1024.png --prune=true --out=release-builds",
-    "package:rpi": "electron-packager . openflexure-ev --ignore=\"^/(src|installers|platforms|hooks|\\..*)\" --overwrite --asar --platform=linux --electron-version=3.0.13 --arch=armv7l --icon=icons/png/1024x1024.png --prune=true --out=release-builds",
-    "package:win": "electron-packager . openflexure-ev --ignore=\"^/(src|installers|platforms|hooks|\\..*)\" --overwrite --asar --platform=win32 --arch=x64 --icon=icons/win/icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"OpenFlexure Microscope JS\"",
+    "package:darwin": "electron-packager . openflexure-ev --ignore=\"^/(src|app/installers|platforms|hooks|\\..*)\" --overwrite --asar --platform=darwin --arch=x64 --icon=app/icons/mac/icon.icns --prune=true --out=release-builds",
+    "package:linux": "electron-packager . openflexure-ev --ignore=\"^/(src|app/installers|platforms|hooks|\\..*)\" --overwrite --asar --platform=linux --arch=x64 --icon=app/icons/png/1024x1024.png --prune=true --out=release-builds",
+    "package:rpi": "electron-packager . openflexure-ev --ignore=\"^/(src|app/installers|platforms|hooks|\\..*)\" --overwrite --asar --platform=linux --electron-version=3.0.13 --arch=armv7l --icon=app/icons/png/1024x1024.png --prune=true --out=release-builds",
+    "package:win": "electron-packager . openflexure-ev --ignore=\"^/(src|app/installers|platforms|hooks|\\..*)\" --overwrite --platform=win32 --arch=x64 --icon=app/icons/win/icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"OpenFlexure Microscope JS\"",
     "preview:android": "npm run setup-webpack-config && tns preview --bundle --env.development --env.android",
     "preview:ios": "npm run setup-webpack-config && tns preview --bundle --env.development --env.ios",
     "remove-webpack-config": "node ./node_modules/vue-cli-plugin-nativescript-vue/lib/scripts/webpack-maintenance post",
@@ -42,8 +47,12 @@
     "babel-loader": "^8.0.5",
     "css-loader": "^2.1.0",
     "electron": "^4.1.4",
+    "electron-builder": "^20.39.0",
     "electron-installer-common": "^0.6.1",
+    "electron-installer-debian": "^1.1.1",
     "electron-packager": "^13.1.1",
+    "electron-windows-store": "^2.1.0",
+    "electron-winstaller": "^2.7.0",
     "less": "^3.9.0",
     "less-loader": "^4.1.0",
     "nativescript-dev-webpack": "^0.20.3",
@@ -60,13 +69,9 @@
     "vue-template-compiler": "^2.5.21",
     "vuex": "^3.0.1",
     "webpack": "^4.29.6",
-    "webpack-cli": "^3.3.0",
-    "electron-winstaller": "^2.7.0",
-    "electron-installer-debian": "^1.1.1",
-    "electron-windows-store": "^2.1.0"
+    "webpack-cli": "^3.3.0"
   },
-  "optionalDependencies": {
-  },
+  "optionalDependencies": {},
   "postcss": {
     "plugins": {
       "autoprefixer": {}
@@ -77,9 +82,6 @@
     "last 2 versions",
     "not ie <= 8"
   ],
-  "displayName": "OpenFlexure eV",
-  "license": "GNU General Public License v3.0 ",
-  "main": "app.js",
   "nativescript": {
     "id": "org.nativescript.application",
     "tns-ios": {
@@ -88,7 +90,5 @@
     "tns-android": {
       "version": "5.2.1"
     }
-  },
-  "productName": "OpenFlexure eV",
-  "publisher": "Bath Open Instrumentation Group"
+  }
 }

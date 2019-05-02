@@ -41,10 +41,10 @@ const template = [
         label: 'About',
         click () {
           openAboutWindow({
+            package_json_dir: path.join(__dirname, '..'),
             icon_path: path.join(__dirname, '/icons/png/512x512.png'),
             bug_report_url: "https://gitlab.com/openflexure/openflexure-microscope-jsclient/issues",
             homepage: "https://gitlab.com/openflexure/openflexure-microscope-jsclient",
-            package_json_dir: __dirname
           })
         }
       }
