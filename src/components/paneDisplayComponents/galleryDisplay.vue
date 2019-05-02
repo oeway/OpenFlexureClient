@@ -43,6 +43,7 @@
             v-else
             :metadata="item.metadata"
             :temporary="item.temporary"
+            :path="item.path"
           />
 
         </div>

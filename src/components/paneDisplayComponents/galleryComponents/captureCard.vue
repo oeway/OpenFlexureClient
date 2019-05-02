@@ -42,10 +42,10 @@
       <div class="uk-modal-dialog uk-modal-body">
           <button class="uk-modal-close-default" type="button" uk-close></button>
           <h2 class="uk-modal-title">{{ metadata.filename }}</h2>
+          <p><b>Path: </b>{{ path }}</p>
           <p><b>Time: </b>{{ betterTimestring }}</p>
           <p><b>ID: </b>{{ metadata.id }}</p>
           <p><b>Format: </b>{{ metadata.format }}</p>
-          <p><b>Path: </b>{{ metadata.path }}</p>
 
           <div v-for="(value, key) in metadata.custom" :key="key" >
             <p><b>{{ key }}: </b>{{ value }}</p>
@@ -88,6 +88,10 @@ export default {
     },
     metadata: {
       type: Object,
+      required: true
+    },
+    path: {
+      type: String,
       required: true
     }
   },
