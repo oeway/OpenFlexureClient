@@ -72,7 +72,7 @@
           <div class="uk-grid-small uk-child-width-1-3" uk-grid>
 
             <div>
-              <button v-on:click="runFastAutofocus(2000, 300);" class="uk-button uk-button-default uk-form-small uk-float-right uk-width-1-1">Coarse</button>
+              <button v-on:click="runFastAutofocus(2000, 300);" class="uk-button uk-button-default uk-form-small uk-float-right uk-width-1-1">Fast</button>
             </div>
 
             <div>
