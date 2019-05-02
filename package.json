@@ -9,7 +9,7 @@
   "publisher": "Bath Open Instrumentation Group",
   "displayName": "OpenFlexure eV",
   "license": "GNU General Public License v3.0 ",
-  "main": "app/app.js",
+  "main": "./app/app.js",
   "scripts": {
     "pack": "build --dir",
     "dist": "build",
@@ -39,6 +39,7 @@
   },
   "build": {
     "appId": "org.openflexure.ev",
+    "asar": false,
     "files": [
       "**/*",
       "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}",
@@ -58,7 +59,7 @@
       "!**/hooks${/*}",
       "!**/platforms${/*}",
       "!**/release-builds${/*}",
-      "!**/src${/*}"
+      "!src${/*}"
     ],
     "directories": {
       "output": "release-builds"
@@ -99,7 +100,6 @@
     },
     "win": {
       "target": "NSIS",
-      "arch": "x64",
       "icon": "app/icons/win/icon.ico"
     }
   },
@@ -118,11 +118,7 @@
     "css-loader": "^2.1.0",
     "electron": "^4.1.4",
     "electron-builder": "^20.39.0",
-    "electron-installer-common": "^0.6.1",
-    "electron-installer-debian": "^1.1.1",
-    "electron-packager": "^13.1.1",
     "electron-windows-store": "^2.1.0",
-    "electron-winstaller": "^2.7.0",
     "less": "^3.9.0",
     "less-loader": "^4.1.0",
     "nativescript-dev-webpack": "^0.20.3",
