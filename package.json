@@ -58,7 +58,8 @@
       "!src${/*}"
     ],
     "directories": {
-      "output": "release-builds"
+      "output": "release-builds",
+      "buildResources": "app/resources"
     },
     "mac": {
       "icon": "app/icons/mac/icon.icns",
@@ -95,9 +96,17 @@
       "category": "Science"
     },
     "win": {
-      "target": "NSIS",
+      "target": ["NSIS", "appx"],
       "icon": "app/icons/win/icon.ico"
-    }
+    },
+    "appx": 
+      {
+        "applicationId": "OpenFlexureEV",
+        "identityName": "60425J.T.Collins.OpenFlexureeV",
+        "publisher": "CN=CC867BEF-0715-4D48-8035-8881993DBB68",
+        "publisherDisplayName": "J. T. Collins",
+        "backgroundColor": "#C5247F"
+      }
   },
   "dependencies": {
     "about-window": "^1.12.1",
