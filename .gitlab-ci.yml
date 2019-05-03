@@ -9,5 +9,3 @@ build:
       - release-builds/*.exe
       - release-builds/*.deb
       - release-builds/*.AppImage
-  only:
-    - tags

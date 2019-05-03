@@ -11,9 +11,8 @@
   "license": "GNU General Public License v3.0 ",
   "main": "./app/app.js",
   "scripts": {
-    "dist": "build",
-    "dist:win": "build --win",
-    "dist:all": "build --linux --win",
+    "dist:all": "electron-builder --linux --win --config app/builder-config.yaml",
+    "dist:win": "electron-builder --win --config app/builder-config-win.yaml",
     "release": "npm run build:web && npm run dist:all",
     "build:android": "npm run setup-webpack-config && tns build android --bundle --env.production && npm run remove-webpack-config",
     "build:ios": "npm run setup-webpack-config && tns build ios --bundle --env.production && npm run remove-webpack-config",
@@ -32,72 +31,6 @@
     "serve:ios": "npm run setup-webpack-config && tns run ios --bundle --env.development",
     "serve:web": "vue-cli-service serve --mode development.web",
     "setup-webpack-config": "node ./node_modules/vue-cli-plugin-nativescript-vue/lib/scripts/webpack-maintenance pre"
-  },
-  "build": {
-    "appId": "org.openflexure.ev",
-    "asar": true,
-    "files": [
-      "**/*",
-      "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}",
-      "!**/node_modules/*/{test,__tests__,tests,powered-test,example,examples}",
-      "!**/node_modules/*.d.ts",
-      "!**/node_modules/.bin",
-      "!**/*.{iml,o,hprof,orig,pyc,pyo,rbc,swp,csproj,sln,xproj}",
-      "!.editorconfig",
-      "!**/._*",
-      "!**/{.DS_Store,.git,.hg,.svn,CVS,RCS,SCCS,.gitignore,.gitattributes}",
-      "!**/{__pycache__,thumbs.db,.flowconfig,.idea,.vs,.nyc_output}",
-      "!**/{appveyor.yml,.travis.yml,circle.yml}",
-      "!**/{npm-debug.log,yarn.lock,.yarn-integrity,.yarn-metadata.json}",
-      "!**/.env.*",
-      "!**/{.idea,.vscode}${/*}",
-      "!**/app/installers${/*}",
-      "!**/hooks${/*}",
-      "!**/platforms${/*}",
-      "!**/release-builds${/*}",
-      "!src${/*}"
-    ],
-    "directories": {
-      "output": "release-builds"
-    },
-    "mac": {
-      "icon": "app/icons/mac/icon.icns",
-      "category": "public.app-category.utilities"
-    },
-    "dmg": {
-      "contents": [
-        {
-          "x": 110,
-          "y": 150
-        },
-        {
-          "x": 240,
-          "y": 150,
-          "type": "link",
-          "path": "/Applications"
-        }
-      ]
-    },
-    "linux": {
-      "target": [
-        "AppImage",
-        {
-          "target": "deb",
-          "arch": [
-            "x64",
-            "armv7l"
-          ]
-        }
-      ],
-      "icon": "app/icons/png/1024x1024.png"
-    },
-    "deb": {
-      "category": "Science"
-    },
-    "win": {
-      "target": "NSIS",
-      "icon": "app/icons/win/icon.ico"
-    }
   },
   "dependencies": {
     "about-window": "^1.12.1",
