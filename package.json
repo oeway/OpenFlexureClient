@@ -13,7 +13,7 @@
   "scripts": {
     "dist": "build",
     "dist:win": "build --win",
-    "dist:all": "build --wl",
+    "dist:all": "build --linux --win",
     "release": "npm run build:web && npm run dist:all",
     "build:android": "npm run setup-webpack-config && tns build android --bundle --env.production && npm run remove-webpack-config",
     "build:ios": "npm run setup-webpack-config && tns build ios --bundle --env.production && npm run remove-webpack-config",
