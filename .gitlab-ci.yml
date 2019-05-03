@@ -1,0 +1,13 @@
+image: electronuserland/builder:wine
+
+build:
+  script:
+    - npm install
+    - npm run release
+  artifacts:
+    paths:
+      - release-builds/*.exe
+      - release-builds/*.deb
+      - release-builds/*.AppImage
+  only:
+    - tags
