@@ -2,6 +2,7 @@ directories:
   output: release-builds
   buildResources: app/resources
 appId: org.openflexure.ev
+artifactName: ${name}-${os}-${arch}.${ext}
 asar: true
 files:
   - filter:
