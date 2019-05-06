@@ -29,7 +29,8 @@ deploy:
     - cd ./release-builds/choco
     - ls -R
     - choco pack
-    - choco push --source https://push.chocolatey.org/ -k="$CHOCO_API_KEY"
+    - choco apikey --key $CHOCO_API_KEY --source https://push.chocolatey.org/
+    - choco push --source https://push.chocolatey.org/
   artifacts:
     paths:
       - release-builds/choco/*.nupkg
