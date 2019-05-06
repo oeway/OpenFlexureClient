@@ -16,10 +16,9 @@ build:
 
 deploy:
   stage: deploy
-  tags:
-    - windows
+  image: patrickhuber/choco-linux
   script:
-    - .\app\make-nupkg.ps1
+    - powershell .\app\make-nupkg.ps1
   artifacts:
     paths:
       - release-builds/*.nupkg
