@@ -1,13 +1,32 @@
-image: electronuserland/builder:wine
+stages:
+  - build
+  - deploy
 
 build:
+  stage: build
+  image: electronuserland/builder:wine
   script:
     - npm install
     - npm run release
+    - chmod +x ./app/make-nupkg.sh
+    - ./app/make-nupkg.sh
   artifacts:
     paths:
       - release-builds/*.exe
       - release-builds/*.deb
       - release-builds/*.AppImage
-  only:
-    - tags
+      - release-builds/choco/openflexure-ev.nuspec
+      - release-builds/choco/tools/chocolateyInstall.ps1
+
+deploy:
+  stage: deploy
+  image: patrickhuber/choco-linux
+  dependencies:
+    - build
+  script:
+    - cd ./release-builds/choco
+    - ls -R
+    - choco pack
+  artifacts:
+    paths:
+      - release-builds/choco/*.nupkg
