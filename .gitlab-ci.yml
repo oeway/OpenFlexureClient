@@ -17,6 +17,8 @@ build:
       - release-builds/*.AppImage
       - release-builds/choco/openflexure-ev.nuspec
       - release-builds/choco/tools/chocolateyInstall.ps1
+  only:
+    - tags
 
 deploy:
   stage: deploy
@@ -30,3 +32,5 @@ deploy:
   artifacts:
     paths:
       - release-builds/choco/*.nupkg
+  only:
+    - tags
