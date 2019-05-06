@@ -5,6 +5,7 @@ stages:
 build:
   stage: build
   image: electronuserland/builder:wine
+  retry: 2
   script:
     - npm install
     - npm run release
