@@ -22,7 +22,10 @@ build:
 deploy:
   stage: deploy
   image: patrickhuber/choco-linux
+  dependencies:
+    - build
   script:
+    - ls -R ./release-builds/
     - choco pack --allow-unofficial --outputdirectory "./release-builds/choco" "./release-builds/choco/openflexure-ev.nuspec"
   artifacts:
     paths:
