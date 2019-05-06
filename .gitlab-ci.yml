@@ -18,7 +18,9 @@ deploy:
   stage: deploy
   image: patrickhuber/choco-linux
   script:
-    - powershell .\app\make-nupkg.ps1
+    - chmod +x ./app/make-nupkg.sh
+    - ./app/make-nupkg.sh
   artifacts:
     paths:
+      - release-builds/*.nuspec
       - release-builds/*.nupkg
