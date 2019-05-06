@@ -10,7 +10,6 @@ build:
     - npm run release
     - chmod +x ./app/make-nupkg.sh
     - ./app/make-nupkg.sh
-
   artifacts:
     paths:
       - release-builds/*.exe
@@ -18,6 +17,8 @@ build:
       - release-builds/*.AppImage
       - release-builds/choco/openflexure-ev.nuspec
       - release-builds/choco/tools/chocolateyInstall.ps1
+  only:
+    - tags
 
 deploy:
   stage: deploy
@@ -26,7 +27,10 @@ deploy:
     - build
   script:
     - ls -R ./release-builds/
-    - choco pack --allow-unofficial --outputdirectory "./release-builds/choco" "./release-builds/choco/openflexure-ev.nuspec"
+    - cd ./release-builds/choco
+    - choco pack
   artifacts:
     paths:
       - release-builds/choco/*.nupkg
+  only:
+    - tags
