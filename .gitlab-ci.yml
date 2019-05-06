@@ -26,8 +26,8 @@ deploy:
   dependencies:
     - build
   script:
-    - ls -R ./release-builds/
     - cd ./release-builds/choco
+    - ls -R
     - choco pack
   artifacts:
     paths:
