@@ -1,6 +1,10 @@
-image: electronuserland/builder:wine
+stages:
+  - build
+  - deploy
 
 build:
+  stage: build
+  image: electronuserland/builder:wine
   script:
     - npm install
     - npm run release
@@ -9,4 +13,13 @@ build:
       - release-builds/*.exe
       - release-builds/*.deb
       - release-builds/*.AppImage
+
+deploy:
+  stage: deploy
+  tags:
+    - windows
+  script:
+    - .\app\make-nupkg.ps1
+  artifacts:
+    paths:
       - release-builds/*.nupkg
