@@ -21,6 +21,7 @@ $MinVer = $MinVer.Replace(".",  "")  # Convert symver into nuspec ver
 $version = $MajVer + "-" + $MinVer
 
 $InstURL = "$Env:CI_JOB_URL/artifacts/browse/release-builds/openflexure-ev-win.exe"
+echo $InstURL
 
 $NuSpec = @"
 <?xml version="1.0"?>
