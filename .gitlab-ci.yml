@@ -19,6 +19,7 @@ build:
       - release-builds/choco/tools/chocolateyInstall.ps1
   only:
     - tags
+    - web
 
 deploy:
   stage: deploy
@@ -36,3 +37,4 @@ deploy:
       - release-builds/choco/*.nupkg
   only:
     - tags
+    - web
