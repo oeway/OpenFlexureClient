@@ -9,3 +9,4 @@ build:
       - release-builds/*.exe
       - release-builds/*.deb
       - release-builds/*.AppImage
+      - release-builds/*.nupkg
