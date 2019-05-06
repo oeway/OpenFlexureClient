@@ -30,7 +30,7 @@ version="$majVer-$minVer"
 echo $version
 
 # Build installer URL
-instURL="$CI_JOB_URL/artifacts/browse/release-builds/openflexure-ev-win.exe"
+instURL="$CI_JOB_URL/artifacts/raw/release-builds/openflexure-ev-win.exe"
 echo $instURL
 
 # Build nuspec
