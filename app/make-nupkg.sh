@@ -31,6 +31,7 @@ echo $version
 
 # Build installer URL
 instURL="$CI_JOB_URL/artifacts/browse/release-builds/openflexure-ev-win.exe"
+echo $instURL
 
 # Build nuspec
 cat > "$outpath/openflexure-ev.nuspec" <<- EOL
@@ -67,4 +68,4 @@ instPS1="Install-ChocolateyPackage $packageName $fileType $silentArgs $instURL"
 echo $instPS1 > "$toolspath/chocolateyInstall.ps1"
 
 # Build nupkg
-choco pack --outputdirectory $outpath "$outpath/openflexure-ev.nuspec"
+choco pack --allow-unofficial --outputdirectory $outpath "$outpath/openflexure-ev.nuspec"
