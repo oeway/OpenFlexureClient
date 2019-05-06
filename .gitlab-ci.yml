@@ -16,8 +16,8 @@ build:
       - release-builds/*.exe
       - release-builds/*.deb
       - release-builds/*.AppImage
-      - release-builds/*.nuspec
-      - release-builds/*.ps1
+      - release-builds/choco/openflexure-ev.nuspec
+      - release-builds/choco/tools/chocolateyInstall.ps1
 
 deploy:
   stage: deploy
@@ -26,4 +26,4 @@ deploy:
     - choco pack --allow-unofficial --outputdirectory "./release-builds/choco" "./release-builds/choco/openflexure-ev.nuspec"
   artifacts:
     paths:
-      - release-builds/*.nupkg
+      - release-builds/choco/*.nupkg
