@@ -58,7 +58,7 @@ cat > "$outpath/openflexure-ev.nuspec" <<- EOL
     <iconUrl>https://gitlab.com/openflexure/openflexure-microscope-jsclient/raw/master/app/icons/png/512x512.png</iconUrl>
   </metadata>
   <files>
-    <file src="tools\**" target="tools" />
+    <file src="tools/**" target="tools" />
   </files>
 </package>
 EOL
