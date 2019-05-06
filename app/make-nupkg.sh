@@ -68,4 +68,4 @@ instPS1="Install-ChocolateyPackage $packageName $fileType $silentArgs $instURL"
 echo $instPS1 > "$toolspath/chocolateyInstall.ps1"
 
 # Build nupkg
-choco pack --allow-unofficial --outputdirectory $outpath "$outpath/openflexure-ev.nuspec"
+# choco pack --allow-unofficial --outputdirectory $outpath "$outpath/openflexure-ev.nuspec"

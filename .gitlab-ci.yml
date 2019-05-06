@@ -8,19 +8,22 @@ build:
   script:
     - npm install
     - npm run release
+    - chmod +x ./app/make-nupkg.sh
+    - ./app/make-nupkg.sh
+
   artifacts:
     paths:
       - release-builds/*.exe
       - release-builds/*.deb
       - release-builds/*.AppImage
+      - release-builds/*.nuspec
+      - release-builds/*.ps1
 
 deploy:
   stage: deploy
   image: patrickhuber/choco-linux
   script:
-    - chmod +x ./app/make-nupkg.sh
-    - ./app/make-nupkg.sh
+    - choco pack --allow-unofficial --outputdirectory "./release-builds/choco" "./release-builds/choco/openflexure-ev.nuspec"
   artifacts:
     paths:
-      - release-builds/*.nuspec
       - release-builds/*.nupkg
