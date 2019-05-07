@@ -1,0 +1,11 @@
+extends: app/builder-config-base.yaml
+linux:
+  target:
+    - AppImage
+    - target: deb
+      arch:
+        - armv7l
+  icon: app/icons/png/1024x1024.png
+deb:
+  category: Science
+electronVersion: 3.0.13

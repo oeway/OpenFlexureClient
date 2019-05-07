@@ -11,8 +11,12 @@
   "license": "GNU General Public License v3.0 ",
   "main": "./app/app.js",
   "scripts": {
-    "dist:all": "electron-builder --linux --win --config app/builder-config.yaml",
+    "dist:all": "npm run dist:linux && npm run dist:raspi && npm run dist:win",
+    "dist:linux": "electron-builder --linux --config app/builder-config-linux.yaml",
+    "dist:raspi": "electron-builder --linux --config app/builder-config-raspi.yaml",
     "dist:win": "electron-builder --win --config app/builder-config-win.yaml",
+    "dist:appx": "electron-builder --win --config app/builder-config-appx.yaml",
+    "dist:dmg": "electron-builder --mac --config app/builder-config-dmg.yaml",
     "release": "npm run build:web && npm run dist:all",
     "build:android": "npm run setup-webpack-config && tns build android --bundle --env.production && npm run remove-webpack-config",
     "build:ios": "npm run setup-webpack-config && tns build ios --bundle --env.production && npm run remove-webpack-config",
