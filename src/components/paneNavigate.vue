@@ -117,7 +117,8 @@ export default {
       stepXy: 200,
       stepZz: 50,
       setPosition: this.$store.state.apiState.stage.position,
-      isAutofocusing: false
+      isAutofocusing: false,
+      moveLock: false
     }
   },
 
@@ -190,9 +191,9 @@ export default {
 
     moveRequest: function(x, y, z, absolute) {
       // If not movement-locked
-      if (!this.$store.state.moveLock) {
+      if (!this.moveLock) {
         // Lock move requests
-        this.$store.commit('changeMoveLock', true)
+        this.moveLock = true
 
         // Send move request
         axios.post(this.positionApiUri, {
@@ -209,15 +210,15 @@ export default {
           this.modalError(error) // Let mixin handle error
         })
         .then(() => {
-          this.$store.commit('changeMoveLock', false)  // Release the move lock
+          this.moveLock = false  // Release the move lock
         })
       }
     },
 
     runAutofocus: function(dz) {
-      if (!this.$store.state.moveLock) {
+      if (!this.moveLock) {
         // Lock move requests
-        this.$store.commit('changeMoveLock', true);
+        this.moveLock = true
         this.isAutofocusing = true
         axios.post(this.autofocusApiUri, {dz: dz})
         .then(response => { 
@@ -234,15 +235,15 @@ export default {
         .finally(() => {
           console.log("Cleaning up after autofocus.")
           this.isAutofocusing = false;
-          this.$store.commit('changeMoveLock', false);  // Release the move lock
+          this.moveLock = false  // Release the move lock
         })
       }
     },
 
     runFastAutofocus: function(dz, backlash) {
-      if (!this.$store.state.moveLock) {
+      if (!this.moveLock) {
         // Lock move requests
-        this.$store.commit('changeMoveLock', true);
+        this.moveLock = true
         this.isAutofocusing = true
         axios.post(this.fastAutofocusApiUri, {dz: dz, backlash: backlash})
         .then(response => { 
@@ -258,8 +259,8 @@ export default {
         })
         .finally(() => {
           console.log("Cleaning up after autofocus.")
-          this.isAutofocusing = false;
-          this.$store.commit('changeMoveLock', false);  // Release the move lock
+          this.isAutofocusing = false
+          this.moveLock = false  // Release the move lock
         })
       }
     }
