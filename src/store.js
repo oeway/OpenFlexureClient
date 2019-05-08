@@ -15,7 +15,7 @@ export default new Vuex.Store({
     error: '',
     apiConfig: {},
     apiState: {},
-    settings: {
+    globalSettings: {
       disableStream: false,
       autoGpuPreview: false,
       trackWindow: true
@@ -44,7 +44,7 @@ export default new Vuex.Store({
       state.apiState = stateData;
     },
     changeSetting(state, [key, value]) {
-      state.settings[key] = value;
+      state.globalSettings[key] = value;
     }
   },
 

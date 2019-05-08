@@ -7,7 +7,7 @@
 			<div uk-spinner="ratio: 4.5" ></div>
 		</div>
 
-		<div v-else-if="$store.state.settings.disableStream" class="uk-position-center position-relative text-center">
+		<div v-else-if="$store.state.globalSettings.disableStream" class="uk-position-center position-relative text-center">
 			Stream preview disabled
 		</div>
 
@@ -59,7 +59,7 @@ export default {
 				// 'ready' changed, so do something
 				console.log(oldValue)
 				console.log(newValue)
-				this.previewRequest(this.$store.state.settings.autoGpuPreview)
+				this.previewRequest(this.$store.state.globalSettings.autoGpuPreview)
 			}
 		)
 	},
@@ -94,7 +94,7 @@ export default {
 		handleDoneResize: function() {
 			// Recalculate size
 			this.recalculateSize();
-			if (this.$store.state.settings.autoGpuPreview == true && this.GpuPreviewActive == true) {
+			if (this.$store.state.globalSettings.autoGpuPreview == true && this.GpuPreviewActive == true) {
 				// Reload preview
 				this.$root.$emit('globalTogglePreview', true)
 			}
@@ -133,7 +133,7 @@ export default {
 				}
 
 				// Generate payload if tracking window position
-				if (this.$store.state.settings.trackWindow == true && state == true) {
+				if (this.$store.state.globalSettings.trackWindow == true && state == true) {
 					// Recalculate frame dimensions and position
 					this.recalculateSize()
 					// Copy data into payload array
@@ -165,7 +165,7 @@ export default {
 
   computed: {
 		showStream: function () {
-			return this.$store.getters.ready && !this.$store.state.settings.disableStream
+			return this.$store.getters.ready && !this.$store.state.globalSettings.disableStream
 		},
     streamImgUri: function () {
       return this.$store.getters.uri + "/stream"
