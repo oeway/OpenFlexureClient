@@ -1,0 +1,13 @@
+extends: app/builder-config-base.yaml
+win:
+  target:
+    - NSIS
+    - appx
+  icon: app/icons/win/icon.ico
+appx:
+  applicationId: OpenFlexureEV
+  identityName: 60425J.T.Collins.OpenFlexureeV
+  publisher: CN=CC867BEF-0715-4D48-8035-8881993DBB68
+  publisherDisplayName: J. T. Collins
+  backgroundColor: '#C5247F'
+electronVersion: 4.1.5

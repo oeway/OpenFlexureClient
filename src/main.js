@@ -27,7 +27,7 @@ Vue.mixin({
         .finally(function() {
           // Reenable the GPU preview, if it was active before the modal
           console.log("Re-enabling GPU preview")
-          if (context.$store.state.settings.autoGpuPreview) {
+          if (context.$store.state.globalSettings.autoGpuPreview) {
             console.log("Re-enabling preview")
             context.$root.$emit('globalTogglePreview', true)
           }

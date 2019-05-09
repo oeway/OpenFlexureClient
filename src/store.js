@@ -15,8 +15,7 @@ export default new Vuex.Store({
     error: '',
     apiConfig: {},
     apiState: {},
-    moveLock: false,
-    settings: {
+    globalSettings: {
       disableStream: false,
       autoGpuPreview: false,
       trackWindow: true
@@ -35,9 +34,6 @@ export default new Vuex.Store({
     changeWaiting(state, waiting) {
       state.waiting = waiting
     },
-    changeMoveLock(state, lock) {
-      state.moveLock = lock
-    },
     commitError(state, errorString) {
       state.error = errorString;
     },
@@ -48,7 +44,7 @@ export default new Vuex.Store({
       state.apiState = stateData;
     },
     changeSetting(state, [key, value]) {
-      state.settings[key] = value;
+      state.globalSettings[key] = value;
     }
   },
 

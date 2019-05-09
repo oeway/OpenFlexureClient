@@ -25,7 +25,7 @@ export default {
 
     disableStream: {
       get() {
-        return this.$store.state.settings.disableStream;
+        return this.$store.state.globalSettings.disableStream;
       },
       set(value) {
         this.$store.commit("changeSetting", ['disableStream', value]);
@@ -34,7 +34,7 @@ export default {
 
     autoGpuPreview: {
       get() {
-        return this.$store.state.settings.autoGpuPreview;
+        return this.$store.state.globalSettings.autoGpuPreview;
       },
       set(value) {
         this.$store.commit("changeSetting", ['autoGpuPreview', value]);
@@ -44,7 +44,7 @@ export default {
 
     trackWindow: {
       get() {
-        return this.$store.state.settings.trackWindow;
+        return this.$store.state.globalSettings.trackWindow;
       },
       set(value) {
         this.$store.commit("changeSetting", ['trackWindow', value]);

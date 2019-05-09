@@ -1,0 +1,13 @@
+extends: app/builder-config-base.yaml
+mac:
+  icon: app/icons/mac/icon.icns
+  category: public.app-category.utilities
+dmg:
+  contents:
+    - x: 110
+      y: 150
+    - x: 240
+      y: 150
+      type: link
+      path: /Applications
+electronVersion: 4.1.5

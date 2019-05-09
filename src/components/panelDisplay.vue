@@ -33,7 +33,7 @@ export default {
     // Gallery tab
     UIkit.util.on('#galleryDisplayTab', 'shown', function(event, area) {
       console.log("Gallery tab entered")
-      if (context.$store.state.settings.trackWindow == true) {
+      if (context.$store.state.globalSettings.trackWindow == true) {
         context.$root.$emit('globalTogglePreview', false)
       }
       context.$root.$emit('globalUpdateCaptureList');
@@ -43,7 +43,7 @@ export default {
     UIkit.util.on('#streamDisplayTab', 'shown', function(event, area) {
       console.log("Stream tab entered")
       UIkit.update()
-      if (context.$store.state.settings.trackWindow == true) {
+      if (context.$store.state.globalSettings.trackWindow == true) {
         context.$root.$emit('globalTogglePreview', true)
       }
     });
