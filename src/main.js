@@ -65,7 +65,7 @@ Vue.mixin({
         errormsg = `${error.message}`
         console.log(errormsg)
       }
-      this.$store.dispatch('errorState', errormsg);
+      this.$store.commit('setError', errormsg);
       UIkit.notification({message: `<span uk-icon=\'icon: warning\'></span> ${errormsg}`, status: 'danger'})
     },
 
