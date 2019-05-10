@@ -38,4 +38,3 @@ deploy:
       - release-builds/choco/*.nupkg
   only:
     - tags
-    - web
