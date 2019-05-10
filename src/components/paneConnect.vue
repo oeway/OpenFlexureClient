@@ -87,21 +87,15 @@ export default {
   mounted() {
     // Propagate localMode settings
     this.setLocalMode(this.localMode)
-    // Try loading and parsing savedHosts from localStorage 
-    if (localStorage.getItem('savedHosts')) {
-      try {
-        this.savedHosts = JSON.parse(localStorage.getItem('savedHosts'));
-      } catch(e) {
-        localStorage.removeItem('savedHosts');
-      }
-    }
+
+    // Try loading savedHosts from localStorage. If null, don't change.
+    this.savedHosts = this.getLocalStorageObj('savedHosts') || this.savedHosts
   },
 
   // When savedHosts changes, serialise to JSON and save to localStorage
   watch: {
     savedHosts(newSavedHosts) {
-      const parsed = JSON.stringify(this.savedHosts);
-      localStorage.setItem('savedHosts', parsed);
+      this.setLocalStorageObj('savedHosts', this.savedHosts)
     }
   },
 
