@@ -67,6 +67,23 @@ Vue.mixin({
       }
       this.$store.dispatch('errorState', errormsg);
       UIkit.notification({message: `<span uk-icon=\'icon: warning\'></span> ${errormsg}`, status: 'danger'})
+    },
+
+    getLocalStorageObj: function(keyName) {
+      if (localStorage.getItem(keyName)) {
+        try {
+          return JSON.parse(localStorage.getItem(keyName))
+        } catch(e) {
+          console.log("Malformed entry. Removing from localStorage")
+          localStorage.removeItem(keyName)
+          return null
+        }
+      }
+    },
+
+    setLocalStorageObj: function(keyName, object) {
+      const parsed = JSON.stringify(object)
+      localStorage.setItem(keyName, parsed);
     }
 
   }
