@@ -28,14 +28,8 @@ export default new Vuex.Store({
       state.port = port;
       state.apiVer = apiVer;
     },
-    changeAvailable(state, available) {
-      state.available = available
-    },
     changeWaiting(state, waiting) {
       state.waiting = waiting
-    },
-    commitError(state, errorString) {
-      state.error = errorString;
     },
     commitConfig(state, configData) {
       state.apiConfig = configData;
@@ -45,15 +39,31 @@ export default new Vuex.Store({
     },
     changeSetting(state, [key, value]) {
       state.globalSettings[key] = value;
+    },
+    resetState(state) {
+      state.waiting = false
+      state.available = true
+      state.error = null
+      state.apiConfig = {}
+      state.apiState = {}
+    },
+    setConnected(state) {
+      state.waiting = false
+      state.available = true
+    },
+    setError(state, msg) {
+      state.waiting = false
+      state.available = false
+      state.error = msg
     }
   },
 
   actions: {
     firstConnect(context) {
       // Reset the state when reconnecting starts
-      context.dispatch('resetState')
+      context.commit('resetState')
       // Mark as loading
-      context.dispatch('waitingState')
+      context.commit('changeWaiting', true)
 
       var sendRequest = function(resolve, reject) {
         // Do requests
@@ -72,13 +82,13 @@ export default new Vuex.Store({
     },
 
     updateConfig(context, uri=`${context.getters.uri}/config`) {
-      context.dispatch('waitingState')
+      context.commit('changeWaiting', true)
   
       var sendRequest = function(resolve, reject) {
         axios.get(uri)
         .then(response => { 
           context.commit('commitConfig', response.data)
-          context.dispatch('connectedState')
+          context.commit('setConnected')
           resolve()
         })
         .catch(error => {
@@ -89,13 +99,13 @@ export default new Vuex.Store({
     },
 
     updateState(context, uri=`${context.getters.uri}/state`) {
-      context.dispatch('waitingState')
+      context.commit('changeWaiting', true)
   
       var sendRequest = function(resolve, reject) {
         axios.get(uri)
         .then(response => { 
           context.commit('commitState', response.data)
-          context.dispatch('connectedState')
+          context.commit('setConnected')
           resolve()
         })
         .catch(error => {
@@ -137,30 +147,6 @@ export default new Vuex.Store({
 
       return new Promise(checkCondition);
       
-    },
-
-    resetState(context) {
-      context.commit('changeWaiting', false)
-      context.commit('changeAvailable', true)
-      context.commit('commitError', null)
-      context.commit('commitConfig', {})
-      context.commit('commitState', {})
-    },
-
-    waitingState(context) {
-      context.commit('changeWaiting', true)
-    },
-
-    connectedState(context) {
-      context.commit('changeWaiting', false)
-      context.commit('changeAvailable', true)
-    },
-
-    errorState(context, msg) {
-      context.commit('changeWaiting', false)
-      context.commit('changeAvailable', false)
-      context.commit('commitError', msg)
-      // TODO: Re-implement error notifications as mixins
     }
   },
 
