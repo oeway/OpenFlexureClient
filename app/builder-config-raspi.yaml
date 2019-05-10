@@ -4,7 +4,7 @@ linux:
     - target: deb
       arch:
         - armv7l
-  icon: app/icons/png/1024x1024.png
+  icon: app/icons/png/
   category: Science
 deb:
   category: Science

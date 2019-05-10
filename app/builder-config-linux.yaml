@@ -5,7 +5,7 @@ linux:
     - target: deb
       arch:
         - x64
-  icon: app/icons/png/1024x1024.png
+  icon: app/icons/png/
   category: Science
 deb:
   category: Science
