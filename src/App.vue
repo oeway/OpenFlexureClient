@@ -63,6 +63,8 @@ export default {
 
     window.addEventListener('resize', this.handleResize)
     this.handleResize();
+
+    window.addEventListener('beforeunload', this.handleExit)
   },
 
   beforeDestroy: function () {
@@ -73,6 +75,11 @@ export default {
     handleResize: function(event) {
       this.window.width = window.innerWidth;
       this.window.height = window.innerHeight;
+    },
+
+    handleExit: function(event) {
+      console.log("Triggered beforeunload")
+      this.$root.$emit('globalTogglePreview', false)
     }
   }
 
