@@ -21,13 +21,21 @@ packageVersion=$(cat $packageJson \
   | sed 's/[",]//g' \
   | tr -d '[[:space:]]')
 
-# Convert into a nupkg-safe version string
-majVer="$(echo $packageVersion | cut -d'-' -f1)"
-minVer="$(echo $packageVersion | cut -d'-' -f2)"
-minVer="${minVer//.}"
-version="$majVer-$minVer"
+echo "$packageVersion"
 
-echo $version
+# Convert into a nupkg-safe version string
+majVer="$(echo "$packageVersion" | cut -d'-' -f1)"
+minVer="$(echo "$packageVersion" | cut -d'-' -f2)"
+
+if [ "$majVer" = "$minVer" ]; then
+  version="$majVer"
+else
+  minVer="${minVer//.}"
+  version="$majVer-$minVer"  
+fi
+
+
+echo "$version"
 
 # Build installer URL
 instURL="$CI_JOB_URL/artifacts/raw/release-builds/openflexure-ev-win.exe"
