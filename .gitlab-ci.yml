@@ -2,6 +2,12 @@ stages:
   - build
   - deploy
 
+# Cache modules in between jobs
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+  - node_modules/
+
 build:
   stage: build
   image: electronuserland/builder:wine
@@ -38,4 +44,3 @@ deploy:
       - release-builds/choco/*.nupkg
   only:
     - tags
-    - web
