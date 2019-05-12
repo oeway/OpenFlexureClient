@@ -15,6 +15,7 @@ build:
   script:
     - npm install
     - npm run release
+    - tar -czvf "./release-builds/openflexure-ev-web.tar.gz" -C "./dist" .
     - chmod +x ./app/make-nupkg.sh
     - ./app/make-nupkg.sh
   artifacts:
@@ -22,6 +23,7 @@ build:
       - release-builds/*.exe
       - release-builds/*.deb
       - release-builds/*.AppImage
+      - release-builds/*.tar.gz
       - release-builds/choco/openflexure-ev.nuspec
       - release-builds/choco/tools/chocolateyInstall.ps1
   only:
