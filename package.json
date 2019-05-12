@@ -62,7 +62,7 @@
     "rimraf": "^2.6.3",
     "string-replace-loader": "^2.1.1",
     "tns-core-modules": "^5.2.2",
-    "uikit": "^3.0.2",
+    "uikit": "3.1.1",
     "vue": "^2.5.21",
     "vue-cli-plugin-nativescript-vue": "0.0.14",
     "vue-template-compiler": "^2.5.21",
