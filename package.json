@@ -17,60 +17,33 @@
     "dist:win": "electron-builder --win --config app/builder-config-win.yaml",
     "dist:appx": "electron-builder --win --config app/builder-config-appx.yaml",
     "dist:dmg": "electron-builder --mac --config app/builder-config-dmg.yaml",
-    "release": "npm run build:web && npm run dist:all",
-    "build:android": "npm run setup-webpack-config && tns build android --bundle --env.production && npm run remove-webpack-config",
-    "build:ios": "npm run setup-webpack-config && tns build ios --bundle --env.production && npm run remove-webpack-config",
-    "build:web": "vue-cli-service build --mode production.web",
-    "clean:android": "rimraf platforms/android",
-    "clean:ios": "rimraf platforms/ios",
-    "clean:platforms": "rimraf platforms",
-    "debug:android": "npm run setup-webpack-config && tns debug android --bundle --env.development",
-    "debug:ios": "npm run setup-webpack-config && tns debug ios --bundle --env.development",
+    "release": "npm run build && npm run dist:all",
+    "build": "vue-cli-service build",
     "electron:run": "electron .",
-    "electron:dev": "electron app.dev.js",
-    "preview:android": "npm run setup-webpack-config && tns preview --bundle --env.development --env.android",
-    "preview:ios": "npm run setup-webpack-config && tns preview --bundle --env.development --env.ios",
-    "remove-webpack-config": "node ./node_modules/vue-cli-plugin-nativescript-vue/lib/scripts/webpack-maintenance post",
-    "serve:android": "npm run setup-webpack-config && tns run android --bundle --env.development",
-    "serve:ios": "npm run setup-webpack-config && tns run ios --bundle --env.development",
-    "serve:web": "vue-cli-service serve --mode development.web",
-    "setup-webpack-config": "node ./node_modules/vue-cli-plugin-nativescript-vue/lib/scripts/webpack-maintenance pre"
+    "electron:dev": "electron app/app.dev.js",
+    "serve": "vue-cli-service serve"
   },
   "dependencies": {
     "about-window": "^1.12.1",
     "electron-context-menu": "^0.11.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.4.0",
-    "@babel/preset-env": "^7.4.1",
-    "@babel/traverse": "^7.4.0",
     "@vue/cli-plugin-babel": "^3.3.0",
     "@vue/cli-service": "^3.6.0",
     "axios": "^0.18.0",
-    "babel-loader": "^8.0.5",
-    "css-loader": "^2.1.0",
+    "css-loader": "^2.1.1",
     "electron": "^4.1.4",
     "electron-builder": "^20.39.0",
-    "electron-windows-store": "^2.1.0",
     "less": "^3.9.0",
     "less-loader": "^4.1.0",
-    "nativescript-dev-webpack": "^0.20.3",
-    "nativescript-vue": "^2.2.0",
-    "nativescript-vue-template-compiler": "^2.2.0",
-    "nativescript-worker-loader": "~0.9.5",
-    "node-sass": "^4.11.0",
-    "rimraf": "^2.6.3",
-    "string-replace-loader": "^2.1.1",
-    "tns-core-modules": "^5.2.2",
-    "uikit": "3.1.1",
+    "uikit": "^3.1.1",
     "vue": "^2.5.21",
-    "vue-cli-plugin-nativescript-vue": "0.0.14",
-    "vue-template-compiler": "^2.5.21",
-    "vuex": "^3.0.1",
-    "webpack": "^4.29.6",
-    "webpack-cli": "^3.3.0"
+    "vue-template-compiler": "^2.6.10",
+    "vuex": "^3.0.1"
   },
-  "optionalDependencies": {},
+  "optionalDependencies": {
+    "electron-windows-store": "^2.1.0"
+  },
   "postcss": {
     "plugins": {
       "autoprefixer": {}
@@ -80,14 +53,5 @@
     "> 1%",
     "last 2 versions",
     "not ie <= 8"
-  ],
-  "nativescript": {
-    "id": "org.nativescript.application",
-    "tns-ios": {
-      "version": "5.2.0"
-    },
-    "tns-android": {
-      "version": "5.2.1"
-    }
-  }
+  ]
 }
