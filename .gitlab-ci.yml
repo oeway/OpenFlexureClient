@@ -1,6 +1,7 @@
 stages:
   - build
   - package
+  - meta
 
 # Cache modules in between jobs
 cache:
@@ -24,7 +25,7 @@ build:
     - web
 
     # Platform-specific Electron builds
-package-raspi-deb:
+package:rpi:
   stage: package
   dependencies:
     - build
@@ -41,7 +42,7 @@ package-raspi-deb:
     - tags
     - web
 
-package-linux-deb:
+package:deb:
   stage: package
   dependencies:
     - build
@@ -58,7 +59,7 @@ package-linux-deb:
     - tags
     - web
 
-package-win32-exe:
+package:win32:
   stage: package
   dependencies:
     - build
@@ -76,10 +77,10 @@ package-win32-exe:
     - web
 
 # Create a nupkg file for Choco package manager
-package-win32-choco:
-  stage: build
+meta:choco:
+  stage: meta
   dependencies:
-    - package-win32-exe
+    - package:win32
   image: patrickhuber/choco-linux
   script:
     - chmod +x ./app/make-nupkg.sh
