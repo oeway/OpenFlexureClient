@@ -1,5 +1,6 @@
 stages:
   - build
+  - package
   - deploy
 
 # Cache modules in between jobs
@@ -11,21 +12,84 @@ cache:
 build:
   stage: build
   image: electronuserland/builder:wine
-  retry: 2
   script:
     - npm install
-    - npm run release
-    - tar -czvf "./release-builds/openflexure-ev-web.tar.gz" -C "./dist" .
+    - npm run build
+  artifacts:
+    name: "openflexure-ev-web"
+    paths:
+      - dist/
+  only:
+    - tags
+    - web
+
+package-raspi-deb:
+  stage: package
+  dependencies:
+    - build
+  image: electronuserland/builder:wine
+  retry: 2
+  script:
+    - npm run dist:raspi
+    - mv ./release-builds/openflexure-ev-linux-armv7l.deb .
+  artifacts:
+    name: "openflexure-ev-linux-armv7l"
+    paths:
+      - openflexure-ev-linux-armv7l.deb
+  only:
+    - tags
+    - web
+
+package-linux-deb:
+  stage: package
+  dependencies:
+    - build
+  image: electronuserland/builder:wine
+  retry: 2
+  script:
+    - npm run dist:linux
+    - mv ./release-builds/openflexure-ev-linux-amd64.deb .
+  artifacts:
+    name: "openflexure-ev-linux-amd64"
+    paths:
+      - openflexure-ev-linux-amd64.deb
+  only:
+    - tags
+    - web
+
+package-win32-exe:
+  stage: package
+  dependencies:
+    - build
+  image: electronuserland/builder:wine
+  retry: 2
+  script:
+    - npm run dist:win
+    - mv ./release-builds/openflexure-ev-win.exe .
+  artifacts:
+    name: "openflexure-ev-win"
+    paths:
+      - openflexure-ev-win.exe
+  only:
+    - tags
+    - web
+
+package-win32-choco:
+  stage: package
+  dependencies:
+    - build
+  image: electronuserland/builder:wine
+  retry: 2
+  script:
     - chmod +x ./app/make-nupkg.sh
     - ./app/make-nupkg.sh
+    - mv ./release-builds/choco/openflexure-ev.nuspec .
+    - mv ./release-builds/choco/tools .
   artifacts:
+    name: "openflexure-ev-choco-nuspec"
     paths:
-      - release-builds/*.exe
-      - release-builds/*.deb
-      - release-builds/*.AppImage
-      - release-builds/*.tar.gz
-      - release-builds/choco/openflexure-ev.nuspec
-      - release-builds/choco/tools/chocolateyInstall.ps1
+      - openflexure-ev.nuspec
+      - tools/chocolateyInstall.ps1
   only:
     - tags
     - web
@@ -34,7 +98,7 @@ deploy:
   stage: deploy
   image: patrickhuber/choco-linux
   dependencies:
-    - build
+    - package-win32-choco
   script:
     - cd ./release-builds/choco
     - ls -R
@@ -42,7 +106,8 @@ deploy:
     - choco apikey --key $CHOCO_API_KEY --source https://push.chocolatey.org/
     - choco push --source https://push.chocolatey.org/
   artifacts:
+    name: "openflexure-ev-choco-nupkg"
     paths:
       - release-builds/choco/*.nupkg
   only:
-    - tags
+    - web
