@@ -1,7 +1,6 @@
 extends: app/builder-config-base.yaml
 linux:
   target:
-    - AppImage
     - target: deb
       arch:
         - x64
