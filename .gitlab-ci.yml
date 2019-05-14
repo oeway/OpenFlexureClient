@@ -78,6 +78,8 @@ package-win32-exe:
 # Create a nupkg file for Choco package manager
 package-win32-choco:
   stage: build
+  dependencies:
+    - package-win32-exe
   image: patrickhuber/choco-linux
   script:
     - chmod +x ./app/make-nupkg.sh
