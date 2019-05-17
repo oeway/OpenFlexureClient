@@ -69,7 +69,7 @@ cat > "$outpath/openflexure-ev.nuspec" <<- EOL
     <tags>openflexure microscope ev</tags>
     <licenseUrl>https://gitlab.com/openflexure/openflexure-microscope-jsclient/raw/master/LICENSE</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <iconUrl>https://gitlab.com/openflexure/openflexure-microscope-jsclient/raw/master/app/icons/png/512x512.png</iconUrl>
+    <iconUrl>https://build.openflexure.org/openflexure_ev/512x512.png</iconUrl>
   </metadata>
   <files>
     <file src="tools/**" target="tools" />
