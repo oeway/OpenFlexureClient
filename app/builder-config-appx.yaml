@@ -1,7 +1,6 @@
 extends: app/builder-config-base.yaml
 win:
   target:
-    - NSIS
     - appx
   icon: app/icons/win/icon.ico
 appx:
