@@ -7,8 +7,8 @@ packagePath="$(dirname "$scriptPath")"
 packageJson="$packagePath/package.json"
 
 installerPath="$packagePath/openflexure-ev-win.exe"
-installerMd5=`md5sum ${installerPath} | awk '{ print $1 }'`
-echo "$installerMd5"
+installerHash=`sha256sum ${installerPath} | awk '{ print $1 }'`
+echo "$installerHash"
 
 outpath="$packagePath/release-builds/choco"
 toolspath="$outpath/tools"
@@ -92,8 +92,8 @@ cat > "$toolspath/chocolateyInstall.ps1" <<- EOL
 
   softwareName  = "OpenFlexure eV"
 
-  checksum      = "${installerMd5}"
-  checksumType  = "md5"
+  checksum      = "${installerHash}"
+  checksumType  = "sha256"
 
   silentArgs   = "/S"
 }
