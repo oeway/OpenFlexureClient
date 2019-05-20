@@ -1,27 +1,30 @@
-silentArgs='/S'
-packageName='openflexure-ev'
-fileType='exe'
+#!/bin/bash
 
-scriptPath=`dirname $0`
+packageName='openflexure-ev'
+
+scriptPath=$(dirname "$0")
 packagePath="$(dirname "$scriptPath")"
 packageJson="$packagePath/package.json"
+
+installerPath="$packagePath/openflexure-ev-win.exe"
+installerHash=`sha256sum ${installerPath} | awk '{ print $1 }'`
+echo "$installerHash"
+
 outpath="$packagePath/release-builds/choco"
 toolspath="$outpath/tools"
-mkdir -p $toolspath
+mkdir -p "$toolspath"
 
-echo $scriptPath
-echo $packageJson
-echo $outpath
+echo "$scriptPath"
+echo "$packageJson"
+echo "$outpath"
 
 # Get package version from package.json
-packageVersion=$(cat $packageJson \
-  | grep version \
-  | head -1 \
+packageVersion=$(grep version < "$packageJson" | head -1 \
   | awk -F: '{ print $2 }' \
   | sed 's/[",]//g' \
-  | tr -d '[[:space:]]')
+  | tr -d ':space:')
 
-echo "$packageVersion"
+echo "Package version: $packageVersion"
 
 # Convert into a nupkg-safe version string
 majVer="$(echo "$packageVersion" | cut -d'-' -f1)"
@@ -34,12 +37,14 @@ else
   version="$majVer-$minVer"  
 fi
 
-
-echo "$version"
+echo "Nupkg version: $version"
 
 # Build installer URL
-instURL="$CI_JOB_URL/artifacts/raw/release-builds/openflexure-ev-win.exe"
-echo $instURL
+pipelineURL="$CI_PROJECT_URL/-/jobs/artifacts/$CI_COMMIT_REF_NAME/raw"
+instURL="$pipelineURL/openflexure-ev-win.exe?job=package:win32"
+nuspecURL="$CI_JOB_URL/artifacts/browse"
+
+echo "$instURL"
 
 # Build nuspec
 cat > "$outpath/openflexure-ev.nuspec" <<- EOL
@@ -50,20 +55,21 @@ cat > "$outpath/openflexure-ev.nuspec" <<- EOL
     <title>OpenFlexure eV</title>
     <version>$version</version>
     <authors>OpenFlexure</authors>
-    <owners>Bath Open Instrumentation Group</owners>
+    <owners>Joel Collins</owners>
     <summary>OpenFlexure Microscope client</summary>
     <description>An electron-based user client for the OpenFlexure Microscope Server</description>
+
     <projectUrl>https://www.openflexure.org/</projectUrl>
     <docsUrl>https://www.openflexure.org/projects/microscope/</docsUrl>
     <bugTrackerUrl>https://gitlab.com/openflexure/openflexure-microscope-jsclient/issues</bugTrackerUrl>
+
     <projectSourceUrl>https://gitlab.com/openflexure/openflexure-microscope-jsclient/</projectSourceUrl>
-    
-    <packageSourceUrl>https://gitlab.com/openflexure/openflexure-microscope-jsclient/</packageSourceUrl>
+    <packageSourceUrl>$nuspecURL</packageSourceUrl>
     
     <tags>openflexure microscope ev</tags>
     <licenseUrl>https://gitlab.com/openflexure/openflexure-microscope-jsclient/raw/master/LICENSE</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <iconUrl>https://gitlab.com/openflexure/openflexure-microscope-jsclient/raw/master/app/icons/png/512x512.png</iconUrl>
+    <iconUrl>https://build.openflexure.org/openflexure_ev/512x512.png</iconUrl>
   </metadata>
   <files>
     <file src="tools/**" target="tools" />
@@ -72,8 +78,26 @@ cat > "$outpath/openflexure-ev.nuspec" <<- EOL
 EOL
 
 # Build installer PS1 content
-instPS1="Install-ChocolateyPackage $packageName $fileType $silentArgs $instURL"
-echo $instPS1 > "$toolspath/chocolateyInstall.ps1"
+cat > "$toolspath/chocolateyInstall.ps1" <<- EOL
+\$ErrorActionPreference = "Stop";
+\$toolsDir   = "\$(Split-Path -parent $MyInvocation.MyCommand.Definition)"
+\$url        = "$instURL"
 
-# Build nupkg
-# choco pack --allow-unofficial --outputdirectory $outpath "$outpath/openflexure-ev.nuspec"
+\$packageArgs = @{
+  packageName   = "openflexure-ev"
+  unzipLocation = \$toolsDir
+  fileType      = "exe"
+  url           = \$url
+  url64bit      = \$url
+
+  softwareName  = "OpenFlexure eV"
+
+  checksum      = "${installerHash}"
+  checksumType  = "sha256"
+
+  silentArgs   = "/S"
+}
+
+Install-ChocolateyPackage @packageArgs
+
+EOL

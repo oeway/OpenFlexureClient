@@ -147,7 +147,7 @@ export default {
       var keyCodeList = Object.keys(keyCodes).map(function(key){return keyCodes[key];});
 
       if (!(event.target instanceof HTMLInputElement) && !(event.target.classList.contains('lightbox-link')) && keyCodeList.includes(event.keyCode)) {
-        console.log(this.keysDown)
+        //console.log(this.keysDown)
         // Calculate movement array
         var x_rel = 0;
         var y_rel = 0;
@@ -190,6 +190,7 @@ export default {
     },
 
     moveRequest: function(x, y, z, absolute) {
+      console.log(`Sending move request of ${x}, ${y}, ${z}`)
       // If not movement-locked
       if (!this.moveLock) {
         // Lock move requests
