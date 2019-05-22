@@ -21,6 +21,7 @@ build:
     paths:
       - dist/
   only:
+    - stable
     - tags
     - web
 
@@ -39,6 +40,7 @@ package:rpi:
     paths:
       - openflexure-ev-linux-armv7l.deb
   only:
+    - stable
     - tags
     - web
 
@@ -56,6 +58,7 @@ package:deb:
     paths:
       - openflexure-ev-linux-amd64.deb
   only:
+    - stable
     - tags
     - web
 
@@ -73,6 +76,7 @@ package:win32:
     paths:
       - openflexure-ev-win.exe
   only:
+    - stable
     - tags
     - web
 
@@ -98,5 +102,6 @@ meta:choco:
       - tools/chocolateyInstall.ps1
       - ./*.nupkg
   only:
+    - stable
     - tags
     - web
