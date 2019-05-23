@@ -9,15 +9,14 @@ Please note we have a working flow, and a code of conduct. Please follow it in a
 
 ### Development
 
-* Master is the latest working version, always.
-* Do not push to Master directly.
-* New features should be developed on branches (or forks), and merged.
-* Bugfixes likewise should be developed in branches.
+* Master is the latest working version.
+* New features and bug fixes should be developed on branches (or forks), and merged into master.
 
 ### Releases
 
-* Once we've merged a few things in and want to make a release, we tag it on master.  
+* Once we've merged a few things in and want to make a release, we tag it on master.
 * Not every commit on master will get a tag, we'll accumulate a few changes before making a release, unless there's a reason to release straight away.
+* Once we're confident that the tagged release is building and stable, we merge it into the stable branch.
 
 ## Code of Conduct
 
