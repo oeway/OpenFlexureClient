@@ -6,6 +6,7 @@ email, or any other method with the owners of this repository before making a ch
 Please note we have a working flow, and a code of conduct. Please follow it in all your interactions with the project.
 
 ## Flow
+<img src="https://gitlab.com/openflexure/openflexure-identity/raw/master/flow.png"  height="200">
 
 ### Development
 
