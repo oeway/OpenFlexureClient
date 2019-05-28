@@ -1,14 +1,69 @@
-//handle setupevents as quickly as possible
-const setupEvents = require('./setupEvents')
-if (setupEvents.handleSquirrelEvent()) {
-  // squirrel event handled and app will exit in 1000ms, so don't do anything else
-  return;
-}
-
 // Required packages
 const electron = require('electron')
+const { dialog } = require('electron')
+const updater = require("electron-updater");
+const autoUpdater = updater.autoUpdater;
 const contextMenu = require('electron-context-menu')
 const path = require('path')
+
+// Auto upadater 
+autoUpdater.autoDownload = false;
+
+autoUpdater.setFeedURL({
+    provider: "generic",
+    url: "https://gitlab.com/openflexure/openflexure-microscope-jsclient/-/jobs/artifacts/master/raw?job=package"
+});
+
+autoUpdater.on('checking-for-update', function () {
+    sendStatusToWindow('Checking for update...');
+});
+
+autoUpdater.on('update-available', function (info) {
+  sendStatusToWindow('Update available.' + info)
+  dialog.showMessageBox(mainWindow, {
+    type: 'info',
+    title: 'Update available',
+    message: 'A new version of OpenFlexure eV is available.',
+    buttons: ['Download', 'Later']
+  }, (buttonIndex) => {
+    if (buttonIndex === 0) {
+      autoUpdater.downloadUpdate()
+    }
+  })
+});
+
+autoUpdater.on('update-downloaded', function (info) {
+  sendStatusToWindow('Update downloaded.' + info)
+  dialog.showMessageBox(mainWindow, {
+      type: 'info',
+      title: "Update downloaded",
+      message: 'Please restart the application to apply the update.',
+      buttons: ['Update', 'Later']
+  }, (buttonIndex) => {
+    if (buttonIndex === 0) {
+      autoUpdater.quitAndInstall();
+    }
+  })
+});
+
+autoUpdater.on('update-not-available', function (info) {
+  sendStatusToWindow('Update not available.');
+});
+
+autoUpdater.on('error', function (err) {
+  sendStatusToWindow('Error in auto-updater.');
+});
+
+autoUpdater.on('download-progress', function (progressObj) {
+  let log_message = "Download speed: " + progressObj.bytesPerSecond;
+  log_message = log_message + ' - Downloaded ' + parseInt(progressObj.percent) + '%';
+  log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')';
+  sendStatusToWindow(log_message);
+});
+
+function sendStatusToWindow(message) {
+    console.log(message);
+}
 
 // Set up the app
 const app = electron.app
@@ -36,6 +91,7 @@ function createWindow() {
   });
 
   mainWindow.loadURL(url)
+  autoUpdater.checkForUpdates();
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function() {

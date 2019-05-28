@@ -1,4 +1,6 @@
 const { app, Menu } = require('electron')
+const updater = require("electron-updater");
+const autoUpdater = updater.autoUpdater;
 const path = require('path')
 
 const openAboutWindow = require('about-window').default
@@ -46,6 +48,12 @@ const template = [
             bug_report_url: "https://gitlab.com/openflexure/openflexure-microscope-jsclient/issues",
             homepage: "https://gitlab.com/openflexure/openflexure-microscope-jsclient",
           })
+        }
+      },
+      {
+        label: 'Check for Updates',
+        click () {
+          autoUpdater.checkForUpdates();
         }
       }
     ]
