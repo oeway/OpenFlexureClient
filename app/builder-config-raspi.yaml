@@ -1,12 +1,14 @@
 extends: app/builder-config-base.yaml
+electronVersion: 3.0.13
 linux:
   target:
     - target: deb
       arch:
         - armv7l
+    - target: appImage
+      arch:
+        - armv7l
   icon: app/icons/png/
   category: Science
 deb:
-  category: Science
   fpm: ['--architecture', 'armhf']
-electronVersion: 3.0.13
