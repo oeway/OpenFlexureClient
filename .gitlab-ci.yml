@@ -17,7 +17,7 @@ build:
     - npm install
     - npm run build
   artifacts:
-    name: "openflexure-ev-web"
+    name: "build"
     paths:
       - dist/
   only:
@@ -25,56 +25,28 @@ build:
     - tags
     - web
 
-    # Platform-specific Electron builds
-package:rpi:
+# Platform-specific Electron builds
+package:
   stage: package
   dependencies:
     - build
   image: electronuserland/builder:wine
   retry: 2
   script:
-    - npm run dist:raspi
-    - mv ./release-builds/openflexure-ev-linux-armv7l.deb .
+    - npm run release
+    - mv ./release-builds/*.AppImage .
+    - mv ./release-builds/*.deb .
+    - mv ./release-builds/*.exe .
+    - mv ./release-builds/*.exe.blockmap .
+    - mv ./release-builds/latest*.yml .
   artifacts:
-    name: "openflexure-ev-linux-armv7l"
+    name: "dist"
     paths:
-      - openflexure-ev-linux-armv7l.deb
-  only:
-    - stable
-    - tags
-    - web
-
-package:deb:
-  stage: package
-  dependencies:
-    - build
-  image: electronuserland/builder:wine
-  retry: 2
-  script:
-    - npm run dist:linux
-    - mv ./release-builds/openflexure-ev-linux-amd64.deb .
-  artifacts:
-    name: "openflexure-ev-linux-amd64"
-    paths:
-      - openflexure-ev-linux-amd64.deb
-  only:
-    - stable
-    - tags
-    - web
-
-package:win32:
-  stage: package
-  dependencies:
-    - build
-  image: electronuserland/builder:wine
-  retry: 2
-  script:
-    - npm run dist:win
-    - mv ./release-builds/openflexure-ev-win.exe .
-  artifacts:
-    name: "openflexure-ev-win"
-    paths:
-      - openflexure-ev-win.exe
+      - "*.AppImage"
+      - "*.deb"
+      - "*.exe"
+      - "*.exe.blockmap"
+      - "latest*.yml"
   only:
     - stable
     - tags
