@@ -1,6 +1,9 @@
 <template>
   <div id="paneSettings">
     
+    <h3>Settings</h3>
+    <appSettings/>
+
     <ul uk-accordion="multiple: true">
       <li>
         <a class="uk-accordion-title" href="#">Stream settings</a>
@@ -26,6 +29,7 @@
 import streamSettings from './paneSettingsComponents/streamSettings.vue'
 import microscopeSettings from './paneSettingsComponents/microscopeSettings.vue'
 import cameraSettings from './paneSettingsComponents/cameraSettings.vue'
+import appSettings from './paneSettingsComponents/appSettings.vue'
 
 // Export main app
 export default {
@@ -34,7 +38,8 @@ export default {
   components: {
     streamSettings,
     cameraSettings,
-    microscopeSettings
+    microscopeSettings,
+    appSettings
   }
 
 }

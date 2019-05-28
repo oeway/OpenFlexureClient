@@ -1,11 +1,11 @@
 <template>
-  <div id="app">
+  <div id="app" v-bind:class="handleTheme">
     <div uk-grid class="uk-height-1-1 uk-margin-remove uk-padding-remove" margin=0>
       <div id="sidebar-container" v-bind:class="{ 'overlay-panel': this.window.width<850 }" class="uk-padding-remove uk-first-column uk-inline uk-height-1-1">
         <div id="overlay-toggle">
           <a href="" class="uk-icon-button uk-box-shadow-small uk-box-shadow-hover-medium action-btn-outline" uk-icon="menu" uk-toggle="target: #left-panel-container; animation: uk-animation-slide-left-small, uk-animation-slide-left-small" ></a>
         </div>
-        <div id="left-panel-container" class="uk-padding-remove uk-card uk-card-default uk-width-auto uk-height-1-1">
+        <div id="left-panel-container" class="uk-padding-remove uk-card uk-card-default uk-width-auto uk-height-1-1" v-bind:class="{ 'uk-card-secondary': $store.state.globalSettings.darkMode }">
           <panelLeft/>
         </div>
       </div>
@@ -81,6 +81,15 @@ export default {
       console.log("Triggered beforeunload")
       this.$root.$emit('globalTogglePreview', false)
     }
+  },
+
+  computed: {
+    handleTheme: function () {
+      return {
+        'uk-light': this.$store.state.globalSettings.darkMode,
+        'uk-background-secondary': this.$store.state.globalSettings.darkMode
+      }
+    }
   }
 
 }
@@ -121,6 +130,17 @@ body, html {
 
 .action-btn-outline {
   border: 1px solid lightgray;
+}
+
+.uk-light .uk-icon-button {
+  background-color: rgb(52, 52, 52);
+}
+.uk-light .uk-icon-button:hover, .uk-light .uk-icon-button:focus {
+  background-color: rgb(70, 70, 70);
+}
+
+.uk-light .uk-card-default {
+  background: #222
 }
 
 .uk-disabled {

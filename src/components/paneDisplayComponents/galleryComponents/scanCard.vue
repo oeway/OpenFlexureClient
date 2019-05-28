@@ -4,7 +4,7 @@
     <div class="uk-card-media-top">
 
       <a href="#" >
-        <img class="uk-width-1-1" v-bind:src="thumbnail" v-bind:alt="metadata.scan_id" v-on:click="$root.$emit('globalUpdateCaptureFolder', metadata.custom.scan_id)" uk-img>
+        <img class="uk-width-1-1" v-bind:data-src="thumbnail" v-bind:alt="metadata.scan_id" width="300" height="225" v-on:click="$root.$emit('globalUpdateCaptureFolder', metadata.custom.scan_id)" uk-img>
       </a>
 
     </div>
