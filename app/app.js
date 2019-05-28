@@ -11,7 +11,7 @@ autoUpdater.autoDownload = false;
 
 autoUpdater.setFeedURL({
     provider: "generic",
-    url: "https://gitlab.com/openflexure/openflexure-microscope-jsclient/-/jobs/artifacts/master/raw?job=package"
+    url: "https://gitlab.com/openflexure/openflexure-microscope-jsclient/-/jobs/artifacts/stable/raw?job=package"
 });
 
 autoUpdater.on('checking-for-update', function () {
