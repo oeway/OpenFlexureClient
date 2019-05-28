@@ -11,13 +11,12 @@
   "license": "GNU General Public License v3.0 ",
   "main": "./app/app.js",
   "scripts": {
-    "dist:all": "npm run dist:linux && npm run dist:raspi && npm run dist:win",
-    "dist:linux": "electron-builder --linux --config app/builder-config-linux.yaml",
+    "release": "electron-builder --linux --config app/builder-config-raspi.yaml & electron-builder --win --linux --config app/builder-config-x86_64.yaml",
+    "dist:linux": "electron-builder --linux --config app/builder-config-x86_64.yaml",
     "dist:raspi": "electron-builder --linux --config app/builder-config-raspi.yaml",
-    "dist:win": "electron-builder --win --config app/builder-config-win.yaml",
+    "dist:win": "electron-builder --win --config app/builder-config-x86_64.yaml",
+    "dist:dmg": "electron-builder --mac --config app/builder-config-x86_64.yaml",
     "dist:appx": "electron-builder --win --config app/builder-config-appx.yaml",
-    "dist:dmg": "electron-builder --mac --config app/builder-config-dmg.yaml",
-    "release": "npm run build && npm run dist:all",
     "build": "vue-cli-service build",
     "electron:run": "electron .",
     "electron:dev": "electron app/app.dev.js",
@@ -25,7 +24,8 @@
   },
   "dependencies": {
     "about-window": "^1.12.1",
-    "electron-context-menu": "^0.11.0"
+    "electron-context-menu": "^0.11.0",
+    "electron-updater": "^4.0.6"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.3.0",
