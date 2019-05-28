@@ -1,5 +1,5 @@
 <template>
-<div id="appSettings">
+<div id="streamSettings">
 
   <p><label><input v-model="disableStream" class="uk-checkbox" type="checkbox"> Disable live stream</label></p>
 
@@ -15,7 +15,7 @@
 
 // Export main app
 export default {
-  name: 'appSettings',
+  name: 'streamSettings',
 
   data: function () {
     return {}

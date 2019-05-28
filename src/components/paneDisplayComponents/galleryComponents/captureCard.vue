@@ -1,10 +1,10 @@
 <template>
-	<div class="captureCard uk-card uk-card-default uk-card-hover uk-padding-remove uk-width-medium uk-margin-right">
+	<div class="captureCard uk-card uk-card-default uk-card-hover uk-padding-remove uk-width-medium uk-margin-right" v-bind:class="{ 'uk-card-secondary': $store.state.globalSettings.darkMode }">
 
     <div class="uk-card-media-top">
         
           <a class="lightbox-link" v-bind:href="imgURL" v-bind:data-caption="metadata.filename">
-            <img class="uk-width-1-1" v-bind:src="thumbURL" v-bind:alt="metadata.id" uk-img>
+            <img class="uk-width-1-1" v-bind:data-src="thumbURL" v-bind:alt="metadata.id" width="300" height="225" uk-img>
           </a>
 
     </div>
@@ -39,7 +39,7 @@
 
     <div v-bind:id="metadataModalID" uk-modal>
 
-      <div class="uk-modal-dialog uk-modal-body">
+      <div class="uk-modal-dialog uk-modal-body" v-bind:class="{ 'uk-light uk-background-secondary': $store.state.globalSettings.darkMode }" >
           <button class="uk-modal-close-default" type="button" uk-close></button>
           <h2 class="uk-modal-title">{{ metadata.filename }}</h2>
           <p><b>Path: </b>{{ path }}</p>
@@ -56,7 +56,7 @@
 
     <div v-bind:id="tagModalID" uk-modal>
 
-      <form class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical" @submit.prevent="handleTagSubmit">
+      <form class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical" v-bind:class="{ 'uk-light uk-background-secondary': $store.state.globalSettings.darkMode }" @submit.prevent="handleTagSubmit">
 
           <div class="uk-inline">
             <span class="uk-form-icon" uk-icon="icon: tag"></span>

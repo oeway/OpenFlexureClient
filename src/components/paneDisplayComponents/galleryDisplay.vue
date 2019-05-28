@@ -1,15 +1,14 @@
 <template>
 	<div class="galleryDisplay uk-padding uk-padding-remove-top">
 
-    <nav class="uk-navbar-container navbar" uk-navbar="mode: click">
+    <nav class="uk-navbar-container uk-navbar-transparent navbar" uk-navbar="mode: click">
         <div class="uk-navbar-left uk-padding-remove-top uk-padding-remove-bottom">
-
             <ul class="uk-navbar-nav">
               <li v-bind:class="[sortDescending ? 'uk-active' : '']"><a v-on:click="sortDescending=true;" class="uk-icon-link" href="#" uk-icon="icon: arrow-down"></a></li>
               <li v-bind:class="[!sortDescending ? 'uk-active' : '']"><a v-on:click="sortDescending=false;" class="uk-icon-link" href="#" uk-icon="icon: arrow-up"></a></li>
               <li>
                 <a href="#">Filter</a>
-                <div class="uk-navbar-dropdown">
+                <div class="uk-navbar-dropdown" v-bind:class="{ 'uk-light uk-background-secondary': $store.state.globalSettings.darkMode }">
                   <ul class="uk-nav uk-navbar-dropdown-nav">
                     <form class="uk-form-stacked">
                       <div v-for="tag in allTags" :key="tag" class="uk-margin-small">
@@ -264,7 +263,8 @@ export default {
 
 <style scoped lang="less">
 .navbar {
-  background-color: #fff !important;
-  border-bottom: 1px solid #e5e5e5;
+  border-width: 0 0 1px 0;
+  border-style: solid;
+  border-color: rgba(180, 180, 180, 0.25)
 }
 </style>

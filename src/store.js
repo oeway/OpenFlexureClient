@@ -18,7 +18,8 @@ export default new Vuex.Store({
     globalSettings: {
       disableStream: false,
       autoGpuPreview: false,
-      trackWindow: true
+      trackWindow: true,
+      darkMode: false
     }
   },
 
