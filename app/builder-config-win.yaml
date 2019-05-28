@@ -1,6 +1,0 @@
-extends: app/builder-config-base.yaml
-win:
-  target:
-    - NSIS
-  icon: app/icons/win/icon.ico
-electronVersion: 4.1.5

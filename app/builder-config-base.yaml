@@ -4,6 +4,9 @@ directories:
 appId: org.openflexure.ev
 artifactName: ${name}-${os}-${arch}.${ext}
 asar: true
+publish:
+  - provider: generic
+    url: https://gitlab.com
 files:
   - filter:
       - '**/*'
