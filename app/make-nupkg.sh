@@ -41,7 +41,7 @@ echo "Nupkg version: $version"
 
 # Build installer URL
 pipelineURL="$CI_PROJECT_URL/-/jobs/artifacts/$CI_COMMIT_REF_NAME/raw"
-instURL="$pipelineURL/openflexure-ev-win.exe?job=package:win32"
+instURL="$pipelineURL/openflexure-ev-win.exe?job=package"
 nuspecURL="$CI_JOB_URL/artifacts/browse"
 
 echo "$instURL"
