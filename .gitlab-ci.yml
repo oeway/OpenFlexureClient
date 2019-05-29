@@ -74,6 +74,4 @@ meta:choco:
       - tools/chocolateyInstall.ps1
       - ./*.nupkg
   only:
-    - stable
     - tags
-    - web
