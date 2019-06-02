@@ -15,7 +15,7 @@ build:
   image: electronuserland/builder:wine
   script:
     - npm install
-    - npm run build
+    - npm run build:web
   artifacts:
     name: "build"
     paths:
@@ -25,11 +25,27 @@ build:
     - tags
     - web
 
+# Build electron webapp
+build:electron:
+  stage: build
+  image: electronuserland/builder:wine
+  script:
+    - npm install
+    - npm run build:app
+  artifacts:
+    name: "build"
+    paths:
+      - app/dist/
+  only:
+    - stable
+    - tags
+    - web
+
 # Platform-specific Electron builds
 package:
   stage: package
   dependencies:
-    - build
+    - build:electron
   image: electronuserland/builder:wine
   retry: 2
   script:
