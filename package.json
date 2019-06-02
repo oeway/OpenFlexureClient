@@ -17,7 +17,8 @@
     "dist:win": "electron-builder --win --config app/builder-config-x86_64.yaml",
     "dist:dmg": "electron-builder --mac --config app/builder-config-x86_64.yaml",
     "dist:appx": "electron-builder --win --config app/builder-config-appx.yaml",
-    "build": "vue-cli-service build",
+    "build:web": "vue-cli-service build --mode production.web",
+    "build:app": "vue-cli-service build --mode production.app",
     "electron:run": "electron .",
     "electron:dev": "electron app/app.dev.js",
     "serve": "vue-cli-service serve"
