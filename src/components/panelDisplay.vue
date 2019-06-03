@@ -1,8 +1,8 @@
 <template>
   <div id="panelDisplay" class="uk-flex uk-flex-column uk-margin-remove uk-padding-remove uk-height-1-1">
     <ul class="uk-flex-none uk-flex-center uk-margin-remove-bottom uk-text-center" uk-tab="swiping: false">
-      <li><a href="#" uk-switcher-item="preview" uk-icon="play-circle" uk-tooltip="Live"></a></li>
-      <li v-bind:class="{'uk-disabled': !this.$store.getters.ready}"><a href="#" uk-switcher-item="gallery" uk-icon="image" uk-tooltip="Captures"></a></li>
+      <li><a href="#" uk-switcher-item="preview" uk-icon="play-circle" uk-tooltip="pos: bottom; title: Live"></a></li>
+      <li v-bind:class="{'uk-disabled': !this.$store.getters.ready}"><a href="#" uk-switcher-item="gallery" uk-icon="image" uk-tooltip="pos: bottom; title: Captures"></a></li>
     </ul>
     <ul class="uk-switcher uk-flex uk-flex-1">
       <li class="uk-height-1-1 uk-width-1-1 clickableTab" id="streamDisplayTab"><streamDisplay/></li>

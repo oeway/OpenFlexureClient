@@ -1,11 +1,11 @@
 <template>
   <div id="panelLeft" class="uk-flex uk-flex-column uk-margin-remove uk-padding-remove uk-height-1-1">
     <ul class="uk-flex-none uk-flex-center uk-margin-remove-top uk-margin-remove-bottom" uk-tab="swiping: false">
-      <li><a href="#" uk-switcher-item="connect" uk-icon="server" uk-tooltip="Connect"></a></li>
-      <li v-bind:class="disableIfDisconnected"><a href="#" uk-switcher-item="navigate" uk-icon="location" uk-tooltip="Navigate"></a></li>
-      <li v-bind:class="disableIfDisconnected"><a href="#" uk-switcher-item="capture" uk-icon="camera" uk-tooltip="Capture"></a></li>
-      <li v-bind:class="disableIfDisconnected"><a href="#" uk-switcher-item="plugins" uk-icon="git-fork" uk-tooltip="Plugins"></a></li>
-      <li><a href="#" uk-switcher-item="settings" uk-icon="settings" uk-tooltip="Settings"></a></li>
+      <li><a href="#" uk-switcher-item="connect" uk-icon="server" uk-tooltip="pos: bottom; title: Connect"></a></li>
+      <li v-bind:class="disableIfDisconnected"><a href="#" uk-switcher-item="navigate" uk-icon="location" uk-tooltip="pos: bottom; title: Navigate"></a></li>
+      <li v-bind:class="disableIfDisconnected"><a href="#" uk-switcher-item="capture" uk-icon="camera" uk-tooltip="pos: bottom; title: Capture"></a></li>
+      <li v-bind:class="disableIfDisconnected"><a href="#" uk-switcher-item="plugins" uk-icon="git-fork" uk-tooltip="pos: bottom; title: Plugins"></a></li>
+      <li><a href="#" uk-switcher-item="settings" uk-icon="settings" uk-tooltip="pos: bottom; title: Settings"></a></li>
     </ul>
     <ul class="uk-switcher uk-padding-small uk-flex uk-flex-1 panel-content">
       <li class="uk-width-expand"><paneConnect/></li>
