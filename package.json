@@ -19,12 +19,13 @@
     "dist:appx": "electron-builder --win --config app/builder-config-appx.yaml",
     "build:web": "vue-cli-service build --mode production.web",
     "build:app": "vue-cli-service build --mode production.app",
-    "electron:run": "electron .",
+    "electron:run": "npm run build:app && electron app/app.js",
     "electron:dev": "electron app/app.dev.js",
-    "serve": "vue-cli-service serve"
+    "serve:web": "vue-cli-service serve"
   },
   "dependencies": {
     "about-window": "^1.12.1",
+    "custom-electron-titlebar": "^3.0.8",
     "electron-context-menu": "^0.11.0",
     "electron-updater": "^4.0.6"
   },

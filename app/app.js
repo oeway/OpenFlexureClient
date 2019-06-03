@@ -79,6 +79,7 @@ require('./menu.js')
 function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
+    frame: (process.platform !== 'darwin') ? false : true,
     width: 1124, 
     height: 800,
     icon: path.join(__dirname, '/icons/png/64x64.png')
