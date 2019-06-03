@@ -1,6 +1,5 @@
 stages:
   - build
-  - package
   - meta
 
 # Cache modules in between jobs
@@ -9,13 +8,13 @@ cache:
   paths:
   - node_modules/
 
-# Build basic webapp
+# Basic webapp build
 build:
   stage: build
   image: electronuserland/builder:wine
   script:
     - npm install
-    - npm run build
+    - npm run build:web
   artifacts:
     name: "build"
     paths:
@@ -25,14 +24,13 @@ build:
     - tags
     - web
 
-# Platform-specific Electron builds
+# Electron app build
 package:
-  stage: package
-  dependencies:
-    - build
+  stage: build
   image: electronuserland/builder:wine
-  retry: 2
   script:
+    - npm install
+    - npm run build:app
     - npm run release
     - mv ./release-builds/*.AppImage .
     - mv ./release-builds/*.deb .

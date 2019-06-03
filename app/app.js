@@ -70,7 +70,7 @@ const app = electron.app
 const BrowserWindow = electron.BrowserWindow
 
 // Set the window content
-let url = `file://${path.join(__dirname, '../dist/index.html')}`
+let url = `file://${path.join(__dirname, '/dist/index.html')}`
 let mainWindow
 
 // Set the application menu
