@@ -48,8 +48,8 @@ export default {
   data: function () {
     return {
       shutterSpeed: this.$store.state.apiConfig.picamera_settings.shutter_speed,
-      analogGain: this.$store.state.apiConfig.picamera_settings.analog_gain,
-      digitalGain: this.$store.state.apiConfig.picamera_settings.digital_gain,
+      analogGain: this.$store.state.apiConfig.picamera_settings.analog_gain || this.$store.state.apiConfig.analog_gain,
+      digitalGain: this.$store.state.apiConfig.picamera_settings.digital_gain || this.$store.state.apiConfig.digital_gain,
       isCalibrating: false
     }
   },
@@ -57,8 +57,8 @@ export default {
   methods: {
     updateInputValues: function () {
       this.shutterSpeed = this.$store.state.apiConfig.picamera_settings.shutter_speed
-      this.digitalGain = this.$store.state.apiConfig.picamera_settings.digital_gain
-      this.analogGain = this.$store.state.apiConfig.picamera_settings.analog_gain
+      this.digitalGain = this.$store.state.apiConfig.picamera_settings.digital_gain || this.$store.state.apiConfig.digital_gain
+      this.analogGain = this.$store.state.apiConfig.picamera_settings.analog_gain || this.$store.state.apiConfig.analog_gain
     },
 
     applyConfigRequest: function() {
@@ -67,8 +67,8 @@ export default {
 
       //if (this.shutterSpeed != this.$store.state.apiConfig.picamera_settings.shutter_speed) {
       payload.picamera_settings.shutter_speed = this.shutterSpeed
-      payload.picamera_settings.analog_gain = this.analogGain
-      payload.picamera_settings.digital_gain = this.digitalGain
+      payload.analog_gain = this.analogGain
+      payload.digital_gain = this.digitalGain
       //};
 
       // Send request
