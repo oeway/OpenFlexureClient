@@ -1,3 +1,5 @@
+var webpack = require('webpack');
+
 module.exports = {
   configureWebpack: config => {
     config.target = process.env.VUE_APP_TARGET || 'web',
@@ -8,7 +10,14 @@ module.exports = {
     }
     :{
       main: './src/main.js',
-    }
+    },
+    config.plugins.push(
+      new webpack.DefinePlugin({
+        'process.env': {
+          PACKAGE_VERSION: JSON.stringify(require('./package.json').version)
+        }
+      })
+    )
   },
   outputDir: (process.env.VUE_APP_TARGET == 'electron-renderer') ? './app/dist' : './dist',
   publicPath: ''
