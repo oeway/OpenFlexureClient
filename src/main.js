@@ -36,8 +36,20 @@ Vue.mixin({
       return new Promise(showModal)
     },
 
-    modalNotify: function(message) {
-      UIkit.notification({message: message, status: 'success'})
+    modalNotify: function(message, status = 'success') {
+      UIkit.notification({message: message, status: status})
+    },
+
+    modalDialog: function(title, message) {
+      UIkit.modal.dialog(`
+        <button class="uk-modal-close-default" type="button" uk-close></button>
+        <div class="uk-modal-header">
+          <h2 class="uk-modal-title">${title}</h2>
+        </div>
+        <div class="uk-modal-body">
+          <p>${message}</p>
+        </div>
+      `);
     },
 
     modalError: function(error) {
