@@ -36,7 +36,7 @@ package:
     - mv ./release-builds/*.deb .
     - mv ./release-builds/*.exe .
     - mv ./release-builds/*.exe.blockmap .
-    - mv ./release-builds/latest*.yml .
+    - mv ./release-builds/?(beta*.yml|latest*.yml) .
   artifacts:
     name: "dist"
     paths:
@@ -45,6 +45,7 @@ package:
       - "*.exe"
       - "*.exe.blockmap"
       - "latest*.yml"
+      - "beta*.yml"
   only:
     - stable
     - tags
