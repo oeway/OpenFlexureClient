@@ -63,7 +63,9 @@ export default {
     },
 
     applyConfigRequest: function() {
-      var payload = {}
+      var payload = {
+        stage_settings: {}
+      }
 
       if (this.microscopeName != this.$store.state.apiConfig.name) {
         payload.name = this.microscopeName
@@ -72,6 +74,8 @@ export default {
       if (this.stageBacklash != this.$store.state.apiConfig.stage_settings.backlash) {
         payload.stage_settings.backlash = this.stageBacklash
       }
+
+      console.log(payload)
 
       // Send request to update config
       axios.post(this.configApiUri, payload)
