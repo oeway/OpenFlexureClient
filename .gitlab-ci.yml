@@ -32,6 +32,7 @@ package:
     - npm install
     - npm run build:app
     - npm run release
+    - shopt -s extglob
     - mv ./release-builds/*.AppImage .
     - mv ./release-builds/*.deb .
     - mv ./release-builds/*.exe .
