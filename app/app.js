@@ -6,6 +6,9 @@ const autoUpdater = updater.autoUpdater;
 const contextMenu = require('electron-context-menu')
 const path = require('path')
 
+// Attach settings store
+const { store } = require('./store')
+
 // Auto upadater 
 autoUpdater.autoDownload = false;
 
@@ -14,9 +17,7 @@ autoUpdater.setFeedURL({
     url: "https://gitlab.com/openflexure/openflexure-microscope-jsclient/-/jobs/artifacts/stable/raw?job=package"
 });
 
-autoUpdater.on('checking-for-update', function () {
-    sendStatusToWindow('Checking for update...');
-});
+autoUpdater.on('checking-for-update', function () {});
 
 autoUpdater.on('update-available', function (info) {
   sendStatusToWindow('Update available.' + info)
@@ -76,51 +77,70 @@ let mainWindow
 // Set the application menu
 require('./menu.js')
 
+// Handle redrawing the mainWindow
+let recreatingWindowInProgress = false;
+
+function toggleCustomTitleBar () {
+  // Mark window as being recreated, to prevent stopping the application
+  recreatingWindowInProgress = true
+
+  // Invert the drawCustomTitleBar setting
+  store.set('drawCustomTitleBar', !store.get('drawCustomTitleBar'))
+
+  // Destroy old window
+  mainWindow.destroy()
+  // Create new window
+  createWindow()
+
+  // Mark window as no longer being recreated
+  recreatingWindowInProgress = false
+}
+
 function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    frame: (process.platform !== 'darwin') ? false : true,
+    frame: !store.get('drawCustomTitleBar'),
     width: 1124, 
     height: 800,
     icon: path.join(__dirname, '/icons/png/64x64.png')
   })
 
+  // Make a context menu
   contextMenu({
     showCopyImageAddress: true,
     showSaveImageAs: true,
     showInspectElement: false,
   });
 
+  // Load window contents
   mainWindow.loadURL(url)
+
+  // Check for updates
   autoUpdater.checkForUpdates();
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function() {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
-    mainWindow = null
+    mainWindow = null  // Dereference the window object
   })
 }
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow)
+app.on('ready', () => {
+  createWindow()
+})
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function() {
-  // On OS X it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== 'darwin') {
+  if ((process.platform !== 'darwin') && recreatingWindowInProgress != true) {
     app.quit()
   }
 })
 
 app.on('activate', function() {
-  // On OS X it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) {
     createWindow()
   }
 })
+
+// Export toggleCustomTitleBar for use in ./menu.js
+module.exports.toggleCustomTitleBar = toggleCustomTitleBar
