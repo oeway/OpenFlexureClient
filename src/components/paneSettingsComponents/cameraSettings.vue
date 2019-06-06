@@ -63,7 +63,9 @@ export default {
 
     applyConfigRequest: function() {
       console.log("Applying config to the microscope")
-      var payload = {picamera_settings:{}}
+      var payload = {
+        picamera_settings: {}
+      }
 
       //if (this.shutterSpeed != this.$store.state.apiConfig.picamera_settings.shutter_speed) {
       payload.camera_settings.picamera_settings.shutter_speed = this.shutterSpeed
