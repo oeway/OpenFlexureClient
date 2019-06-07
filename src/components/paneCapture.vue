@@ -206,7 +206,7 @@ export default {
       newTag: "",
       tags: [],
       customMetadata: {
-        Client: "openflexure.vue"
+        Client: `${process.env.PACKAGE.name}.${process.env.PACKAGE.version}`
       },
       newMetadata: {
         key: "",
