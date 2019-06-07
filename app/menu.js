@@ -1,4 +1,4 @@
-const { app, Menu } = require('electron')
+const { app, shell, Menu } = require('electron')
 const updater = require("electron-updater");
 const autoUpdater = updater.autoUpdater;
 const path = require('path')
@@ -62,6 +62,13 @@ const template = [
           })
         }
       },
+      {
+        label: 'Homepage',
+        click () {
+          shell.openExternal('https://openflexure.org')
+        }
+      },
+      { type: 'separator' },
       {
         label: 'Check for Updates',
         click () {
