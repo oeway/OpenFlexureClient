@@ -132,14 +132,17 @@ export default {
     checkServerVersion: function () {
       this.$store.dispatch('updateState')
       .then (() => {
-        console.log(this.$store.state.apiState.version)
-        var serverVersion = this.$store.state.apiState.version
-        var serverVersionMajor = serverVersion.substring(0, 3)
-        console.log(serverVersionMajor)
         var clientVersion = process.env.PACKAGE_VERSION
         var clientVersionMajor = clientVersion.substring(0, 3)
         console.log(clientVersionMajor)
-        if (serverVersionMajor != clientVersionMajor) {
+
+        var serverVersion = this.$store.state.apiState.version
+        if (serverVersion != undefined) {
+          var serverVersionMajor = serverVersion.substring(0, 3)
+        }
+        console.log(serverVersionMajor)
+
+        if ((serverVersion == undefined) || (serverVersionMajor != clientVersionMajor)) {
           this.modalDialog("Version mismatch", "Client and microscope versions do not match. Consider updating your microscope software. Some functionality may currently be broken.", status='warning')
         }
       })
