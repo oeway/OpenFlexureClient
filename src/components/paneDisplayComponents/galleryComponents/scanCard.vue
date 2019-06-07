@@ -1,5 +1,5 @@
 <template>
-	<div class="captureCard uk-card uk-card-primary uk-card-hover uk-padding-remove uk-width-medium uk-margin-right">
+	<div class="captureCard uk-card uk-card-primary uk-card-hover uk-padding-remove uk-width-medium">
 
     <div class="uk-card-media-top">
 

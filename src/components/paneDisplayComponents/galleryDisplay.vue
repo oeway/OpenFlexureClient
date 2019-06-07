@@ -30,9 +30,9 @@
         <h3 class="uk-inline uk-float-right uk-margin-remove"><b>SCAN</b> {{ allScans[galleryFolder].metadata.filename }}</h3>
       </div>
 
-      <div class="uk-grid-medium uk-padding uk-padding-remove-right uk-grid-match" uk-grid>
+      <div class="uk-grid-medium uk-grid-match uk-margin-top" uk-grid>
         
-        <div v-for="item in sortedItems" :key="item.metadata.id" class="uk-remove-padding-remove-left" >
+        <div v-for="item in sortedItems" :key="item.metadata.id">
           <scanCard 
             v-if="'isScan' in item"
             :metadata="item.metadata"

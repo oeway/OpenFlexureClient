@@ -1,5 +1,5 @@
 <template>
-	<div class="captureCard uk-card uk-card-default uk-card-hover uk-padding-remove uk-width-medium uk-margin-right" v-bind:class="{ 'uk-card-secondary': $store.state.globalSettings.darkMode }">
+	<div class="captureCard uk-card uk-card-default uk-card-hover uk-padding-remove uk-width-medium" v-bind:class="{ 'uk-card-secondary': $store.state.globalSettings.darkMode }">
 
     <div class="uk-card-media-top">
         
