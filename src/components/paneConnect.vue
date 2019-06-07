@@ -138,7 +138,7 @@ export default {
     checkServerVersion: function () {
       this.$store.dispatch('updateState')
       .then (() => {
-        var clientVersion = process.env.PACKAGE_VERSION
+        var clientVersion = process.env.PACKAGE.version
         var clientVersionMajor = clientVersion.substring(0, 3)
         console.log(clientVersionMajor)
 
