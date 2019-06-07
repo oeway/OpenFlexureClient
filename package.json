@@ -13,8 +13,8 @@
   "scripts": {
     "build:web": "vue-cli-service build --mode production.web",
     "build:app": "vue-cli-service build --mode production.app",
-    "serve:web": "vue-cli-service serve",
-    "start:app": "npm run build:app && electron app/app.js",
+    "serve": "vue-cli-service serve",
+    "start": "npm run build:app && electron app/app.js",
     "dist:linux": "electron-builder --linux --config app/builder-config-x86_64.yaml",
     "dist:raspi": "electron-builder --linux --config app/builder-config-raspi.yaml",
     "dist:win": "electron-builder --win --config app/builder-config-x86_64.yaml",
