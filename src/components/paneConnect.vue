@@ -55,8 +55,14 @@
       </ul>
 
       <button class="uk-button uk-button-primary uk-form-small uk-float-right uk-margin uk-margin-remove-top uk-width-1-1">Connect</button>
-
     </form>
+
+  <button 
+    v-if="$store.getters.ready" 
+    v-on:click="$store.commit('resetState')" 
+    class="uk-button uk-button-danger uk-form-small uk-float-right uk-margin uk-margin-remove-top uk-width-1-1">
+    Disconnect
+  </button>
 
   </div>
 
