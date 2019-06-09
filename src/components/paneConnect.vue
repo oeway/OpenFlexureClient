@@ -2,7 +2,7 @@
 <div class="host-input">
   <div class="uk-margin">
 
-    <h3>Connect</h3>
+    <h4>Connect</h4>
 
     <form @submit.prevent="handleSubmit">
       <div class="uk-form-controls uk-margin">
