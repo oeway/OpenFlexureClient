@@ -1,23 +1,32 @@
 <template>
   <div id="app" v-bind:class="handleTheme">
 
-    <div v-if="this.onMobile" uk-grid class="uk-height-1-1 uk-margin-remove uk-padding-remove" margin=0>
-      <div id="panelLeft" class="uk-flex uk-flex-column uk-margin-remove uk-padding-remove uk-width-auto uk-height-1-1">
-        <ul class="uk-flex-none uk-flex-center uk-margin-remove-top uk-margin-remove-bottom" uk-tab="swiping: false">
-          <li><a href="#" uk-switcher-item="connect" uk-icon="server" uk-tooltip="pos: bottom; title: Connect"></a></li>
-          <li v-bind:class="disableIfDisconnected"><a href="#" uk-switcher-item="navigate" uk-icon="location" uk-tooltip="pos: bottom; title: Navigate"></a></li>
-          <li v-bind:class="disableIfDisconnected"><a href="#" uk-switcher-item="capture" uk-icon="camera" uk-tooltip="pos: bottom; title: Capture"></a></li>
-          <li v-bind:class="disableIfDisconnected"><a href="#" uk-switcher-item="plugins" uk-icon="git-fork" uk-tooltip="pos: bottom; title: Plugins"></a></li>
-          <li><a href="#" uk-switcher-item="settings" uk-icon="settings" uk-tooltip="pos: bottom; title: Settings"></a></li>
-        </ul>
-        <ul class="uk-switcher uk-padding-small uk-flex uk-flex-1 panel-content">
-          <li class="uk-width-expand"><paneConnect/></li>
-          <li class="uk-width-expand"><div v-if="$store.getters.ready"><paneNavigate/></div></li>
-          <li class="uk-width-expand"><div v-if="$store.getters.ready"><paneCapture/></div></li>
-          <li class="uk-width-expand"><div v-if="$store.getters.ready"><panePlugins/></div></li>
-          <li class="uk-width-expand"><paneSettings/></li>
-        </ul>
+    <div uk-grid class="uk-height-1-1 uk-margin-remove uk-padding-remove" margin=0>
+
+      <div id="panelLeft" class="uk-margin-remove uk-padding-remove uk-height-1-1" uk-grid>
+
+        <div class="uk-padding-remove uk-height-1-1 uk-width-auto@m">
+          <ul id="component-switcher-left" class="uk-tab-right uk-height-1-1" uk-tab="connect: #component-tab-left">
+            <li><a href="#" uk-switcher-item="connect" uk-icon="server" uk-tooltip="pos: right; title: Connect"></a></li>
+            <li v-bind:class="disableIfDisconnected"><a href="#" uk-switcher-item="navigate" uk-icon="location" uk-tooltip="pos: right; title: Navigate"></a></li>
+            <li v-bind:class="disableIfDisconnected"><a href="#" uk-switcher-item="capture" uk-icon="camera" uk-tooltip="pos: right; title: Capture"></a></li>
+            <li v-bind:class="disableIfDisconnected"><a href="#" uk-switcher-item="plugins" uk-icon="git-fork" uk-tooltip="pos: right; title: Plugins"></a></li>
+            <li><a href="#" uk-switcher-item="settings" uk-icon="settings" uk-tooltip="pos: right; title: Settings"></a></li>
+          </ul>
+        </div>
+
+        <div class="uk-padding-remove uk-height-1-1 uk-width-expand@m">
+          <ul id="component-tab-left" class="uk-switcher uk-padding-small uk-flex uk-flex-1 panel-content">
+            <li class="uk-width-expand"><paneConnect/></li>
+            <li class="uk-width-expand"><div v-if="$store.getters.ready"><paneNavigate/></div></li>
+            <li class="uk-width-expand"><div v-if="$store.getters.ready"><paneCapture/></div></li>
+            <li class="uk-width-expand"><div v-if="$store.getters.ready"><panePlugins/></div></li>
+            <li class="uk-width-expand"><paneSettings/></li>
+          </ul>
+        </div>
+
       </div>
+
       <div id="panelDisplay" class="uk-flex uk-flex-column uk-margin-remove uk-padding-remove uk-width-expand uk-height-1-1">
         <ul class="uk-flex-none uk-flex-center uk-margin-remove-bottom uk-text-center" uk-tab="swiping: false">
           <li><a href="#" uk-switcher-item="preview" uk-icon="play-circle" uk-tooltip="pos: bottom; title: Live"></a></li>
@@ -28,27 +37,7 @@
           <li class="uk-height-1-1 uk-width-1-1 uk-overflow-auto" id="galleryDisplayTab"><galleryDisplay/></li>
         </ul>
       </div>
-    </div>
 
-    <div v-else class="uk-height-1-1 uk-width-1-1 uk-margin-remove uk-padding-remove" margin=0>
-        <ul class="uk-flex-none uk-flex-center uk-margin-remove-top uk-margin-remove-bottom" uk-tab="swiping: false">
-          <li><a href="#" uk-switcher-item="connect" uk-icon="server" uk-tooltip="pos: bottom; title: Connect"></a></li>
-          <li v-bind:class="disableIfDisconnected"><a href="#" uk-switcher-item="navigate" uk-icon="location" uk-tooltip="pos: bottom; title: Navigate"></a></li>
-          <li v-bind:class="disableIfDisconnected"><a href="#" uk-switcher-item="capture" uk-icon="camera" uk-tooltip="pos: bottom; title: Capture"></a></li>
-          <li v-bind:class="disableIfDisconnected"><a href="#" uk-switcher-item="plugins" uk-icon="git-fork" uk-tooltip="pos: bottom; title: Plugins"></a></li>
-          <li><a href="#" uk-switcher-item="settings" uk-icon="settings" uk-tooltip="pos: bottom; title: Settings"></a></li>
-          <li><a href="#" uk-switcher-item="preview" uk-icon="play-circle" uk-tooltip="pos: bottom; title: Live"></a></li>
-          <li v-bind:class="{'uk-disabled': !this.$store.getters.ready}"><a href="#" uk-switcher-item="gallery" uk-icon="image" uk-tooltip="pos: bottom; title: Captures"></a></li>
-        </ul>
-        <ul class="uk-switcher uk-padding-small uk-flex uk-flex-1 panel-content">
-          <li class="uk-width-expand"><paneConnect/></li>
-          <li class="uk-width-expand"><div v-if="$store.getters.ready"><paneNavigate/></div></li>
-          <li class="uk-width-expand"><div v-if="$store.getters.ready"><paneCapture/></div></li>
-          <li class="uk-width-expand"><div v-if="$store.getters.ready"><panePlugins/></div></li>
-          <li class="uk-width-expand"><paneSettings/></li>
-          <li class="uk-height-1-1 uk-width-1-1 clickableTab" id="streamDisplayTab"><streamDisplay/></li>
-          <li class="uk-height-1-1 uk-width-1-1 uk-overflow-auto" id="galleryDisplayTab"><galleryDisplay/></li>
-        </ul>
     </div>
 
   </div>
@@ -168,7 +157,7 @@ export default {
       }
     },
     onMobile: function () {
-      return (this.window.width >= 800) ? true : false 
+      return (this.window.width <= 800) ? true : false 
     }
   }
 
@@ -240,6 +229,14 @@ body, html {
   border-width: 0 1px 0 0;
   border-style: solid;
   border-color: rgba(180, 180, 180, 0.25)
+}
+
+#component-switcher-left a{
+  padding: 10px 20px;
+}
+
+#component-switcher-left{
+  background-color: rgba(180, 180, 180, 0.1);
 }
 
 </style>
