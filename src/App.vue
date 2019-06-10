@@ -3,50 +3,8 @@
 
     <!-- Grid managing whole app -->
     <div uk-grid class="uk-height-1-1 uk-margin-remove uk-padding-remove" margin=0>
-
-      <!-- Grid managing the left panel -->
-      <div id="panelLeft" class="uk-margin-remove uk-padding-remove uk-height-1-1" uk-grid>
-
-        <!-- Vertical tab bar -->
-        <div id="switcher-left" class="uk-flex uk-flex-column uk-padding-remove uk-width-auto uk-height-1-1">
-          <tabIcon id="connect" name="Connect" uk-icon="server" :requireConnection="false" :currentTab="currentTab" @set-tab="setTab" />
-          <tabIcon id="navigate" name="Navigate" uk-icon="location" :requireConnection="true" :currentTab="currentTab" @set-tab="setTab" />
-          <tabIcon id="capture" name="Capture" uk-icon="camera" :requireConnection="true" :currentTab="currentTab" @set-tab="setTab" />
-          <tabIcon id="settings" name="Settings" uk-icon="cog" :requireConnection="false" :currentTab="currentTab" @set-tab="setTab" />
-        </div>
-
-        <!-- Corresponding vertical tab content -->
-        <div v-bind:hidden="!showControlBar" id="container-left" class="uk-padding-remove uk-height-1-1 uk-width-expand">
-          <div id="component-left" class="uk-padding-small uk-flex uk-flex-1 panel-content">
-            <tabContent id="connect" :requireConnection="false" :currentTab="currentTab">
-              <paneConnect/>
-            </tabContent>
-            <tabContent id="navigate" :requireConnection="true" :currentTab="currentTab">
-              <paneNavigate/>
-            </tabContent>
-            <tabContent id="capture" :requireConnection="true" :currentTab="currentTab">
-              <paneCapture/>
-            </tabContent>
-            <tabContent id="settings" :requireConnection="false" :currentTab="currentTab">
-              <paneSettings/>
-            </tabContent>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Tabbed panel for gallery and live views -->
-      <div id="panelDisplay" class="uk-flex uk-flex-column uk-margin-remove uk-padding-remove uk-width-expand uk-height-1-1">
-        <ul class="uk-flex-none uk-flex-center uk-margin-remove-bottom uk-text-center" uk-tab="swiping: false">
-          <li><a href="#" uk-switcher-item="preview">Live</a></li>
-          <li v-bind:class="{'uk-disabled': !this.$store.getters.ready}"><a href="#" uk-switcher-item="gallery">Gallery</a></li>
-        </ul>
-        <ul class="uk-switcher uk-flex uk-flex-1">
-          <li class="uk-height-1-1 uk-width-1-1 clickableTab" id="streamDisplayTab"><streamDisplay/></li>
-          <li class="uk-height-1-1 uk-width-1-1 uk-overflow-auto" id="galleryDisplayTab"><galleryDisplay/></li>
-        </ul>
-      </div>
-
+      <panelLeft/>
+      <panelRight/>
     </div>
 
   </div>
@@ -55,105 +13,29 @@
 <script>
 // Import axios for HTTP requests
 import axios from 'axios'
-// Import basic UIkit
-import UIkit from 'uikit';
 
 // Import components
-import tabIcon from './components/tabIcon.vue'
-import tabContent from './components/tabContent.vue'
-
-// Import components
-import paneConnect from './components/paneConnect.vue'
-import paneNavigate from './components/paneNavigate.vue'
-import paneCapture from './components/paneCapture.vue'
-import panePlugins from './components/panePlugins.vue'
-import paneSettings from './components/paneSettings.vue'
-// Import components
-import streamDisplay from './components/paneDisplayComponents/streamDisplay.vue'
-import galleryDisplay from './components/paneDisplayComponents/galleryDisplay.vue'
+import panelLeft from './components/panelLeft.vue'
+import panelRight from './components/panelRight.vue'
 
 // Export main app
 export default {
   name: 'app',
 
   components: {
-    tabIcon,
-    tabContent,
-    streamDisplay,
-    galleryDisplay,
-    paneConnect,
-    paneNavigate,
-    paneCapture,
-    panePlugins,
-    paneSettings
+    panelRight,
+    panelLeft
   },
 
   data: function () {
-    return {
-      currentTab: 'connect',
-      showControlBar: true,
-      window: {
-        width: 0,
-        height: 0
-      }
-    }  
+    return {}  
   },
 
   created: function () {
-    var context = this
-
-    window.addEventListener('resize', this.handleResize)
-    this.handleResize();
-
     window.addEventListener('beforeunload', this.handleExit)
   },
 
-  mounted() {
-    // Attach methods to UIkit events for tab switching
-    var context = this;
-    // Gallery tab
-    UIkit.util.on('#galleryDisplayTab', 'shown', function(event, area) {
-      console.log("Gallery tab entered")
-      if (context.$store.state.globalSettings.trackWindow == true) {
-        context.$root.$emit('globalTogglePreview', false)
-      }
-      context.$root.$emit('globalUpdateCaptureList');
-    });
-
-    // Stream tab
-    UIkit.util.on('#streamDisplayTab', 'shown', function(event, area) {
-      console.log("Stream tab entered")
-      UIkit.update()
-      if (context.$store.state.globalSettings.trackWindow == true) {
-        context.$root.$emit('globalTogglePreview', true)
-      }
-    });
-
-  },
-
-  beforeDestroy: function () {
-    window.removeEventListener('resize', this.handleResize)
-  },
-
   methods: {
-    setTab: function(event, tab) {
-      console.log(event)
-      console.log(tab)
-      if (this.currentTab == tab) {
-        this.showControlBar = !this.showControlBar
-        this.currentTab = 'none'
-      }
-      else {
-        this.showControlBar = true
-        this.currentTab = tab
-      }
-    },
-
-    handleResize: function(event) {
-      this.window.width = window.innerWidth;
-      this.window.height = window.innerHeight;
-    },
-
     handleExit: function(event) {
       console.log("Triggered beforeunload")
       this.$root.$emit('globalTogglePreview', false)
@@ -166,14 +48,6 @@ export default {
         'uk-light': this.$store.state.globalSettings.darkMode,
         'uk-background-secondary': this.$store.state.globalSettings.darkMode
       }
-    },
-    disableIfDisconnected: function () {
-      return {
-        'uk-disabled': !this.$store.getters.ready
-      }
-    },
-    onMobile: function () {
-      return (this.window.width <= 800) ? true : false 
     }
   }
 
@@ -202,31 +76,6 @@ body, html {
 .uk-disabled {
   pointer-events: none;
   opacity: 0.4;
-}
-
-.uk-tab {
-  padding-left: 0;
-}
-#component-left {
-  width: 300px;
-}
-
-#container-left {
-  overflow: hidden auto;
-}
-
-#container-left, #switcher-left {
-  border-width: 0 1px 0 0;
-  border-style: solid;
-  border-color: rgba(180, 180, 180, 0.25)
-}
-
-#switcher-left a{
-  padding: 12px 20px;
-}
-
-#switcher-left{
-  background-color: rgba(180, 180, 180, 0.1);
 }
 
 </style>

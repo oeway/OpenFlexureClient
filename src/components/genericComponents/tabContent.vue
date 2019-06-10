@@ -5,7 +5,9 @@
     v-bind:hidden="currentTab!=id" 
     class="uk-width-expand"
   >
-    <slot></slot>
+    <div class="section-heading">{{ id }}</div>
+    <div class="section-content"><slot></slot></div>
+    
   </div>
 
 </template>
@@ -28,4 +30,16 @@ export default {
 </script>
 
 <style lang="less" scoped>
+
+.section-heading {
+  display: block;
+  font-size: 12px;
+  text-transform: uppercase;
+  line-height: 20px;
+}
+
+.section-content, .section-heading {
+  padding: 9px 10px;
+}
+
 </style>

@@ -16,8 +16,7 @@ export default {
   props: {
     id: String,
     currentTab: String,
-    requireConnection: Boolean,
-    name: String
+    requireConnection: Boolean
   },
 
   methods: {
@@ -28,7 +27,8 @@ export default {
 
   computed: {
     tooltipOptions: function () {
-      return `pos: right; title: ${this.name}; delay: 500`
+      var title = this.id.charAt(0).toUpperCase() + this.id.slice(1);
+      return `pos: right; title: ${title}; delay: 500`
     },
 
     classObject: function () {
@@ -45,7 +45,7 @@ export default {
 
 <style lang="less" scoped>
 // Custom UIkit CSS modifications
-@import "../assets/less/theme.less";
+@import "../../assets/less/theme.less";
 
 .tabicon-active {
   color: @global-primary-background !important;
