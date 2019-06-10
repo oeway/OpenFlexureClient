@@ -35,9 +35,6 @@ export default {
   },
 
   mounted() {
-
-		const context = this;
-
     // A global signal listener to change the GPU preview state
     this.$root.$on('globalTogglePreview', (state) => {
 			console.log(`Toggling preview to ${state}`)
@@ -46,7 +43,7 @@ export default {
 
 		// Mutation observer
 		this.sizeObserver = new ResizeObserver(entries => {
-			context.handleResize()  // For any element attached to the observer, run handleResize() on change
+			this.handleResize()  // For any element attached to the observer, run handleResize() on change
 			entries.forEach(entry => {})  // Optional: Run something per entry
 		});
 
@@ -110,15 +107,8 @@ export default {
 
 		recalculateSize: function () {
 			console.log("Recalculating window dimensions...")
-			// Stacking parentNode is a hacky fix
-			// For some reason, when switching tabs, width was always half what it should be,
-			// until the size was recalculated at some later time. Probably something to do
-			// with tab transition. This parentNode stuff instead reads the size of the tab
-			// container, irrespective of WHICH tab is selected. It's nasty, but works.
-			console.log("ELEMENT:")
-			console.log(this.$refs.streamDisplay)
-			let element = this.$refs.streamDisplay.parentNode.parentNode;
 
+			let element = this.$refs.streamDisplay.parentNode;
 			let size = [element.clientWidth, element.clientHeight];
 
 			let elem_pos = [element.getBoundingClientRect().left, element.getBoundingClientRect().top];
