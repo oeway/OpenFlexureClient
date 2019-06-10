@@ -4,49 +4,28 @@
     <div uk-grid class="uk-height-1-1 uk-margin-remove uk-padding-remove" margin=0>
 
       <div id="panelLeft" class="uk-margin-remove uk-padding-remove uk-height-1-1" uk-grid>
-        <div class="uk-padding-remove uk-height-1-1 uk-width-auto">
-          <div id="switcher-left" class="uk-flex uk-flex-column uk-height-1-1">
-            <tabIcon 
-              id="connect"
-              name="Connect"
-              uk-icon="server"
-              :requireConnection="false"
-              :currentTab="currentTab"
-              @set-tab="setTab"
-            />
-            <tabIcon 
-              id="navigate"
-              name="Navigate"
-              uk-icon="location"
-              :requireConnection="true"
-              :currentTab="currentTab"
-              @set-tab="setTab"
-            />
-            <tabIcon 
-              id="capture"
-              name="Capture"
-              uk-icon="camera"
-              :requireConnection="true"
-              :currentTab="currentTab"
-              @set-tab="setTab"
-            />
-            <tabIcon 
-              id="settings"
-              name="Settings"
-              uk-icon="cog"
-              :requireConnection="false"
-              :currentTab="currentTab"
-              @set-tab="setTab"
-            />
-          </div>
+
+        <div id="switcher-left" class="uk-flex uk-flex-column uk-padding-remove uk-width-auto uk-height-1-1">
+          <tabIcon id="connect" name="Connect" uk-icon="server" :requireConnection="false" :currentTab="currentTab" @set-tab="setTab" />
+          <tabIcon id="navigate" name="Navigate" uk-icon="location" :requireConnection="true" :currentTab="currentTab" @set-tab="setTab" />
+          <tabIcon id="capture" name="Capture" uk-icon="camera" :requireConnection="true" :currentTab="currentTab" @set-tab="setTab" />
+          <tabIcon id="settings" name="Settings" uk-icon="cog" :requireConnection="false" :currentTab="currentTab" @set-tab="setTab" />
         </div>
 
         <div v-bind:hidden="!showControlBar" id="container-left" class="uk-padding-remove uk-height-1-1 uk-width-expand">
           <div id="component-left" class="uk-padding-small uk-flex uk-flex-1 panel-content">
-            <div v-bind:hidden="currentTab!='connect'" class="uk-width-expand"><paneConnect/></div>
-            <div v-bind:hidden="currentTab!='navigate'" v-if="this.$store.getters.ready" class="uk-width-expand"><paneNavigate/></div>
-            <div v-bind:hidden="currentTab!='capture'" v-if="this.$store.getters.ready" class="uk-width-expand"><paneCapture/></div>
-            <div v-bind:hidden="currentTab!='settings'" class="uk-width-expand"><paneSettings/></div>
+            <tabContent id="connect" :requireConnection="false" :currentTab="currentTab">
+              <paneConnect/>
+            </tabContent>
+            <tabContent id="navigate" :requireConnection="true" :currentTab="currentTab">
+              <paneNavigate/>
+            </tabContent>
+            <tabContent id="capture" :requireConnection="true" :currentTab="currentTab">
+              <paneCapture/>
+            </tabContent>
+            <tabContent id="settings" :requireConnection="false" :currentTab="currentTab">
+              <paneSettings/>
+            </tabContent>
           </div>
         </div>
 
@@ -76,6 +55,7 @@ import UIkit from 'uikit';
 
 // Import components
 import tabIcon from './components/tabIcon.vue'
+import tabContent from './components/tabContent.vue'
 
 // Import components
 import paneConnect from './components/paneConnect.vue'
@@ -93,6 +73,7 @@ export default {
 
   components: {
     tabIcon,
+    tabContent,
     streamDisplay,
     galleryDisplay,
     paneConnect,
@@ -214,12 +195,12 @@ body, html {
 }
 
 .uk-disabled {
-    pointer-events: none;
-    opacity: 0.5;
+  pointer-events: none;
+  opacity: 0.4;
 }
 
 .uk-tab {
-    padding-left: 0;
+  padding-left: 0;
 }
 #component-left {
   width: 300px;

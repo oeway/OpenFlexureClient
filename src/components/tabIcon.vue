@@ -12,6 +12,7 @@
 
 export default {
   name: 'tabIcon',
+
   props: {
     id: String,
     currentTab: String,
