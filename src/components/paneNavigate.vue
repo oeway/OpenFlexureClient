@@ -64,26 +64,22 @@
 
     <li class="uk-open">
       <a class="uk-accordion-title" href="#">Autofocus</a>
-      <div class="uk-text-center uk-container" v-if="isAutofocusing">
-        <div class="center-spinner" uk-spinner></div>
-      </div>
-      <div class="uk-accordion-content" v-else>
+      <div class="uk-accordion-content">
 
-          <div class="uk-grid-small uk-child-width-1-3" uk-grid>
-
-            <div>
-              <button v-on:click="runFastAutofocus(2000, 300);" class="uk-button uk-button-default uk-form-small uk-float-right uk-width-1-1">Fast</button>
-            </div>
-
-            <div>
-              <button v-on:click="runAutofocus([-60,-30,0,30,60]);" class="uk-button uk-button-default uk-form-small uk-float-right uk-width-1-1">Medium</button>
-            </div>
-
-            <div>
-              <button v-on:click="runAutofocus([-20,-10,0,10,20]);" class="uk-button uk-button-default uk-form-small uk-float-right uk-width-1-1">Fine</button>
-            </div>
-
+        <div class="uk-text-center uk-container" v-if="isAutofocusing">
+          <div class="center-spinner" uk-spinner></div>
+        </div>
+        <div class="uk-grid-small uk-child-width-1-3" v-bind:hidden="isAutofocusing" uk-grid>
+          <div>
+            <button v-on:click="runFastAutofocus(2000, 300);" class="uk-button uk-button-default uk-form-small uk-float-right uk-width-1-1">Fast</button>
           </div>
+          <div>
+            <button v-on:click="runAutofocus([-60,-30,0,30,60]);" class="uk-button uk-button-default uk-form-small uk-float-right uk-width-1-1">Medium</button>
+          </div>
+          <div>
+            <button v-on:click="runAutofocus([-20,-10,0,10,20]);" class="uk-button uk-button-default uk-form-small uk-float-right uk-width-1-1">Fine</button>
+          </div>
+        </div>
 
       </div>
     </li>

@@ -27,7 +27,7 @@
     <div class="uk-text-center uk-container" v-if="isCalibrating">
       <div class="center-spinner" uk-spinner></div>
     </div>
-    <div v-else>
+    <div v-bind:hidden="isCalibrating">
       <button type="button" v-on:click="recalibrateConfirm()" class="uk-button uk-button-default uk-form-small uk-float-right uk-margin-small uk-width-1-1">Auto-Calibrate</button>
     </div>
 
