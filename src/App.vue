@@ -7,7 +7,7 @@
 
         <div class="uk-padding-remove uk-height-1-1 uk-width-auto@m">
           <div id="component-switcher-left" class="uk-flex uk-flex-column uk-height-1-1">
-            <a href="#" @click="setTab('connect')" uk-icon="server" uk-tooltip="pos: right; title: Connect"></a>
+            <a href="#" class="uk-link" @click="setTab('connect')" uk-icon="server" uk-tooltip="pos: right; title: Connect"></a>
             <a href="#" @click="setTab('navigate')" v-bind:class="{'uk-disabled': !this.$store.getters.ready}" uk-icon="location" uk-tooltip="pos: right; title: Navigate"></a>
             <a href="#" @click="setTab('capture')" v-bind:class="{'uk-disabled': !this.$store.getters.ready}" uk-icon="camera" uk-tooltip="pos: right; title: Capture"></a>
             <a href="#" @click="setTab('settings')" uk-icon="cog" uk-tooltip="pos: right; title: Settings"></a>
@@ -179,35 +179,6 @@ body, html {
   overflow-x: hidden;
 }
 
-.overlay-panel {
-  position: fixed;
-  z-index: 99;
-}
-
-#overlay-toggle {
-    width: 0px;
-    height: 30px;
-    z-index: 999;
-    position: absolute;
-    right: -20px;
-    top: 24px;
-}
-
-.action-btn-outline {
-  border: 1px solid lightgray;
-}
-
-.uk-light .uk-icon-button {
-  background-color: rgb(52, 52, 52);
-}
-.uk-light .uk-icon-button:hover, .uk-light .uk-icon-button:focus {
-  background-color: rgb(70, 70, 70);
-}
-
-.uk-light .uk-card-default {
-  background: #222
-}
-
 .uk-disabled {
     pointer-events: none;
     opacity: 0.5;
@@ -228,7 +199,7 @@ body, html {
 }
 
 #component-switcher-left a{
-  padding: 10px 20px;
+  padding: 12px 20px;
 }
 
 #component-switcher-left{

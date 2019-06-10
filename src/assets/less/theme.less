@@ -9,6 +9,7 @@
 
 // Custom OpenFlexure theming
 @global-primary-background: #C32280;
+@global-button-background: #C32280;
 
 // UIkit
 // ========================================================================
@@ -304,8 +305,12 @@ body { overflow: hidden; }
 }
 
 /*
- * Button
+ * Button and link
  */
+ .uk-link:hover, a:hover {
+    color: @global-button-background;
+ }
+
  .uk-button {
     border-radius: 2px;
  }
@@ -331,7 +336,7 @@ body { overflow: hidden; }
         color: @global-primary-background !important;
     }
 
-    .tm-button-primary:hover { box-shadow: 0 10px 40px rgba(30,135,240,1); }
+    .tm-button-primary:hover { box-shadow: 0 10px 40px @global-button-background; }
 
 }
 
