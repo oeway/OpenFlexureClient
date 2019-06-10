@@ -4,22 +4,49 @@
     <div uk-grid class="uk-height-1-1 uk-margin-remove uk-padding-remove" margin=0>
 
       <div id="panelLeft" class="uk-margin-remove uk-padding-remove uk-height-1-1" uk-grid>
-
-        <div class="uk-padding-remove uk-height-1-1 uk-width-auto@m">
-          <div id="component-switcher-left" class="uk-flex uk-flex-column uk-height-1-1">
-            <a href="#" class="uk-link" @click="setTab('connect')" uk-icon="server" uk-tooltip="pos: right; title: Connect"></a>
-            <a href="#" @click="setTab('navigate')" v-bind:class="{'uk-disabled': !this.$store.getters.ready}" uk-icon="location" uk-tooltip="pos: right; title: Navigate"></a>
-            <a href="#" @click="setTab('capture')" v-bind:class="{'uk-disabled': !this.$store.getters.ready}" uk-icon="camera" uk-tooltip="pos: right; title: Capture"></a>
-            <a href="#" @click="setTab('settings')" uk-icon="cog" uk-tooltip="pos: right; title: Settings"></a>
+        <div class="uk-padding-remove uk-height-1-1 uk-width-auto">
+          <div id="switcher-left" class="uk-flex uk-flex-column uk-height-1-1">
+            <tabIcon 
+              id="connect"
+              name="Connect"
+              uk-icon="server"
+              :requireConnection="false"
+              :currentTab="currentTab"
+              @set-tab="setTab"
+            />
+            <tabIcon 
+              id="navigate"
+              name="Navigate"
+              uk-icon="location"
+              :requireConnection="true"
+              :currentTab="currentTab"
+              @set-tab="setTab"
+            />
+            <tabIcon 
+              id="capture"
+              name="Capture"
+              uk-icon="camera"
+              :requireConnection="true"
+              :currentTab="currentTab"
+              @set-tab="setTab"
+            />
+            <tabIcon 
+              id="settings"
+              name="Settings"
+              uk-icon="cog"
+              :requireConnection="false"
+              :currentTab="currentTab"
+              @set-tab="setTab"
+            />
           </div>
         </div>
 
-        <div v-if="showControlBar" class="uk-padding-remove uk-height-1-1 uk-width-expand@m">
-          <div id="component-tab-left" class="uk-padding-small uk-flex uk-flex-1 panel-content">
-            <div v-if="currentTab=='connect'" class="uk-width-expand"><paneConnect/></div>
-            <div v-if="currentTab=='navigate'" class="uk-width-expand"><paneNavigate/></div>
-            <div v-if="currentTab=='capture'" class="uk-width-expand"><paneCapture/></div>
-            <div v-if="currentTab=='settings'" class="uk-width-expand"><paneSettings/></div>
+        <div v-bind:hidden="!showControlBar" id="container-left" class="uk-padding-remove uk-height-1-1 uk-width-expand">
+          <div id="component-left" class="uk-padding-small uk-flex uk-flex-1 panel-content">
+            <div v-bind:hidden="currentTab!='connect'" class="uk-width-expand"><paneConnect/></div>
+            <div v-bind:hidden="currentTab!='navigate'" v-if="this.$store.getters.ready" class="uk-width-expand"><paneNavigate/></div>
+            <div v-bind:hidden="currentTab!='capture'" v-if="this.$store.getters.ready" class="uk-width-expand"><paneCapture/></div>
+            <div v-bind:hidden="currentTab!='settings'" class="uk-width-expand"><paneSettings/></div>
           </div>
         </div>
 
@@ -48,6 +75,9 @@ import axios from 'axios'
 import UIkit from 'uikit';
 
 // Import components
+import tabIcon from './components/tabIcon.vue'
+
+// Import components
 import paneConnect from './components/paneConnect.vue'
 import paneNavigate from './components/paneNavigate.vue'
 import paneCapture from './components/paneCapture.vue'
@@ -62,6 +92,7 @@ export default {
   name: 'app',
 
   components: {
+    tabIcon,
     streamDisplay,
     galleryDisplay,
     paneConnect,
@@ -119,13 +150,16 @@ export default {
   },
 
   methods: {
-    setTab: function(tabName) {
-      if (this.currentTab == tabName) {
+    setTab: function(event, tab) {
+      console.log(event)
+      console.log(tab)
+      if (this.currentTab == tab) {
         this.showControlBar = !this.showControlBar
+        this.currentTab = 'none'
       }
       else {
         this.showControlBar = true
-        this.currentTab = tabName
+        this.currentTab = tab
       }
     },
 
@@ -187,22 +221,25 @@ body, html {
 .uk-tab {
     padding-left: 0;
 }
-.panel-content {
+#component-left {
   width: 300px;
-  overflow: auto;
 }
 
-#panelLeft {
+#container-left {
+  overflow: hidden auto;
+}
+
+#container-left, #switcher-left {
   border-width: 0 1px 0 0;
   border-style: solid;
   border-color: rgba(180, 180, 180, 0.25)
 }
 
-#component-switcher-left a{
+#switcher-left a{
   padding: 12px 20px;
 }
 
-#component-switcher-left{
+#switcher-left{
   background-color: rgba(180, 180, 180, 0.1);
 }
 
