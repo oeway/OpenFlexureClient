@@ -30,7 +30,7 @@ export default {
 			displaySize: [0, 0],
 			displayPosition: [0, 0],
 			GpuPreviewActive: false,
-			resizeTeimoutId: setTimeout(this.doneResizing, 500)
+			resizeTimeoutId: setTimeout(this.doneResizing, 500)
     }
   },
 
@@ -94,8 +94,8 @@ export default {
 		
 		handleResize: function(event) {
 			// Only fires resize event after no resize in 500ms (prevents resize event spam)
-			clearTimeout(this.resizeTeimoutId);
-			this.resizeTeimoutId = setTimeout(this.handleDoneResize, 500)
+			clearTimeout(this.resizeTimeoutId);
+			this.resizeTimeoutId = setTimeout(this.handleDoneResize, 500)
 		},
 
 		handleDoneResize: function() {
