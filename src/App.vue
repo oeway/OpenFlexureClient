@@ -1,10 +1,13 @@
 <template>
   <div id="app" v-bind:class="handleTheme">
 
+    <!-- Grid managing whole app -->
     <div uk-grid class="uk-height-1-1 uk-margin-remove uk-padding-remove" margin=0>
 
+      <!-- Grid managing the left panel -->
       <div id="panelLeft" class="uk-margin-remove uk-padding-remove uk-height-1-1" uk-grid>
 
+        <!-- Vertical tab bar -->
         <div id="switcher-left" class="uk-flex uk-flex-column uk-padding-remove uk-width-auto uk-height-1-1">
           <tabIcon id="connect" name="Connect" uk-icon="server" :requireConnection="false" :currentTab="currentTab" @set-tab="setTab" />
           <tabIcon id="navigate" name="Navigate" uk-icon="location" :requireConnection="true" :currentTab="currentTab" @set-tab="setTab" />
@@ -12,6 +15,7 @@
           <tabIcon id="settings" name="Settings" uk-icon="cog" :requireConnection="false" :currentTab="currentTab" @set-tab="setTab" />
         </div>
 
+        <!-- Corresponding vertical tab content -->
         <div v-bind:hidden="!showControlBar" id="container-left" class="uk-padding-remove uk-height-1-1 uk-width-expand">
           <div id="component-left" class="uk-padding-small uk-flex uk-flex-1 panel-content">
             <tabContent id="connect" :requireConnection="false" :currentTab="currentTab">
@@ -31,6 +35,7 @@
 
       </div>
 
+      <!-- Tabbed panel for gallery and live views -->
       <div id="panelDisplay" class="uk-flex uk-flex-column uk-margin-remove uk-padding-remove uk-width-expand uk-height-1-1">
         <ul class="uk-flex-none uk-flex-center uk-margin-remove-bottom uk-text-center" uk-tab="swiping: false">
           <li><a href="#" uk-switcher-item="preview">Live</a></li>
