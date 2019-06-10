@@ -6,31 +6,29 @@
       <div id="panelLeft" class="uk-margin-remove uk-padding-remove uk-height-1-1" uk-grid>
 
         <div class="uk-padding-remove uk-height-1-1 uk-width-auto@m">
-          <ul id="component-switcher-left" class="uk-tab-right uk-height-1-1" uk-tab="connect: #component-tab-left">
-            <li><a href="#" uk-switcher-item="connect" uk-icon="server" uk-tooltip="pos: right; title: Connect"></a></li>
-            <li v-bind:class="disableIfDisconnected"><a href="#" uk-switcher-item="navigate" uk-icon="location" uk-tooltip="pos: right; title: Navigate"></a></li>
-            <li v-bind:class="disableIfDisconnected"><a href="#" uk-switcher-item="capture" uk-icon="camera" uk-tooltip="pos: right; title: Capture"></a></li>
-            <li v-bind:class="disableIfDisconnected"><a href="#" uk-switcher-item="plugins" uk-icon="git-fork" uk-tooltip="pos: right; title: Plugins"></a></li>
-            <li><a href="#" uk-switcher-item="settings" uk-icon="settings" uk-tooltip="pos: right; title: Settings"></a></li>
-          </ul>
+          <div id="component-switcher-left" class="uk-flex uk-flex-column uk-height-1-1">
+            <a href="#" @click="setTab('connect')" uk-icon="server" uk-tooltip="pos: right; title: Connect"></a>
+            <a href="#" @click="setTab('navigate')" v-bind:class="{'uk-disabled': !this.$store.getters.ready}" uk-icon="location" uk-tooltip="pos: right; title: Navigate"></a>
+            <a href="#" @click="setTab('capture')" v-bind:class="{'uk-disabled': !this.$store.getters.ready}" uk-icon="camera" uk-tooltip="pos: right; title: Capture"></a>
+            <a href="#" @click="setTab('settings')" uk-icon="cog" uk-tooltip="pos: right; title: Settings"></a>
+          </div>
         </div>
 
-        <div class="uk-padding-remove uk-height-1-1 uk-width-expand@m">
-          <ul id="component-tab-left" class="uk-switcher uk-padding-small uk-flex uk-flex-1 panel-content">
-            <li class="uk-width-expand"><paneConnect/></li>
-            <li class="uk-width-expand"><div v-if="$store.getters.ready"><paneNavigate/></div></li>
-            <li class="uk-width-expand"><div v-if="$store.getters.ready"><paneCapture/></div></li>
-            <li class="uk-width-expand"><div v-if="$store.getters.ready"><panePlugins/></div></li>
-            <li class="uk-width-expand"><paneSettings/></li>
-          </ul>
+        <div v-if="showControlBar" class="uk-padding-remove uk-height-1-1 uk-width-expand@m">
+          <div id="component-tab-left" class="uk-padding-small uk-flex uk-flex-1 panel-content">
+            <div v-if="currentTab=='connect'" class="uk-width-expand"><paneConnect/></div>
+            <div v-if="currentTab=='navigate'" class="uk-width-expand"><paneNavigate/></div>
+            <div v-if="currentTab=='capture'" class="uk-width-expand"><paneCapture/></div>
+            <div v-if="currentTab=='settings'" class="uk-width-expand"><paneSettings/></div>
+          </div>
         </div>
 
       </div>
 
       <div id="panelDisplay" class="uk-flex uk-flex-column uk-margin-remove uk-padding-remove uk-width-expand uk-height-1-1">
         <ul class="uk-flex-none uk-flex-center uk-margin-remove-bottom uk-text-center" uk-tab="swiping: false">
-          <li><a href="#" uk-switcher-item="preview" uk-icon="play-circle" uk-tooltip="pos: bottom; title: Live"></a></li>
-          <li v-bind:class="{'uk-disabled': !this.$store.getters.ready}"><a href="#" uk-switcher-item="gallery" uk-icon="image" uk-tooltip="pos: bottom; title: Captures"></a></li>
+          <li><a href="#" uk-switcher-item="preview">Live</a></li>
+          <li v-bind:class="{'uk-disabled': !this.$store.getters.ready}"><a href="#" uk-switcher-item="gallery">Gallery</a></li>
         </ul>
         <ul class="uk-switcher uk-flex uk-flex-1">
           <li class="uk-height-1-1 uk-width-1-1 clickableTab" id="streamDisplayTab"><streamDisplay/></li>
@@ -75,6 +73,8 @@ export default {
 
   data: function () {
     return {
+      currentTab: 'connect',
+      showControlBar: true,
       window: {
         width: 0,
         height: 0
@@ -84,20 +84,6 @@ export default {
 
   created: function () {
     var context = this
-
-    function handleSidebarEvent(context, event){
-      if (event.target.id == 'left-panel-container') {
-        console.log("Sidebar hidden")
-        context.$root.$emit('globalResizePreview')
-      }
-    }
-
-    UIkit.util.on(document, 'hidden', '#left-panel-container', function (e) {
-      handleSidebarEvent(context, e)
-    })
-    UIkit.util.on(document, 'shown', '#left-panel-container', function (e) {
-      handleSidebarEvent(context, e)
-    })
 
     window.addEventListener('resize', this.handleResize)
     this.handleResize();
@@ -133,6 +119,16 @@ export default {
   },
 
   methods: {
+    setTab: function(tabName) {
+      if (this.currentTab == tabName) {
+        this.showControlBar = !this.showControlBar
+      }
+      else {
+        this.showControlBar = true
+        this.currentTab = tabName
+      }
+    },
+
     handleResize: function(event) {
       this.window.width = window.innerWidth;
       this.window.height = window.innerHeight;
