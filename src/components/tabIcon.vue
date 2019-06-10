@@ -28,7 +28,7 @@ export default {
 
   computed: {
     tooltipOptions: function () {
-      return `pos: right; title: ${this.name}`
+      return `pos: right; title: ${this.name}; delay: 500`
     },
 
     classObject: function () {
@@ -48,6 +48,13 @@ export default {
 @import "../assets/less/theme.less";
 
 .tabicon-active {
-  color: @global-button-background !important;
+  color: @global-primary-background !important;
 }
+
+.hook-inverse() {
+    .tabicon-active {
+        color: @inverse-primary-muted-color !important;
+    }
+}
+
 </style>
