@@ -46,7 +46,6 @@ export default {
 			this.handleResize()  // For any element attached to the observer, run handleResize() on change
 			entries.forEach(entry => {})  // Optional: Run something per entry
 		});
-
 		// Fetch streamDisplay by ref
 		const streamDisplayElement = this.$refs.streamDisplay.parentNode;
 		// Attach streamDisplay to the size observer
@@ -55,7 +54,6 @@ export default {
 	},
 
 	created: function () {
-
 		// Watch for host 'ready'
 		this.$store.watch(
 			(state)=>{
@@ -76,14 +74,14 @@ export default {
   methods: {
     clickmonitor: function(event) {
 			// Calculate steps from event coordinates and store config FOV
-			var xCoordinate = event.offsetX;
-			var yCoordinate = event.offsetY;
+			let xCoordinate = event.offsetX;
+			let yCoordinate = event.offsetY;
 
-			var xRelative = (0.5*event.target.offsetWidth - xCoordinate)/event.target.offsetWidth;
-			var yRelative = (0.5*event.target.offsetHeight - yCoordinate)/event.target.offsetHeight;
+			let xRelative = (0.5*event.target.offsetWidth - xCoordinate)/event.target.offsetWidth;
+			let yRelative = (0.5*event.target.offsetHeight - yCoordinate)/event.target.offsetHeight;
 
-			var xSteps = xRelative * this.$store.state.apiConfig.fov[0];
-			var ySteps = yRelative * this.$store.state.apiConfig.fov[1];
+			let xSteps = xRelative * this.$store.state.apiConfig.fov[0];
+			let ySteps = yRelative * this.$store.state.apiConfig.fov[1];
 
 			// Emit a signal to move, acted on by panelNavigate.vue
 			this.$root.$emit('globalMoveEvent', xSteps, ySteps, 0, false)
@@ -106,19 +104,23 @@ export default {
 		},
 
 		recalculateSize: function () {
-			console.log("Recalculating window dimensions...")
-
 			let element = this.$refs.streamDisplay.parentNode;
-			let size = [element.clientWidth, element.clientHeight];
+			let bound = element.getBoundingClientRect()
 
-			let elem_pos = [element.getBoundingClientRect().left, element.getBoundingClientRect().top];
-			let wind_pos = [window.screenX, window.screenY];
-			let navHeight = window.outerHeight - window.innerHeight;
-			let position = [Math.max(0, wind_pos[0] + elem_pos[0]), Math.max(0, wind_pos[1] + elem_pos[1] + navHeight)];
+			let elementSize = [bound.width, bound.height]
 
-			this.displaySize = size;
+			let elementPositionOnWindow = [bound.left, bound.top]
+			let windowPositionOnDisplay = [window.screenX, window.screenY]
+			let windowChromeHeight = window.outerHeight - window.innerHeight
+			let elementPositionOnDisplay = [
+				Math.max(0, windowPositionOnDisplay[0] + elementPositionOnWindow[0]), 
+				Math.max(0, windowPositionOnDisplay[1] + elementPositionOnWindow[1] + windowChromeHeight)
+			]
+
+			this.displaySize = elementSize
+			this.displayPosition = elementPositionOnDisplay
+
 			console.log(`Size: ${this.displaySize}`)
-			this.displayPosition = position;
 			console.log(`Position: ${this.displayPosition}`)
 		},
 
@@ -149,7 +151,7 @@ export default {
 					}
 				}
 				else {
-					var letpayload = {}
+					var payload = {}
 				}
 
 				// Send preview request
