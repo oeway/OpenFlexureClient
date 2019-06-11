@@ -36,6 +36,7 @@ export default {
   font-size: 12px;
   text-transform: uppercase;
   line-height: 20px;
+  cursor: default;
 }
 
 .section-content, .section-heading {
