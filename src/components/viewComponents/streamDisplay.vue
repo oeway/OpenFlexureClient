@@ -90,7 +90,7 @@ export default {
 		handleResize: function(event) {
 			// Only fires resize event after no resize in 500ms (prevents resize event spam)
 			clearTimeout(this.resizeTimeoutId);
-			this.resizeTimeoutId = setTimeout(this.handleDoneResize, 500)
+			this.resizeTimeoutId = setTimeout(this.handleDoneResize, 250)
 		},
 
 		handleDoneResize: function() {
