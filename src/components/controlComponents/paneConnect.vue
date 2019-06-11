@@ -160,7 +160,7 @@ export default {
       this.$store.commit("changeSetting", ['trackWindow', state]);
       this.$store.commit("changeSetting", ['disableStream', state]);
       this.$store.commit("changeSetting", ['autoGpuPreview', state]);
-      this.$root.$emit('globalTogglePreview', state)
+      //this.$root.$emit('globalTogglePreview', state)
     },
 
     autofillHost: function (host) {
