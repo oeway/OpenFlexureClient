@@ -125,6 +125,11 @@
 @inverse-global-color:                          fade(@global-inverse-color, 80%);
 @inverse-global-muted-color:                    fade(@global-inverse-color, 60%);
 
+//
+// Paper
+//
+@paper-border-radius:                           4px;
+
 
 /* ========================================================================
    Theme
@@ -153,6 +158,51 @@
 @navbar-nav-item-line-background:               currentColor;
 @navbar-nav-item-line-transition-duration:      0.3s;
 
+.uk-navbar-dropdown.uk-open {
+    border-radius: @paper-border-radius;
+}
+
+/*
+ * Cards
+ */
+
+.uk-card {
+    border-radius: @paper-border-radius;
+}
+
+.uk-card-media-top img {
+    border-radius: @paper-border-radius @paper-border-radius 0 0;
+}
+
+.uk-card-default .uk-card-footer {
+    border-top: 1px solid  rgba(180, 180, 180, 0.25);
+}
+
+.uk-card-primary .uk-card-footer {
+    border-top: 1px solid  rgba(0, 0, 0, 0.075);
+}
+
+.hook-inverse() {
+    // Override background colour in dark mode
+    .uk-card-default {
+        background-color: #2a2a2a !important;
+    }
+
+    // Lighten on hover to show depth in dark mode
+    .uk-card-default:hover {
+        transition: background-color @animation-fast-duration ease;
+        background-color: #333 !important;
+    }
+}
+
+/*
+ * Modal
+ */
+.uk-modal-dialog {
+    border-radius: @paper-border-radius;
+    box-shadow: 0 14px 25px rgba(0, 0, 0, 0.16);
+    transition: 0.3s ease !important;
+}
 
 /*
  * Links
@@ -173,13 +223,7 @@
 .uk-button {
     border-radius: 2px;
 }
-/*
-.uk-button-primary {
-    background-color: rgba(180, 180, 180, 0.1);
-    color: @global-primary-background;
-    border: 1px solid @global-primary-background;
-}
- */
+
 .uk-button-danger {
     background-color: transparent;
     color: #f0506e;
