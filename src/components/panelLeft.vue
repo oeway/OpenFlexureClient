@@ -7,6 +7,7 @@
       <tabIcon id="navigate" uk-icon="location" :requireConnection="true" :currentTab="currentTab" @set-tab="setTab" />
       <tabIcon id="capture" uk-icon="camera" :requireConnection="true" :currentTab="currentTab" @set-tab="setTab" />
       <tabIcon id="settings" uk-icon="cog" :requireConnection="false" :currentTab="currentTab" @set-tab="setTab" />
+      <tabIcon v-for="plugin in plugins" :key="plugin.id" :id="plugin.id" :uk-icon="plugin.icon" :requireConnection="plugin.requiresConnection" :currentTab="currentTab" @set-tab="setTab" />
     </div>
 
     <!-- Corresponding vertical tab content -->
@@ -23,6 +24,9 @@
         </tabContent>
         <tabContent id="settings" :requireConnection="false" :currentTab="currentTab">
           <paneSettings/>
+        </tabContent>
+        <tabContent v-for="plugin in plugins" :key="plugin.id" :id="plugin.id" :requireConnection="plugin.requiresConnection" :currentTab="currentTab">
+          <p v-html="plugin.content"></p>
         </tabContent>
       </div>
     </div>
@@ -62,6 +66,14 @@ export default {
     return {
       currentTab: 'connect',
       showControlBar: true,
+      plugins: [
+        {
+          id: 'test-plugin',
+          icon: 'code',
+          requireConnection: false,
+          content: "<b>HELLO WORLD</b>"
+        }
+      ]
     }  
   },
 
