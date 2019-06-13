@@ -7,7 +7,9 @@
       <tabIcon id="navigate" uk-icon="location" :requireConnection="true" :currentTab="currentTab" @set-tab="setTab" />
       <tabIcon id="capture" uk-icon="camera" :requireConnection="true" :currentTab="currentTab" @set-tab="setTab" />
       <tabIcon id="settings" uk-icon="cog" :requireConnection="false" :currentTab="currentTab" @set-tab="setTab" />
+
       <tabIcon v-for="plugin in plugins" :key="plugin.id" :id="plugin.id" :uk-icon="plugin.icon" :requireConnection="plugin.requiresConnection" :currentTab="currentTab" @set-tab="setTab" />
+
     </div>
 
     <!-- Corresponding vertical tab content -->
@@ -25,9 +27,11 @@
         <tabContent id="settings" :requireConnection="false" :currentTab="currentTab">
           <paneSettings/>
         </tabContent>
+
         <tabContent v-for="plugin in plugins" :key="plugin.id" :id="plugin.id" :requireConnection="plugin.requiresConnection" :currentTab="currentTab">
-          <p v-html="plugin.content"></p>
+          <JsonForm :schema="plugin.schema"/>
         </tabContent>
+  
       </div>
     </div>
 
@@ -40,14 +44,17 @@
 import axios from 'axios'
 
 // Import generic components
-import tabIcon from './genericComponents/tabIcon.vue'
-import tabContent from './genericComponents/tabContent.vue'
+import tabIcon from './genericComponents/tabIcon'
+import tabContent from './genericComponents/tabContent'
 
 // Import pane components
-import paneConnect from './controlComponents/paneConnect.vue'
-import paneNavigate from './controlComponents/paneNavigate.vue'
-import paneCapture from './controlComponents/paneCapture.vue'
-import paneSettings from './controlComponents/paneSettings.vue'
+import paneConnect from './controlComponents/paneConnect'
+import paneNavigate from './controlComponents/paneNavigate'
+import paneCapture from './controlComponents/paneCapture'
+import paneSettings from './controlComponents/paneSettings'
+
+// Import plugin components
+import JsonForm from './pluginComponents/formComponents/JsonForm'
 
 // Export main app
 export default {
@@ -59,7 +66,8 @@ export default {
     paneConnect,
     paneNavigate,
     paneCapture,
-    paneSettings
+    paneSettings,
+    JsonForm
   },
 
   data: function () {
@@ -71,7 +79,39 @@ export default {
           id: 'test-plugin',
           icon: 'code',
           requireConnection: false,
-          content: "<b>HELLO WORLD</b>"
+          schema: [
+            {
+              fieldType: "htmlBlock",
+              name: "heading",
+              content: "<b>This is a cool plugin!</b>"
+            },
+            {
+              fieldType: "selectList",
+              name: "title",
+              multi: false,
+              label: "Title",
+              options: ["", "Mr", "Ms", "Mx", "Dr", "Madam", "Lord"]
+            },
+            {
+              fieldType: "textInput",
+              placeholder: "First Name",
+              label: "First Name",
+              name: "firstName"
+            },
+            {
+              fieldType: "textInput",
+              placeholder: "Last Name",
+              label: "Last Name",
+              name: "lastName"
+            },
+            {
+              fieldType: "numberInput",
+              placeholder: "Age",
+              name: "age",
+              label: "Age",
+              minValue: 0
+            }
+          ]
         }
       ]
     }  
