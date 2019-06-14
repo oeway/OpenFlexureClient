@@ -62,14 +62,8 @@ export default {
     }
   },
 
-  created: function () {
-    // `this` points to the vm instance
-    console.log(this.schema)
-  },
-
   methods: {
     updateForm(fieldName, value) {
-      console.log(`${fieldName}: ${value}`)
       this.$set(this.formData, fieldName, value);
       this.$emit('input', this.formData)
     },
