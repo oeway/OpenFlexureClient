@@ -75,11 +75,19 @@ export default {
     },
 
     submitForm() {
-      console.log(`Mock-submitting form to ${this.route}:`)
+      console.log(`Mock-submitting form to ${this.submitApiUri}:`)
       console.log(this.formData)
     }
 
+  },
+
+  computed: {
+    submitApiUri: function () {
+      return this.$store.getters.uri + this.route
+    },
+
   }
+
 }
 </script>
 
