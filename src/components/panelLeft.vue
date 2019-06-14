@@ -94,15 +94,10 @@ export default {
             },
             {
               fieldType: "textInput",
-              placeholder: "First Name",
-              label: "First Name",
-              name: "firstName"
-            },
-            {
-              fieldType: "textInput",
-              placeholder: "Last Name",
-              label: "Last Name",
-              name: "lastName"
+              placeholder: "Name",
+              label: "Name",
+              name: "name",
+              value: "Squidward"
             },
             {
               fieldType: "numberInput",
@@ -110,7 +105,35 @@ export default {
               name: "age",
               label: "Age",
               minValue: 0
-            }
+            },
+            [
+              {
+                fieldType: "numberInput",
+                placeholder: "Number",
+                name: "leftnum",
+                label: "Left"
+              },
+              {
+                fieldType: "numberInput",
+                placeholder: "Number",
+                name: "rightnum",
+                label: "Right"
+              }
+            ],
+            {
+              fieldType: "radioList",
+              name: "coolness",
+              label: "Coolness",
+              options: ["None", "Some", "Very"],
+              value: "Some"
+            },
+            {
+              fieldType: "checkList",
+              name: "ingredients",
+              label: "Ingredients",
+              options: ["Pork", "Pie"],
+              value: ["Pork"]
+            },
           ]
         }
       ]

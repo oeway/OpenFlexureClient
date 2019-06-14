@@ -1,13 +1,14 @@
 <template>
   <div>
-    <label>{{label}}</label>
+    <label class="uk-form-label">{{label}}</label>
 
     <input 
+      class="uk-input uk-form-small"
       type="text"
-      :name="name"
-      :value="value"
+      v-bind:name="name"
+      v-bind:value="value"
+      v-bind:placeholder="placeholder"
       @input="$emit('input',$event.target.value)"
-      :placeholder="placeholder"
     >
 
   </div>
@@ -16,6 +17,7 @@
 <script>
 export default {
   name: 'textInput',
+
   props: [
     'placeholder', 
     'label', 

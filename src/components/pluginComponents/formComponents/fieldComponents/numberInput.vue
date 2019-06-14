@@ -1,8 +1,9 @@
 <template>
   <div>
-    <label>{{label}}</label>
+    <label class="uk-form-label">{{label}}</label>
 
     <input 
+      class="uk-input uk-form-small"
       type="number"
       :name="name"
       :value="value"
@@ -17,7 +18,16 @@
 
 export default {
   name: 'numberInput',
-  props: ['placeholder', 'label', 'name', 'value']
+
+  props: [
+    'placeholder', 
+    'label', 
+    'name', 
+    'value'
+  ]
+
 }
 
 </script>
+
+<style scoped></style>
