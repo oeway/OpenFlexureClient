@@ -1,12 +1,12 @@
 <template>
-  <div class="uk-form-stacked">
+  <form @submit.prevent="submitForm" class="uk-form-stacked">
+
     <div v-for="(field, index) in schema" :key="index"> 
-    
       <div v-if="Array.isArray(field)" class="uk-grid-small" uk-grid>
         <div v-for="(subfield, subindex) in field" :key="subindex" class="uk-width-expand"> 
           <component
             :is="subfield.fieldType"
-            @input="updateForm(subfield.name, $event)"
+            v-model="formData[subfield.name]"
             v-bind="subfield">
           </component>
         </div>
@@ -14,12 +14,14 @@
       
       <component
         :is="field.fieldType"
-        @input="updateForm(field.name, $event)"
+        v-model="formData[field.name]"
         v-bind="field">
       </component>
-
     </div>
-  </div>
+
+    <button type="submit" class="uk-button uk-button-primary uk-form-small uk-float-right uk-margin-small uk-width-1-1">Submit</button>
+
+  </form>
 </template>
 
 <script>
@@ -47,6 +49,10 @@ export default {
     'schema': {
       type: Array,
       required: true
+    },
+    'route': {
+      type: String,
+      required: true
     }
   },
 
@@ -66,7 +72,13 @@ export default {
       console.log(`${fieldName}: ${value}`)
       this.$set(this.formData, fieldName, value);
       this.$emit('input', this.formData)
+    },
+
+    submitForm() {
+      console.log(`Mock-submitting form to ${this.route}:`)
+      console.log(this.formData)
     }
+
   }
 }
 </script>
