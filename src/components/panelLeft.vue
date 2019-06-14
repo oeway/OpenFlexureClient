@@ -8,7 +8,7 @@
       <tabIcon id="capture" uk-icon="camera" :requireConnection="true" :currentTab="currentTab" @set-tab="setTab" />
       <tabIcon id="settings" uk-icon="cog" :requireConnection="false" :currentTab="currentTab" @set-tab="setTab" />
 
-      <tabIcon v-for="plugin in plugins" :key="plugin.id" :id="plugin.id" :uk-icon="plugin.icon" :requireConnection="plugin.requiresConnection" :currentTab="currentTab" @set-tab="setTab" />
+      <tabIcon v-for="plugin in $store.state.apiPlugins" :key="plugin.id" :id="plugin.id" :uk-icon="plugin.icon" :requireConnection="plugin.requiresConnection" :currentTab="currentTab" @set-tab="setTab" />
 
     </div>
 
@@ -28,7 +28,7 @@
           <paneSettings/>
         </tabContent>
 
-        <tabContent v-for="plugin in plugins" :key="plugin.id" :id="plugin.id" :requireConnection="plugin.requiresConnection" :currentTab="currentTab">
+        <tabContent v-for="plugin in $store.state.apiPlugins" :key="plugin.id" :id="plugin.id" :requireConnection="plugin.requiresConnection" :currentTab="currentTab">
           <JsonForm  v-for="form in plugin.forms" :key="form.route" :route="form.route" :schema="form.schema"/>
         </tabContent>
   
@@ -73,73 +73,7 @@ export default {
   data: function () {
     return {
       currentTab: 'connect',
-      showControlBar: true,
-      plugins: [
-        {
-          id: 'test-plugin',
-          icon: 'code',
-          requireConnection: false,
-          forms: [
-            {
-              route: "/test/foo",
-              schema: [
-                {
-                  fieldType: "htmlBlock",
-                  name: "heading",
-                  content: "<b>This is a cool plugin!</b>"
-                },
-                {
-                  fieldType: "selectList",
-                  name: "title",
-                  multi: false,
-                  label: "Title",
-                  options: ["", "Mr", "Ms", "Mx", "Dr", "Madam", "Lord"]
-                },
-                {
-                  fieldType: "textInput",
-                  placeholder: "Name",
-                  label: "Name",
-                  name: "name"
-                },
-                {
-                  fieldType: "numberInput",
-                  placeholder: "Age",
-                  name: "age",
-                  label: "Age",
-                  minValue: 0
-                },
-                [
-                  {
-                    fieldType: "numberInput",
-                    placeholder: "Number",
-                    name: "leftnum",
-                    label: "Left"
-                  },
-                  {
-                    fieldType: "numberInput",
-                    placeholder: "Number",
-                    name: "rightnum",
-                    label: "Right"
-                  }
-                ],
-                {
-                  fieldType: "radioList",
-                  name: "coolness",
-                  label: "Coolness",
-                  options: ["None", "Some", "Very"]
-                },
-                {
-                  fieldType: "checkList",
-                  name: "ingredients",
-                  label: "Ingredients",
-                  options: ["Pork", "Pie"]
-                },
-              ]
-            }
-          ]
-          
-        }
-      ]
+      showControlBar: true
     }  
   },
 
@@ -153,8 +87,14 @@ export default {
         this.showControlBar = true
         this.currentTab = tab
       }
-    }
+    },
 
+  },
+
+  computed: {
+    pluginApiUri: function () {
+      return this.$store.getters.uri + "/plugin"
+    },
   }
 
 }
