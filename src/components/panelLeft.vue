@@ -29,7 +29,7 @@
         </tabContent>
 
         <tabContent v-for="plugin in plugins" :key="plugin.id" :id="plugin.id" :requireConnection="plugin.requiresConnection" :currentTab="currentTab">
-          <JsonForm :schema="plugin.schema"/>
+          <JsonForm  v-for="form in plugin.forms" :key="form.route" :route="form.route" :schema="form.schema"/>
         </tabContent>
   
       </div>
@@ -79,62 +79,65 @@ export default {
           id: 'test-plugin',
           icon: 'code',
           requireConnection: false,
-          schema: [
+          forms: [
             {
-              fieldType: "htmlBlock",
-              name: "heading",
-              content: "<b>This is a cool plugin!</b>"
-            },
-            {
-              fieldType: "selectList",
-              name: "title",
-              multi: false,
-              label: "Title",
-              options: ["", "Mr", "Ms", "Mx", "Dr", "Madam", "Lord"]
-            },
-            {
-              fieldType: "textInput",
-              placeholder: "Name",
-              label: "Name",
-              name: "name",
-              value: "Squidward"
-            },
-            {
-              fieldType: "numberInput",
-              placeholder: "Age",
-              name: "age",
-              label: "Age",
-              minValue: 0
-            },
-            [
-              {
-                fieldType: "numberInput",
-                placeholder: "Number",
-                name: "leftnum",
-                label: "Left"
-              },
-              {
-                fieldType: "numberInput",
-                placeholder: "Number",
-                name: "rightnum",
-                label: "Right"
-              }
-            ],
-            {
-              fieldType: "radioList",
-              name: "coolness",
-              label: "Coolness",
-              options: ["None", "Some", "Very"],
-              value: "Some"
-            },
-            {
-              fieldType: "checkList",
-              name: "ingredients",
-              label: "Ingredients",
-              options: ["Pork", "Pie"],
-              value: ["Pork"]
-            },
+              route: "/test/foo",
+              schema: [
+                {
+                  fieldType: "htmlBlock",
+                  name: "heading",
+                  content: "<b>This is a cool plugin!</b>"
+                },
+                {
+                  fieldType: "selectList",
+                  name: "title",
+                  multi: false,
+                  label: "Title",
+                  options: ["", "Mr", "Ms", "Mx", "Dr", "Madam", "Lord"]
+                },
+                {
+                  fieldType: "textInput",
+                  placeholder: "Name",
+                  label: "Name",
+                  name: "name"
+                },
+                {
+                  fieldType: "numberInput",
+                  placeholder: "Age",
+                  name: "age",
+                  label: "Age",
+                  minValue: 0
+                },
+                [
+                  {
+                    fieldType: "numberInput",
+                    placeholder: "Number",
+                    name: "leftnum",
+                    label: "Left"
+                  },
+                  {
+                    fieldType: "numberInput",
+                    placeholder: "Number",
+                    name: "rightnum",
+                    label: "Right"
+                  }
+                ],
+                {
+                  fieldType: "radioList",
+                  name: "coolness",
+                  label: "Coolness",
+                  options: ["None", "Some", "Very"]
+                },
+                {
+                  fieldType: "checkList",
+                  name: "ingredients",
+                  label: "Ingredients",
+                  options: ["Pork", "Pie"]
+                },
+              ]
+            }
           ]
+          
         }
       ]
     }  
