@@ -54,6 +54,7 @@
             :route="form.route"
             :isTask="form.isTask"
             :submitLabel="form.submitLabel"
+            :selfUpdate="form.selfUpdate"
             :schema="form.schema"/>
         </tabContent>
   
