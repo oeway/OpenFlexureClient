@@ -16,6 +16,8 @@
         <i class="material-icons">settings</i>  
       </tabIcon>
 
+      <hr>
+
       <tabIcon v-for="plugin in $store.state.apiPlugins" :key="plugin.id" :id="plugin.id" :uk-icon="plugin.icon" :requireConnection="plugin.requiresConnection" :currentTab="currentTab" @set-tab="setTab">
         <i class="material-icons">{{ plugin.icon || "extension" }}</i> 
       </tabIcon>
