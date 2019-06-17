@@ -3,12 +3,22 @@
 
     <!-- Vertical tab bar -->
     <div id="switcher-left" class="uk-flex uk-flex-column uk-padding-remove uk-width-auto uk-height-1-1">
-      <tabIcon id="connect" uk-icon="server" :requireConnection="false" :currentTab="currentTab" @set-tab="setTab" />
-      <tabIcon id="navigate" uk-icon="location" :requireConnection="true" :currentTab="currentTab" @set-tab="setTab" />
-      <tabIcon id="capture" uk-icon="camera" :requireConnection="true" :currentTab="currentTab" @set-tab="setTab" />
-      <tabIcon id="settings" uk-icon="cog" :requireConnection="false" :currentTab="currentTab" @set-tab="setTab" />
+      <tabIcon id="connect" :requireConnection="false" :currentTab="currentTab" @set-tab="setTab">
+        <i class="material-icons">settings_ethernet</i>
+      </tabIcon>
+      <tabIcon id="navigate" :requireConnection="true" :currentTab="currentTab" @set-tab="setTab">
+        <i class="material-icons">gamepad</i>  
+      </tabIcon>
+      <tabIcon id="capture" :requireConnection="true" :currentTab="currentTab" @set-tab="setTab">
+        <i class="material-icons">camera_alt</i>
+      </tabIcon>
+      <tabIcon id="settings" :requireConnection="false" :currentTab="currentTab" @set-tab="setTab">
+        <i class="material-icons">settings</i>  
+      </tabIcon>
 
-      <tabIcon v-for="plugin in $store.state.apiPlugins" :key="plugin.id" :id="plugin.id" :uk-icon="plugin.icon" :requireConnection="plugin.requiresConnection" :currentTab="currentTab" @set-tab="setTab" />
+      <tabIcon v-for="plugin in $store.state.apiPlugins" :key="plugin.id" :id="plugin.id" :uk-icon="plugin.icon" :requireConnection="plugin.requiresConnection" :currentTab="currentTab" @set-tab="setTab">
+        <i class="material-icons">{{ plugin.icon || "extension" }}</i> 
+      </tabIcon>
 
     </div>
 
@@ -118,7 +128,7 @@ export default {
 }
 
 #switcher-left a{
-  padding: 12px 20px;
+  padding: 10px 16px;
 }
 
 #switcher-left{

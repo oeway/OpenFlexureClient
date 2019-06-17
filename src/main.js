@@ -7,6 +7,9 @@ import UIkit from 'uikit';
 import Icons from 'uikit/dist/js/uikit-icons';
 UIkit.use(Icons);
 
+// Import MD icons
+import 'material-design-icons/iconfont/material-icons.css'
+
 Vue.config.productionTip = false
 
 Vue.mixin({

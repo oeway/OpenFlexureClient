@@ -1,9 +1,11 @@
 <template>
   <a 
     href="#" 
+    class="uk-link"
     :class="classObject" 
     :uk-tooltip="tooltipOptions"
     @click="setThisTab">
+    <slot></slot>
   </a>
 
 </template>
