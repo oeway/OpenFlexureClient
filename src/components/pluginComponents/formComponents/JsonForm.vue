@@ -1,6 +1,8 @@
 <template>
   <form @submit.prevent="submitForm" class="uk-form-stacked">
 
+    <button type="button" v-on:click="getFormData()" class="uk-button uk-button-primary uk-form-small uk-float-right uk-margin-small uk-width-1-1">{{ "Update values" }}</button>
+
     <div v-for="(field, index) in schema" :key="index"> 
       <div v-if="Array.isArray(field)" class="uk-grid-small" uk-grid>
         <div v-for="(subfield, subindex) in field" :key="subindex" class="uk-width-expand"> 
@@ -68,7 +70,12 @@ export default {
       type: String,
       required: false,
       default: "Submit"
-    }
+    },
+    'selfUpdate': {
+      type: Boolean,
+      required: false,
+      default: false
+    },
   },
 
   data: function () {
@@ -78,7 +85,35 @@ export default {
     }
   },
 
+  created() {
+    this.initialiseFormData()
+  },
+
   methods: {
+
+    initialiseFormData() {
+      /* 
+      This function initialises the form data.
+      Limitations in Vue mean that newly created formData properties are not reactive.
+      GETting formData values from the server creates the properties, but the form components
+      don't get updated because of this limitation.
+      Here, we step through the form schema, and properly create reactive properties for each component.
+      */
+      for (const field of this.schema) {
+        if (Array.isArray(field)) {
+          for (const subfield of field) {
+          console.log(subfield.name)
+          this.$set(this.formData, subfield.name, null)
+          }
+        }
+        else {
+          console.log(field.name)
+          this.$set(this.formData, field.name, null)
+        }
+        
+      }
+    },
+
     updateForm(fieldName, value) {
       this.$set(this.formData, fieldName, value);
       this.$emit('input', this.formData)
@@ -91,6 +126,18 @@ export default {
       else {
         this.newQuickRequest(this.formData)
       }
+    },
+
+    getFormData: function() {
+      // Send a quick request
+      axios.get(this.submitApiUri)
+        .then(response => { 
+          console.log(response.data)
+          Object.assign(this.formData, response.data)
+        })
+        .catch(error => {
+          this.modalError(error) // Let mixin handle error
+        })
     },
 
     newQuickRequest: function(params) {
