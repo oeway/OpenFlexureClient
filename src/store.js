@@ -155,7 +155,7 @@ export default new Vuex.Store({
           var result = response.data.status
           // If the task ends with success
           if(result == 'success') {
-              resolve(response.data.return)
+            resolve(response.data)
           }
           // If task ends with an error
           else if (result == 'error') {
@@ -163,7 +163,7 @@ export default new Vuex.Store({
           }
           // If the condition isn't met but the timeout hasn't elapsed, go again
           else if (Number(new Date()) < endTime) {
-              setTimeout(checkCondition, interval, resolve, reject)
+            setTimeout(checkCondition, interval, resolve, reject)
           }
           // Didn't match and too much time, reject!
           else {
