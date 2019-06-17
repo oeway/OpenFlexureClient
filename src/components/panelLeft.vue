@@ -18,7 +18,11 @@
 
       <hr>
 
-      <tabIcon v-for="plugin in $store.state.apiPlugins" :key="plugin.id" :id="plugin.id" :uk-icon="plugin.icon" :requireConnection="plugin.requiresConnection" :currentTab="currentTab" @set-tab="setTab">
+      <tabIcon v-for="plugin in $store.state.apiPlugins" @set-tab="setTab"
+        :key="plugin.id" 
+        :id="plugin.id" 
+        :requireConnection="plugin.requiresConnection" 
+        :currentTab="currentTab">
         <i class="material-icons">{{ plugin.icon || "extension" }}</i> 
       </tabIcon>
 
@@ -40,8 +44,17 @@
           <paneSettings/>
         </tabContent>
 
-        <tabContent v-for="plugin in $store.state.apiPlugins" :key="plugin.id" :id="plugin.id" :requireConnection="plugin.requiresConnection" :currentTab="currentTab">
-          <JsonForm  v-for="form in plugin.forms" :key="form.route" :route="form.route" :schema="form.schema"/>
+        <tabContent v-for="plugin in $store.state.apiPlugins" 
+          :key="plugin.id" 
+          :id="plugin.id" 
+          :requireConnection="plugin.requiresConnection" 
+          :currentTab="currentTab">
+          <JsonForm  v-for="form in plugin.forms" 
+            :key="form.route" 
+            :route="form.route"
+            :isTask="form.isTask"
+            :submitLabel="form.submitLabel"
+            :schema="form.schema"/>
         </tabContent>
   
       </div>

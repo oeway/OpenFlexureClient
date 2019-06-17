@@ -23,7 +23,7 @@
       <div class="center-spinner" uk-spinner></div>
     </div>
 
-    <button v-bind:hidden="taskRunning" type="submit" class="uk-button uk-button-primary uk-form-small uk-float-right uk-margin-small uk-width-1-1">Submit</button>
+    <button v-bind:hidden="taskRunning" type="submit" class="uk-button uk-button-primary uk-form-small uk-float-right uk-margin-small uk-width-1-1">{{ submitLabel }}</button>
 
   </form>
 </template>
@@ -58,6 +58,16 @@ export default {
     'route': {
       type: String,
       required: true
+    },
+    'isTask': {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    'submitLabel': {
+      type: String,
+      required: false,
+      default: "Submit"
     }
   },
 
@@ -75,7 +85,12 @@ export default {
     },
 
     submitForm() {
-      this.newQuickRequest(this.formData)
+      if (this.isTask == true) {
+        this.newLongRequest(this.formData)
+      }
+      else {
+        this.newQuickRequest(this.formData)
+      }
     },
 
     newQuickRequest: function(params) {
@@ -100,8 +115,9 @@ export default {
           // Start the store polling TaskId for success
           return this.$store.dispatch('pollTask', [response.data.id, null, null])
         })
-        .then(() => {
-          console.log("Successfully finished task")
+        .then(response => {
+          console.log("Successfully finished task with response:")
+          console.log(response)
         })
         .catch(error => {
           this.modalError(error) // Let mixin handle error
