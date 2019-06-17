@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: 'textInput',
+  name: 'htmlBlock',
 
   props: [ 
     'label', 
