@@ -1,8 +1,12 @@
 <template>
   <div>
-    <form @submit.prevent="submitForm" class="uk-form-stacked">
 
-      <button type="button" v-if="selfUpdate" v-on:click="getFormData()" class="uk-button uk-button-primary uk-form-small uk-float-right uk-margin-small uk-width-1-1">{{ "Update values" }}</button>
+    <div class="uk-flex">
+      <div class="uk-text-bold uk-text-uppercase uk-width-expand">{{ name }}</div>
+      <a href="#" v-if="selfUpdate" v-on:click="getFormData()" class="uk-icon-link uk-width-auto" uk-icon="refresh"></a>
+    </div>
+
+    <form @submit.prevent="submitForm" class="uk-form-stacked">
 
       <div v-for="(field, index) in schema" :key="index"> 
         <div v-if="Array.isArray(field)" class="uk-grid-small uk-width-1-1 uk-child-width-expand" uk-grid>
@@ -29,6 +33,7 @@
       <button v-bind:hidden="taskRunning" class="uk-button uk-button-primary uk-form-small uk-float-right uk-margin-small uk-width-1-1">{{ submitLabel }}</button>
 
     </form>
+
   </div>
 
 </template>
@@ -95,10 +100,13 @@ export default {
 
   created() {
     this.initialiseFormData()
+
+    if (this.selfUpdate) {
+      this.getFormData()
+    }
   },
 
   methods: {
-
     initialiseFormData() {
       /* 
       This function initialises the form data.
@@ -154,8 +162,12 @@ export default {
       // Send a quick request
       axios.post(this.submitApiUri, params)
         .then(response => { 
+          // Do something with the response
           console.log(response)
-          // TODO: Have this perform a GET request to update all available parameters
+          // Update the form data if we're self-updating
+          if (this.selfUpdate) {
+            this.getFormData()
+          }
         })
         .catch(error => {
           this.modalError(error) // Let mixin handle error
@@ -171,7 +183,7 @@ export default {
           return this.$store.dispatch('pollTask', [response.data.id, null, null])
         })
         .then(response => {
-          console.log("Successfully finished task with response:")
+          // Do something with the response
           console.log(response)
         })
         .catch(error => {
@@ -180,6 +192,10 @@ export default {
         .finally(() => {
           console.log("Cleaning up after task.")
           this.taskRunning = false
+          // Update the form data if we're self-updating
+          if (this.selfUpdate) {
+            this.getFormData()
+          }
         })
     },
 

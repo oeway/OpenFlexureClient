@@ -50,15 +50,15 @@
           :requireConnection="plugin.requiresConnection" 
           :currentTab="currentTab">
 
-          <div class="uk-flex uk-flex-column">
-            <JsonForm  v-for="form in plugin.forms" 
-              :key="`${form.route}/${form.name}`.replace(/\s+/g, '-').toLowerCase()" 
+          <div class="uk-flex uk-flex-column" v-for="form in plugin.forms" :key="`${form.route}/${form.name}`.replace(/\s+/g, '-').toLowerCase()" >
+            <JsonForm 
               :name="form.name"
               :route="form.route"
               :isTask="form.isTask"
               :submitLabel="form.submitLabel"
               :selfUpdate="form.selfUpdate"
               :schema="form.schema"/>
+            <hr>
           </div>
 
         </tabContent>
