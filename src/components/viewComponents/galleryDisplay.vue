@@ -27,7 +27,9 @@
 
       <div v-if="(galleryFolder)" class="uk-flex uk-flex-middle uk-padding uk-padding-remove-horizontal uk-padding-remove-bottom">
         <a href="#" v-on:click="galleryFolder=''" class="uk-icon uk-margin-remove"><i class="material-icons">arrow_back</i></a>
-        <h3 class="uk-margin-remove"><b>SCAN</b> {{ allScans[galleryFolder].metadata.filename }}</h3>
+        <div class="uk-margin-left">
+          <h3 class="uk-margin-remove uk-margin-left"><b>SCAN</b> {{ allScans[galleryFolder].metadata.filename }}</h3>
+        </div>
       </div>
 
       <div class="uk-grid-medium uk-grid-match uk-margin-top" uk-grid>
