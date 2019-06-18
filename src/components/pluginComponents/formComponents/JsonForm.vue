@@ -1,33 +1,36 @@
 <template>
-  <form @submit.prevent="submitForm" class="uk-form-stacked">
+  <div>
+    <form @submit.prevent="submitForm" class="uk-form-stacked">
 
-    <button type="button" v-on:click="getFormData()" class="uk-button uk-button-primary uk-form-small uk-float-right uk-margin-small uk-width-1-1">{{ "Update values" }}</button>
+      <button type="button" v-if="selfUpdate" v-on:click="getFormData()" class="uk-button uk-button-primary uk-form-small uk-float-right uk-margin-small uk-width-1-1">{{ "Update values" }}</button>
 
-    <div v-for="(field, index) in schema" :key="index"> 
-      <div v-if="Array.isArray(field)" class="uk-grid-small" uk-grid>
-        <div v-for="(subfield, subindex) in field" :key="subindex" class="uk-width-expand"> 
-          <component
-            :is="subfield.fieldType"
-            v-model="formData[subfield.name]"
-            v-bind="subfield">
-          </component>
+      <div v-for="(field, index) in schema" :key="index"> 
+        <div v-if="Array.isArray(field)" class="uk-grid-small uk-width-1-1 uk-child-width-expand" uk-grid>
+          <div v-for="(subfield, subindex) in field" :key="subindex"> 
+            <component
+              :is="subfield.fieldType"
+              v-model="formData[subfield.name]"
+              v-bind="subfield">
+            </component>
+          </div>
         </div>
+        
+        <component
+          :is="field.fieldType"
+          v-model="formData[field.name]"
+          v-bind="field">
+        </component>
       </div>
-      
-      <component
-        :is="field.fieldType"
-        v-model="formData[field.name]"
-        v-bind="field">
-      </component>
-    </div>
 
-    <div class="uk-text-center uk-container" v-if="taskRunning">
-      <div class="center-spinner" uk-spinner></div>
-    </div>
+      <div class="uk-text-center uk-container" v-if="taskRunning">
+        <div class="center-spinner" uk-spinner></div>
+      </div>
 
-    <button v-bind:hidden="taskRunning" type="submit" class="uk-button uk-button-primary uk-form-small uk-float-right uk-margin-small uk-width-1-1">{{ submitLabel }}</button>
+      <button v-bind:hidden="taskRunning" class="uk-button uk-button-primary uk-form-small uk-float-right uk-margin-small uk-width-1-1">{{ submitLabel }}</button>
 
-  </form>
+    </form>
+  </div>
+
 </template>
 
 <script>
@@ -53,6 +56,11 @@ export default {
   },
 
   props: {
+    'name': {
+      type: String,
+      required: false,
+      default: "Plugin"
+    },
     'schema': {
       type: Array,
       required: true
