@@ -26,8 +26,8 @@
         </component>
       </div>
 
-      <div class="uk-text-center uk-container uk-margin-small" v-if="taskRunning">
-        <div class="center-spinner" uk-spinner></div>
+      <div v-if="taskRunning">
+        <progressBar/>
       </div>
 
       <button v-bind:hidden="taskRunning" class="uk-button uk-button-primary uk-form-small uk-float-right uk-margin-small uk-width-1-1">{{ submitLabel }}</button>
@@ -48,6 +48,8 @@ import htmlBlock from "./fieldComponents/htmlBlock";
 import radioList from "./fieldComponents/radioList";
 import checkList from "./fieldComponents/checkList"
 
+import progressBar from "../../genericComponents/progressBar"
+
 export default {
   name: 'JsonForm',
 
@@ -57,7 +59,8 @@ export default {
     textInput,
     htmlBlock,
     radioList,
-    checkList
+    checkList,
+    progressBar
   },
 
   props: {

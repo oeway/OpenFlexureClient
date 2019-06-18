@@ -66,9 +66,10 @@
       <a class="uk-accordion-title" href="#">Autofocus</a>
       <div class="uk-accordion-content">
 
-        <div class="uk-text-center uk-container" v-if="isAutofocusing">
-          <div class="center-spinner" uk-spinner></div>
+        <div v-if="isAutofocusing">
+          <progressBar/>
         </div>
+
         <div class="uk-grid-small uk-child-width-1-3" v-bind:hidden="isAutofocusing" uk-grid>
           <div>
             <button v-on:click="runFastAutofocus(2000, 300);" class="uk-button uk-button-default uk-form-small uk-float-right uk-width-1-1">Fast</button>
@@ -90,6 +91,7 @@
 
 <script>
 import axios from 'axios'
+import progressBar from "../genericComponents/progressBar"
 
 // Key Codes
 const keyCodes = {
@@ -106,6 +108,10 @@ const keyCodes = {
 // Export main app
 export default {
   name: 'paneNavigate',
+
+  components: {
+    progressBar
+  },
 
   data: function () {
     return {
