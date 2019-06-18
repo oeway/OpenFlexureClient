@@ -10,7 +10,7 @@
 
       <div v-if="!localMode">
         <div class="uk-inline uk-width-1-1">
-          <span class="uk-form-icon" uk-icon="icon: server"></span>
+          <span class="uk-form-icon"><i class="material-icons">dns</i></span>
           <input v-model="hostname" v-bind:class="IpFormClasses" class="uk-input uk-form-small" type="text" placeholder="Hostname or IP address">
         </div>
       </div>
@@ -44,9 +44,9 @@
           <a class="uk-accordion-title" href="#">Saved hosts</a>
           <div class="uk-accordion-content">
             <button v-if="$store.getters.ready" v-on:click="saveHost()" class="uk-button uk-button-default uk-form-small uk-margin-small uk-width-1-1">Save Current</button>
-            <div v-for="host in savedHosts" :key="host.name" class="uk-margin-small uk-margin-remove-left uk-margin-remove-right uk-grid">
-              <a href="#" v-on:click="autofillHost(host)" class="uk-icon-link uk-padding-remove uk-width-expand host-description"><b>{{ host.name }}</b> ({{ host.hostname }}:{{ host.port }})</a> 
-              <a href="#" v-on:click="delSavedHost(host)" class="uk-icon-link uk-width-auto host-delete" uk-icon="trash"></a> 
+            <div v-for="host in savedHosts" :key="host.name" class="uk-margin-small uk-margin-remove-left uk-margin-remove-right uk-flex uk-flex-middle">
+              <a href="#" v-on:click="autofillHost(host)" class="uk-link uk-padding-remove uk-width-expand host-description"><b>{{ host.name }}</b> ({{ host.hostname }}:{{ host.port }})</a> 
+              <a href="#" v-on:click="delSavedHost(host)" class="uk-icon uk-width-auto host-delete"><i class="material-icons">delete</i></a> 
             </div>
           </div>
         </li>

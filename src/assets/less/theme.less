@@ -198,25 +198,45 @@
 /*
  * Modal
  */
-.uk-modal-dialog {
+.uk-modal-dialoge {
     border-radius: @paper-border-radius;
     box-shadow: 0 14px 25px rgba(0, 0, 0, 0.16);
     transition: 0.3s ease !important;
 }
 
 /*
+ * Notifications
+ */
+.uk-notification-message {
+    border-radius: @paper-border-radius;
+    box-shadow: 0 14px 25px rgba(0, 0, 0, 0.16);
+}
+
+.uk-notification-message-danger {
+    border: 1px solid @notification-message-danger-color
+}
+
+.uk-notification-message-warning {
+    border: 1px solid @notification-message-warning-color
+}
+
+.uk-notification-message-success {
+    border: 1px solid @notification-message-success-color
+}
+
+/*
  * Links
  */
-.uk-link {
+.uk-link, .uk-button-link {
     color: @global-muted-color;
 }
 
-.uk-link:hover, a:hover {
+.uk-link:hover, .uk-button-link:hover, a:hover {
     color: @global-primary-background;
 }
 
 .hook-inverse() {
-    .uk-link:hover, a:hover {
+    .uk-link:hover, .uk-button-link:hover, a:hover {
         color: @inverse-primary-muted-color;
     }
 }
@@ -245,4 +265,8 @@
         background-color: @inverse-primary-muted-color;
         color: #fff;
     }
+}
+
+.uk-icon-button, .uk-icon-button:hover {
+    text-decoration: none
 }

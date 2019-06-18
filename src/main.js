@@ -3,9 +3,6 @@ import App from './App.vue'
 import store from './store'
 
 import UIkit from 'uikit';
-// Import UIkit icon set
-import Icons from 'uikit/dist/js/uikit-icons';
-UIkit.use(Icons);
 
 // Import MD icons
 import 'material-design-icons/iconfont/material-icons.css'
@@ -81,7 +78,7 @@ Vue.mixin({
         console.log(errormsg)
       }
       this.$store.commit('setError', errormsg);
-      UIkit.notification({message: `<span uk-icon=\'icon: warning\'></span> ${errormsg}`, status: 'danger'})
+      UIkit.notification({message: `${errormsg}`, status: 'danger'})
     },
 
     getLocalStorageObj: function(keyName) {

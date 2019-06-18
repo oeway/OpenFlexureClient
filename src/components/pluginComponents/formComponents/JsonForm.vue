@@ -3,7 +3,7 @@
 
     <div class="uk-flex">
       <div class="uk-text-bold uk-text-uppercase uk-width-expand">{{ name }}</div>
-      <a href="#" v-if="selfUpdate" v-on:click="getFormData()" class="uk-icon-link uk-width-auto" uk-icon="refresh"></a>
+      <a href="#" v-if="selfUpdate" v-on:click="getFormData()" class="uk-icon uk-width-auto"><i class="material-icons">cached</i></a>
     </div>
 
     <form @submit.prevent="submitForm" class="uk-form-stacked">
@@ -26,7 +26,7 @@
         </component>
       </div>
 
-      <div class="uk-text-center uk-container" v-if="taskRunning">
+      <div class="uk-text-center uk-container uk-margin-small" v-if="taskRunning">
         <div class="center-spinner" uk-spinner></div>
       </div>
 
