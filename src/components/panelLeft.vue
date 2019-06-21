@@ -1,59 +1,160 @@
 <template>
-  <div id="panelLeft" class="uk-flex uk-flex-column uk-margin-remove uk-padding-remove uk-height-1-1">
-    <ul class="uk-flex-none uk-flex-center uk-margin-remove-top uk-margin-remove-bottom" uk-tab="swiping: false">
-      <li><a href="#" uk-switcher-item="connect" uk-icon="server" uk-tooltip="pos: bottom; title: Connect"></a></li>
-      <li v-bind:class="disableIfDisconnected"><a href="#" uk-switcher-item="navigate" uk-icon="location" uk-tooltip="pos: bottom; title: Navigate"></a></li>
-      <li v-bind:class="disableIfDisconnected"><a href="#" uk-switcher-item="capture" uk-icon="camera" uk-tooltip="pos: bottom; title: Capture"></a></li>
-      <li v-bind:class="disableIfDisconnected"><a href="#" uk-switcher-item="plugins" uk-icon="git-fork" uk-tooltip="pos: bottom; title: Plugins"></a></li>
-      <li><a href="#" uk-switcher-item="settings" uk-icon="settings" uk-tooltip="pos: bottom; title: Settings"></a></li>
-    </ul>
-    <ul class="uk-switcher uk-padding-small uk-flex uk-flex-1 panel-content">
-      <li class="uk-width-expand"><paneConnect/></li>
-      <li class="uk-width-expand"><div v-if="$store.getters.ready"><paneNavigate/></div></li>
-      <li class="uk-width-expand"><div v-if="$store.getters.ready"><paneCapture/></div></li>
-      <li class="uk-width-expand"><div v-if="$store.getters.ready"><panePlugins/></div></li>
-      <li class="uk-width-expand"><paneSettings/></li>
-    </ul>
+  <div id="panel-left" class="uk-margin-remove uk-padding-remove uk-height-1-1" uk-grid>
+
+    <!-- Vertical tab bar -->
+    <div id="switcher-left" class="uk-flex uk-flex-column uk-padding-remove uk-width-auto uk-height-1-1">
+      <tabIcon id="connect" :requireConnection="false" :currentTab="currentTab" @set-tab="setTab">
+        <i class="material-icons">settings_ethernet</i>
+      </tabIcon>
+      <tabIcon id="navigate" :requireConnection="true" :currentTab="currentTab" @set-tab="setTab">
+        <i class="material-icons">gamepad</i>  
+      </tabIcon>
+      <tabIcon id="capture" :requireConnection="true" :currentTab="currentTab" @set-tab="setTab">
+        <i class="material-icons">camera_alt</i>
+      </tabIcon>
+      <tabIcon id="settings" :requireConnection="false" :currentTab="currentTab" @set-tab="setTab">
+        <i class="material-icons">settings</i>  
+      </tabIcon>
+
+      <hr>
+
+      <tabIcon v-for="plugin in $store.state.apiPlugins" @set-tab="setTab"
+        :key="plugin.id" 
+        :id="plugin.id" 
+        :requireConnection="plugin.requiresConnection" 
+        :currentTab="currentTab">
+        <i class="material-icons">{{ plugin.icon || "extension" }}</i> 
+      </tabIcon>
+
+    </div>
+
+    <!-- Corresponding vertical tab content -->
+    <div v-bind:hidden="!showControlBar" id="container-left" class="uk-padding-remove uk-height-1-1 uk-width-expand">
+      <div id="component-left" class="uk-padding-remove uk-flex uk-flex-1 panel-content">
+        <tabContent id="connect" :requireConnection="false" :currentTab="currentTab">
+          <paneConnect/>
+        </tabContent>
+        <tabContent id="navigate" :requireConnection="true" :currentTab="currentTab">
+          <paneNavigate/>
+        </tabContent>
+        <tabContent id="capture" :requireConnection="true" :currentTab="currentTab">
+          <paneCapture/>
+        </tabContent>
+        <tabContent id="settings" :requireConnection="false" :currentTab="currentTab">
+          <paneSettings/>
+        </tabContent>
+
+        <tabContent v-for="plugin in $store.state.apiPlugins" 
+          :key="plugin.id" 
+          :id="plugin.id" 
+          :requireConnection="plugin.requiresConnection" 
+          :currentTab="currentTab">
+
+          <div class="uk-flex uk-flex-column" v-for="form in plugin.forms" :key="`${form.route}/${form.name}`.replace(/\s+/g, '-').toLowerCase()" >
+            <JsonForm 
+              :name="form.name"
+              :route="form.route"
+              :isTask="form.isTask"
+              :submitLabel="form.submitLabel"
+              :selfUpdate="form.selfUpdate"
+              :schema="form.schema"/>
+            <hr>
+          </div>
+
+        </tabContent>
+  
+      </div>
+    </div>
+
   </div>
+
 </template>
 
 <script>
-// Import components
-import paneConnect from './paneConnect.vue'
-import paneNavigate from './paneNavigate.vue'
-import paneCapture from './paneCapture.vue'
-import panePlugins from './panePlugins.vue'
-import paneSettings from './paneSettings.vue'
+// Import axios for HTTP requests
+import axios from 'axios'
+
+// Import generic components
+import tabIcon from './genericComponents/tabIcon'
+import tabContent from './genericComponents/tabContent'
+
+// Import pane components
+import paneConnect from './controlComponents/paneConnect'
+import paneNavigate from './controlComponents/paneNavigate'
+import paneCapture from './controlComponents/paneCapture'
+import paneSettings from './controlComponents/paneSettings'
+
+// Import plugin components
+import JsonForm from './pluginComponents/formComponents/JsonForm'
 
 // Export main app
 export default {
   name: 'panelLeft',
 
   components: {
+    tabIcon,
+    tabContent,
     paneConnect,
     paneNavigate,
     paneCapture,
-    panePlugins,
-    paneSettings
+    paneSettings,
+    JsonForm
+  },
+
+  data: function () {
+    return {
+      currentTab: 'connect',
+      showControlBar: true
+    }  
+  },
+
+  methods: {
+    setTab: function(event, tab) {
+      if (this.currentTab == tab) {
+        this.showControlBar = !this.showControlBar
+        this.currentTab = 'none'
+      }
+      else {
+        this.showControlBar = true
+        this.currentTab = tab
+      }
+    },
+
   },
 
   computed: {
-    disableIfDisconnected: function () {
-      return {
-        'uk-disabled': !this.$store.getters.ready
-      }
-    }
+    pluginApiUri: function () {
+      return this.$store.getters.uri + "/plugin"
+    },
   }
 
 }
 </script>
 
-<style lang="less">
-.uk-tab {
-    padding-left: 0;
-}
-.panel-content {
+<style scoped lang="less">
+
+#component-left {
   width: 300px;
-  overflow: auto;
 }
+
+#container-left {
+  overflow: hidden auto;
+  background-color: rgba(180, 180, 180, 0.025);
+}
+
+#container-left, #switcher-left {
+  border-width: 0 1px 0 0;
+  border-style: solid;
+  border-color: rgba(180, 180, 180, 0.25)
+}
+
+#switcher-left a{
+  padding: 10px 16px;
+}
+
+#switcher-left{
+  background-color: rgba(180, 180, 180, 0.1);
+  padding-top: 2px !important;
+}
+
 </style>

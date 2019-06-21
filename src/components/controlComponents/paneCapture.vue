@@ -43,18 +43,20 @@
         <div class="uk-accordion-content">
 
           <form @submit.prevent="handleMetadataSubmit">
-            <div class="uk-margin-small uk-grid-small" uk-grid>
-              <div class="uk-margin-remove-top uk-width-2-5"><input v-model="newMetadata.key" class="uk-input uk-form-width-small uk-form-small" type="text" name="flavor" placeholder="Key"></div>
-              <div class="uk-margin-remove-top uk-width-2-5"><input v-model="newMetadata.value" class="uk-input uk-form-width-small uk-form-small" type="text" name="flavor" placeholder="Value"></div>
-              <div class="uk-margin-remove-top uk-width-1-5"><button class="uk-button uk-button-default uk-form-small uk-float-right" uk-icon="plus"></button></div>
+            <div class="uk-margin-remove uk-flex uk-flex-middle">
+              <div class="uk-margin-remove-top uk-padding-remove uk-grid-small uk-width-expand" uk-grid>
+                <div class="uk-margin-remove uk-width-1-2"><input v-model="newMetadata.key" class="uk-input uk-form-width-small uk-form-small" type="text" name="flavor" placeholder="Key"></div>
+                <div class="uk-margin-remove uk-width-1-2"><input v-model="newMetadata.value" class="uk-input uk-form-width-small uk-form-small" type="text" name="flavor" placeholder="Value"></div>
+              </div>
+              
+              <a href="#" v-on:click="handleMetadataSubmit()" class="uk-icon uk-margin-left"><i class="material-icons">add_circle</i></a>
+
             </div>
           </form>
 
-          <div v-for="(value, key) in customMetadata" :key="key" class="uk-width-1-1 uk-margin-small uk-margin-remove-left uk-margin-remove-right" uk-grid>
+          <div v-for="(value, key) in customMetadata" :key="key" class="uk-width-1-1 uk-margin-small uk-margin-remove-left uk-margin-remove-right uk-flex uk-flex-middle">
             <div class="uk-margin-remove-top uk-padding-remove uk-width-expand"><b>{{ key }}: </b>{{ value }}</div>
-            <div class="uk-margin-remove-top uk-padding-remove uk-width-auto">
-              <a href="#" v-on:click="delMetadataKey(key)" class="uk-icon-link" uk-icon="trash"></a>
-            </div>
+            <a href="#" v-on:click="delMetadataKey(key)" class="uk-icon uk-width-auto"><i class="material-icons">delete</i></a>
           </div>
 
         </div>
@@ -65,9 +67,16 @@
         <div class="uk-accordion-content">
 
           <form @submit.prevent="handleTagSubmit">
-            <div class="uk-margin-small uk-grid-small" uk-grid>
-              <div class="uk-margin-remove-top uk-width-4-5"><input v-model="newTag" class="uk-input uk-form-width-small uk-form-small" type="text" name="flavor" placeholder="Tag"></div>
-              <div class="uk-margin-remove-top uk-width-1-5"><button class="uk-button uk-button-default uk-form-small uk-float-right" uk-icon="plus"></button></div>
+            <div class="uk-margin-small uk-flex uk-flex-middle">
+
+              <div class="uk-margin-remove-top uk-width-expand">
+                <div class="uk-inline uk-width-1-1">
+                  <span class="uk-form-icon"><i class="material-icons">label</i></span>
+                  <input v-model="newTag" class="uk-input uk-form-small" type="text" name="flavor" placeholder="Tag">
+                </div>
+              </div>
+
+              <a href="#" v-on:click="handleTagSubmit()" class="uk-icon uk-margin-left"><i class="material-icons">add_circle</i></a>
             </div>
           </form>
 

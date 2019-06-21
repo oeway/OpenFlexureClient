@@ -1,6 +1,6 @@
 {
   "name": "openflexure-ev",
-  "version": "1.1.0-beta.2",
+  "version": "1.1.0-beta.4",
   "private": true,
   "description": "An electron-based user client for the OpenFlexure Microscope Server",
   "author": "OpenFlexure <contact@openflexure.org> (https://www.openflexure.org)",
@@ -13,7 +13,7 @@
   "scripts": {
     "build:web": "vue-cli-service build --mode production.web",
     "build:app": "vue-cli-service build --mode production.app",
-    "serve": "vue-cli-service serve",
+    "serve": "vue-cli-service serve  --mode development.web",
     "start": "npm run build:app && electron app/app.js",
     "dist:linux": "electron-builder --linux --config app/builder-config-x86_64.yaml",
     "dist:raspi": "electron-builder --linux --config app/builder-config-raspi.yaml",
@@ -27,7 +27,8 @@
     "custom-electron-titlebar": "^3.0.8",
     "electron-context-menu": "^0.11.0",
     "electron-store": "^3.2.0",
-    "electron-updater": "^4.0.6"
+    "electron-updater": "^4.0.6",
+    "material-design-icons": "^3.0.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.3.0",
@@ -38,7 +39,7 @@
     "electron-builder": "^20.39.0",
     "less": "^3.9.0",
     "less-loader": "^4.1.0",
-    "uikit": "3.1.1",
+    "uikit": "^3.1.1",
     "vue": "^2.5.21",
     "vue-template-compiler": "^2.6.10",
     "vuex": "^3.0.1"

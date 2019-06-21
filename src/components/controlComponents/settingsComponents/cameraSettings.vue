@@ -24,10 +24,11 @@
 
     <button type="submit" class="uk-button uk-button-primary uk-form-small uk-float-right uk-margin-small uk-width-1-1">Apply Settings</button>
     
-    <div class="uk-text-center uk-container" v-if="isCalibrating">
-      <div class="center-spinner" uk-spinner></div>
+    <div v-if="isCalibrating">
+      <progressBar/>
     </div>
-    <div v-else>
+
+    <div v-bind:hidden="isCalibrating">
       <button type="button" v-on:click="recalibrateConfirm()" class="uk-button uk-button-default uk-form-small uk-float-right uk-margin-small uk-width-1-1">Auto-Calibrate</button>
     </div>
 
@@ -40,10 +41,15 @@
 
 <script>
 import axios from 'axios'
+import progressBar from "../../genericComponents/progressBar"
 
 // Export main app
 export default {
   name: 'microscopeSettings',
+
+  components: {
+    progressBar
+  },
 
   data: function () {
     return {

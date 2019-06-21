@@ -15,6 +15,7 @@ export default new Vuex.Store({
     error: '',
     apiConfig: {},
     apiState: {},
+    apiPlugins: [],
     globalSettings: {
       disableStream: false,
       autoGpuPreview: false,
@@ -38,6 +39,9 @@ export default new Vuex.Store({
     commitState(state, stateData) {
       state.apiState = stateData;
     },
+    commitPlugins(state, pluginData) {
+      state.apiPlugins = pluginData;
+    },
     changeSetting(state, [key, value]) {
       state.globalSettings[key] = value;
     },
@@ -47,6 +51,7 @@ export default new Vuex.Store({
       state.error = null
       state.apiConfig = {}
       state.apiState = {}
+      state.apiPlugins = []
     },
     setConnected(state) {
       state.waiting = false
@@ -71,6 +76,9 @@ export default new Vuex.Store({
         context.dispatch('updateConfig')
         .then (() => {
           context.dispatch('updateState')
+        })
+        .then (() => {
+          context.dispatch('updatePlugins')
         })
         .then (() => {
           resolve()
@@ -116,6 +124,25 @@ export default new Vuex.Store({
       return new Promise(sendRequest)
     },
 
+    updatePlugins(context, uri=`${context.getters.uri}/plugin`) {
+      context.commit('changeWaiting', true)
+  
+      var sendRequest = function(resolve, reject) {
+        axios.get(uri)
+        .then(response => { 
+          console.log("PLUGINS")
+          console.log(response.data)
+          context.commit('commitPlugins', response.data)
+          context.commit('setConnected')
+          resolve()
+        })
+        .catch(error => {
+          reject(new Error(error))
+        })
+      }
+      return new Promise(sendRequest)
+    },
+
     pollTask(context, [taskId, timeout, interval]) {
       var endTime = Number(new Date()) + (timeout*1000 || 30000);
       interval = interval*1000 || 500;
@@ -128,7 +155,7 @@ export default new Vuex.Store({
           var result = response.data.status
           // If the task ends with success
           if(result == 'success') {
-              resolve(response.data.return)
+            resolve(response.data)
           }
           // If task ends with an error
           else if (result == 'error') {
@@ -136,7 +163,7 @@ export default new Vuex.Store({
           }
           // If the condition isn't met but the timeout hasn't elapsed, go again
           else if (Number(new Date()) < endTime) {
-              setTimeout(checkCondition, interval, resolve, reject)
+            setTimeout(checkCondition, interval, resolve, reject)
           }
           // Didn't match and too much time, reject!
           else {

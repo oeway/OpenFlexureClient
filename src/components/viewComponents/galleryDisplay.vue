@@ -4,8 +4,8 @@
     <nav class="uk-navbar-container uk-navbar-transparent navbar" uk-navbar="mode: click">
         <div class="uk-navbar-left uk-padding-remove-top uk-padding-remove-bottom">
             <ul class="uk-navbar-nav">
-              <li v-bind:class="[sortDescending ? 'uk-active' : '']"><a v-on:click="sortDescending=true;" class="uk-icon-link" href="#" uk-icon="icon: arrow-down"></a></li>
-              <li v-bind:class="[!sortDescending ? 'uk-active' : '']"><a v-on:click="sortDescending=false;" class="uk-icon-link" href="#" uk-icon="icon: arrow-up"></a></li>
+              <li v-bind:class="[sortDescending ? 'uk-active' : '']"><a v-on:click="sortDescending=true;" class="uk-icon" href="#"><i class="material-icons">keyboard_arrow_down</i></a></li>
+              <li v-bind:class="[!sortDescending ? 'uk-active' : '']"><a v-on:click="sortDescending=false;" class="uk-icon" href="#"><i class="material-icons">keyboard_arrow_up</i></a></li>
               <li>
                 <a href="#">Filter</a>
                 <div class="uk-navbar-dropdown" v-bind:class="{ 'uk-light uk-background-secondary': $store.state.globalSettings.darkMode }">
@@ -25,9 +25,11 @@
 
     <div v-if="$store.getters.ready" class="uk-padding-remove-top" uk-lightbox="toggle: .lightbox-link">
 
-      <div v-if="(galleryFolder)" class="uk-padding uk-padding-remove-right uk-padding-remove-bottom">
-        <a href="#" v-on:click="galleryFolder=''" class="uk-icon-button" uk-icon="arrow-left"></a> 
-        <h3 class="uk-inline uk-float-right uk-margin-remove"><b>SCAN</b> {{ allScans[galleryFolder].metadata.filename }}</h3>
+      <div v-if="(galleryFolder)" class="uk-flex uk-flex-middle uk-padding uk-padding-remove-horizontal uk-padding-remove-bottom">
+        <a href="#" v-on:click="galleryFolder=''" class="uk-icon uk-margin-remove"><i class="material-icons">arrow_back</i></a>
+        <div class="uk-margin-left">
+          <h3 class="uk-margin-remove uk-margin-left"><b>SCAN</b> {{ allScans[galleryFolder].metadata.filename }}</h3>
+        </div>
       </div>
 
       <div class="uk-grid-medium uk-grid-match uk-margin-top" uk-grid>

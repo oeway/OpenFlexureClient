@@ -13,7 +13,9 @@
       <div class="uk-width-1-1 uk-margin-small uk-margin-remove-left uk-margin-remove-right" uk-grid>
         <div class="uk-margin-remove-top uk-padding-remove uk-width-expand">{{ metadata.filename }}</div>
         <div class="uk-margin-remove-top uk-padding-remove uk-width-auto">
-          <a href="#" v-on:click="delCaptureConfirm()" class="uk-icon-link" uk-icon="trash"></a>
+          <a href="#" v-on:click="delCaptureConfirm()" class="uk-icon">
+            <i class="material-icons">delete</i>
+          </a>
         </div>
       </div>
 
@@ -59,7 +61,7 @@
       <form class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical" v-bind:class="{ 'uk-light uk-background-secondary': $store.state.globalSettings.darkMode }" @submit.prevent="handleTagSubmit">
 
           <div class="uk-inline">
-            <span class="uk-form-icon" uk-icon="icon: tag"></span>
+            <span class="uk-form-icon"><i class="material-icons">label</i></span>
             <input v-model="newtag" class="uk-input uk-form-width-medium uk-form-small" type="text" name="tagname" placeholder="tag">
 
             <button class="uk-button uk-button-default uk-margin-left uk-form-small uk-modal-close" type="button">Cancel</button>

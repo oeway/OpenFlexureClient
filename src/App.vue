@@ -1,82 +1,41 @@
 <template>
   <div id="app" v-bind:class="handleTheme">
+
+    <!-- Grid managing whole app -->
     <div uk-grid class="uk-height-1-1 uk-margin-remove uk-padding-remove" margin=0>
-      <div id="sidebar-container" v-bind:class="{ 'overlay-panel': this.window.width<850 }" class="uk-padding-remove uk-first-column uk-inline uk-height-1-1">
-        <div id="overlay-toggle">
-          <a href="" class="uk-icon-button uk-box-shadow-small uk-box-shadow-hover-medium action-btn-outline" uk-icon="menu" uk-toggle="target: #left-panel-container; animation: uk-animation-slide-left-small, uk-animation-slide-left-small" ></a>
-        </div>
-        <div id="left-panel-container" class="uk-padding-remove uk-card uk-card-default uk-width-auto uk-height-1-1" v-bind:class="{ 'uk-card-secondary': $store.state.globalSettings.darkMode }">
-          <panelLeft/>
-        </div>
-      </div>
-      <div id="main-panel-container" class="uk-padding-remove uk-height-1-1 uk-width-expand">
-        <panelDisplay/>
-      </div>
+      <panelLeft/>
+      <panelRight/>
     </div>
+
   </div>
 </template>
 
 <script>
 // Import axios for HTTP requests
 import axios from 'axios'
-// Import basic UIkit
-import UIkit from 'uikit';
 
 // Import components
 import panelLeft from './components/panelLeft.vue'
-import panelDisplay from './components/panelDisplay.vue'
+import panelRight from './components/panelRight.vue'
 
 // Export main app
 export default {
   name: 'app',
 
   components: {
-    panelLeft,
-    panelDisplay
+    panelRight,
+    panelLeft
   },
 
   data: function () {
-    return {
-      window: {
-        width: 0,
-        height: 0
-      }
-    }  
+    return {}  
   },
 
   created: function () {
-    var context = this
-
-    function handleSidebarEvent(context, event){
-      if (event.target.id == 'left-panel-container') {
-        console.log("Sidebar hidden")
-        context.$root.$emit('globalResizePreview')
-      }
-    }
-
-    UIkit.util.on(document, 'hidden', '#left-panel-container', function (e) {
-      handleSidebarEvent(context, e)
-    })
-    UIkit.util.on(document, 'shown', '#left-panel-container', function (e) {
-      handleSidebarEvent(context, e)
-    })
-
-    window.addEventListener('resize', this.handleResize)
-    this.handleResize();
-
     window.addEventListener('beforeunload', this.handleExit)
   },
 
-  beforeDestroy: function () {
-    window.removeEventListener('resize', this.handleResize)
-  },
-
   methods: {
-    handleResize: function(event) {
-      this.window.width = window.innerWidth;
-      this.window.height = window.innerHeight;
-    },
-
     handleExit: function(event) {
       console.log("Triggered beforeunload")
       this.$root.$emit('globalTogglePreview', false)
@@ -114,38 +73,9 @@ body, html {
   overflow-x: hidden;
 }
 
-.overlay-panel {
-  position: fixed;
-  z-index: 99;
-}
-
-#overlay-toggle {
-    width: 0px;
-    height: 30px;
-    z-index: 999;
-    position: absolute;
-    right: -20px;
-    top: 24px;
-}
-
-.action-btn-outline {
-  border: 1px solid lightgray;
-}
-
-.uk-light .uk-icon-button {
-  background-color: rgb(52, 52, 52);
-}
-.uk-light .uk-icon-button:hover, .uk-light .uk-icon-button:focus {
-  background-color: rgb(70, 70, 70);
-}
-
-.uk-light .uk-card-default {
-  background: #222
-}
-
 .uk-disabled {
-    pointer-events: none;
-    opacity: 0.5;
+  pointer-events: none;
+  opacity: 0.4;
 }
 
 </style>

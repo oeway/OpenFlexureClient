@@ -1,5 +1,5 @@
 <template>
-	<div class="streamDisplay uk-width-1-1 uk-height-1-1 scrollTarget" id="streamDisplay" ref="streamDisplay">
+	<div ref="streamDisplay" class="stream-display uk-width-1-1 uk-height-1-1 scrollTarget" id="stream-display">
 
 		<img class="uk-align-center uk-margin-remove-bottom" v-on:dblclick="clickmonitor" v-if="showStream" v-bind:src="streamImgUri" alt="Stream">
 
@@ -23,33 +23,37 @@ import axios from 'axios'
 
 // Export main app
 export default {
-  name: 'streamDisplay',
+  name: 'stream-display',
 
   data: function () {
     return {
 			displaySize: [0, 0],
 			displayPosition: [0, 0],
 			GpuPreviewActive: false,
-      resizeTeimoutId: setTimeout(this.doneResizing, 500)
+			resizeTimeoutId: setTimeout(this.doneResizing, 500)
     }
   },
 
   mounted() {
-		// A global signal listener to change the GPU preview state
-    this.$root.$on('globalResizePreview', (state) => {
-			this.handleDoneResize()
-		})
     // A global signal listener to change the GPU preview state
     this.$root.$on('globalTogglePreview', (state) => {
 			console.log(`Toggling preview to ${state}`)
 			this.previewRequest(state)
 		})
+
+		// Mutation observer
+		this.sizeObserver = new ResizeObserver(entries => {
+			this.handleResize()  // For any element attached to the observer, run handleResize() on change
+			entries.forEach(entry => {})  // Optional: Run something per entry
+		});
+		// Fetch streamDisplay by ref
+		const streamDisplayElement = this.$refs.streamDisplay.parentNode;
+		// Attach streamDisplay to the size observer
+		this.sizeObserver.observe(streamDisplayElement);
+
 	},
 
 	created: function () {
-		// Add resize listener
-		window.addEventListener('resize', this.handleResize);
-		
 		// Watch for host 'ready'
 		this.$store.watch(
 			(state)=>{
@@ -57,29 +61,27 @@ export default {
 			},
 			(newValue, oldValue)=>{
 				// 'ready' changed, so do something
-				console.log(oldValue)
-				console.log(newValue)
 				this.previewRequest(this.$store.state.globalSettings.autoGpuPreview)
 			}
 		)
 	},
 
 	beforeDestroy: function () {
-		// Remove resize listener
-		window.removeEventListener('resize', this.handleResize)
+		// Disconnect the size observer
+		this.sizeObserver.disconnect()
 	},
 
   methods: {
     clickmonitor: function(event) {
 			// Calculate steps from event coordinates and store config FOV
-			var xCoordinate = event.offsetX;
-			var yCoordinate = event.offsetY;
+			let xCoordinate = event.offsetX;
+			let yCoordinate = event.offsetY;
 
-			var xRelative = (0.5*event.target.offsetWidth - xCoordinate)/event.target.offsetWidth;
-			var yRelative = (0.5*event.target.offsetHeight - yCoordinate)/event.target.offsetHeight;
+			let xRelative = (0.5*event.target.offsetWidth - xCoordinate)/event.target.offsetWidth;
+			let yRelative = (0.5*event.target.offsetHeight - yCoordinate)/event.target.offsetHeight;
 
-			var xSteps = xRelative * this.$store.state.apiConfig.fov[0];
-			var ySteps = yRelative * this.$store.state.apiConfig.fov[1];
+			let xSteps = xRelative * this.$store.state.apiConfig.fov[0];
+			let ySteps = yRelative * this.$store.state.apiConfig.fov[1];
 
 			// Emit a signal to move, acted on by panelNavigate.vue
 			this.$root.$emit('globalMoveEvent', xSteps, ySteps, 0, false)
@@ -87,12 +89,13 @@ export default {
 		
 		handleResize: function(event) {
 			// Only fires resize event after no resize in 500ms (prevents resize event spam)
-			clearTimeout(this.resizeTeimoutId);
-			this.resizeTeimoutId = setTimeout(this.handleDoneResize, 500)
+			clearTimeout(this.resizeTimeoutId);
+			this.resizeTimeoutId = setTimeout(this.handleDoneResize, 250)
 		},
 
 		handleDoneResize: function() {
 			// Recalculate size
+			console.log("Recalculating frame size")
 			this.recalculateSize();
 			if (this.$store.state.globalSettings.autoGpuPreview == true && this.GpuPreviewActive == true) {
 				// Reload preview
@@ -101,23 +104,24 @@ export default {
 		},
 
 		recalculateSize: function () {
-			console.log("Recalculating window dimensions...")
-			// Stacking parentNode is a hacky fix
-			// For some reason, when switching tabs, width was always half what it should be,
-			// until the size was recalculated at some later time. Probably something to do
-			// with tab transition. This parentNode stuff instead reads the size of the tab
-			// container, irrespective of WHICH tab is selected. It's nasty, but works.
-			let element = this.$refs.streamDisplay.parentNode.parentNode;
+			let element = this.$refs.streamDisplay.parentNode;
+			let bound = element.getBoundingClientRect()
 
-			let size = [element.clientWidth, element.clientHeight];
+			let elementSize = [bound.width, bound.height]
 
-			let elem_pos = [element.getBoundingClientRect().left, element.getBoundingClientRect().top];
-			let wind_pos = [window.screenX, window.screenY];
-			let navHeight = window.outerHeight - window.innerHeight;
-			let position = [Math.max(0, wind_pos[0] + elem_pos[0]), Math.max(0, wind_pos[1] + elem_pos[1] + navHeight)];
+			let elementPositionOnWindow = [bound.left, bound.top]
+			let windowPositionOnDisplay = [window.screenX, window.screenY]
+			let windowChromeHeight = window.outerHeight - window.innerHeight
+			let elementPositionOnDisplay = [
+				Math.max(0, windowPositionOnDisplay[0] + elementPositionOnWindow[0]), 
+				Math.max(0, windowPositionOnDisplay[1] + elementPositionOnWindow[1] + windowChromeHeight)
+			]
 
-			this.displaySize = size;
-			this.displayPosition = position;
+			this.displaySize = elementSize
+			this.displayPosition = elementPositionOnDisplay
+
+			console.log(`Size: ${this.displaySize}`)
+			console.log(`Position: ${this.displayPosition}`)
 		},
 
     previewRequest: function(state) {
@@ -147,7 +151,7 @@ export default {
 					}
 				}
 				else {
-					var letpayload = {}
+					var payload = {}
 				}
 
 				// Send preview request
@@ -182,13 +186,13 @@ export default {
 </script>
 
 <style scoped lang="less">
-.streamDisplay img {
+.stream-display img {
 	height: 100%;
 	text-align: center;
 	object-fit: contain
 }
 
-.streamDisplay {
+.stream-display {
 	width: 100%;
 	height: 100%;
 }
