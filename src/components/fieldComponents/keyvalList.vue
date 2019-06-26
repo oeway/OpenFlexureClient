@@ -13,7 +13,9 @@
     </form>
 
     <div v-for="(val, key) in value" :key="key" class="uk-width-1-1 uk-margin-small uk-margin-remove-left uk-margin-remove-right uk-flex uk-flex-middle">
-      <div class="uk-margin-remove-top uk-padding-remove uk-width-expand"><b>{{ key }}: </b>{{ val }}</div>
+      <div class="uk-margin-remove-top uk-padding-remove uk-width-expand">
+        <labelInput :label="key" :value="value[key]" @input="value[key]=$event"/> 
+      </div>
       <a href="#" v-on:click="delMetadataKey(key)" class="uk-icon uk-width-auto"><i class="material-icons">delete</i></a>
     </div>
   
@@ -21,8 +23,14 @@
 </template>
 
 <script>
+import labelInput from "../fieldComponents/labelInput"
+
 export default {
   name: 'keyvalList',
+
+  components: {
+    labelInput
+  },
 
   data: function () {
     return {
@@ -63,6 +71,11 @@ export default {
 
       this.$emit('input', newSelected)
     },
+
+    modifyValue: function (e, v) {
+      console.log(e)
+      console.log(v)
+    }
 
   }
 }
