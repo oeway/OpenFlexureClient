@@ -42,22 +42,7 @@
         <a class="uk-accordion-title" href="#">Metadata</a>
         <div class="uk-accordion-content">
 
-          <form @submit.prevent="handleMetadataSubmit">
-            <div class="uk-margin-remove uk-flex uk-flex-middle">
-              <div class="uk-margin-remove-top uk-padding-remove uk-grid-small uk-width-expand" uk-grid>
-                <div class="uk-margin-remove uk-width-1-2"><input v-model="newMetadata.key" class="uk-input uk-form-width-small uk-form-small" type="text" name="flavor" placeholder="Key"></div>
-                <div class="uk-margin-remove uk-width-1-2"><input v-model="newMetadata.value" class="uk-input uk-form-width-small uk-form-small" type="text" name="flavor" placeholder="Value"></div>
-              </div>
-              
-              <a href="#" v-on:click="handleMetadataSubmit()" class="uk-icon uk-margin-left"><i class="material-icons">add_circle</i></a>
-
-            </div>
-          </form>
-
-          <div v-for="(value, key) in customMetadata" :key="key" class="uk-width-1-1 uk-margin-small uk-margin-remove-left uk-margin-remove-right uk-flex uk-flex-middle">
-            <div class="uk-margin-remove-top uk-padding-remove uk-width-expand"><b>{{ key }}: </b>{{ value }}</div>
-            <a href="#" v-on:click="delMetadataKey(key)" class="uk-icon uk-width-auto"><i class="material-icons">delete</i></a>
-          </div>
+          <keyvalList v-model="metadata"/>
 
         </div>
       </li>
@@ -65,23 +50,7 @@
       <li>
         <a class="uk-accordion-title" href="#">Tags</a>
         <div class="uk-accordion-content">
-
-          <form @submit.prevent="handleTagSubmit">
-            <div class="uk-margin-small uk-flex uk-flex-middle">
-
-              <div class="uk-margin-remove-top uk-width-expand">
-                <div class="uk-inline uk-width-1-1">
-                  <span class="uk-form-icon"><i class="material-icons">label</i></span>
-                  <input v-model="newTag" class="uk-input uk-form-small" type="text" name="flavor" placeholder="Tag">
-                </div>
-              </div>
-
-              <a href="#" v-on:click="handleTagSubmit()" class="uk-icon uk-margin-left"><i class="material-icons">add_circle</i></a>
-            </div>
-          </form>
-
-          <span v-for="tag in tags" :key="tag" v-on:click="delTag(tag)" class="uk-label uk-margin-small-right deletable-label"> {{ tag }} </span>
-
+          <tagList v-model="tags"/>
         </div>
       </li>
 
@@ -185,9 +154,18 @@
 <script>
 import axios from 'axios'
 
+import tagList from "../fieldComponents/tagList"
+import keyvalList from "../fieldComponents/keyvalList"
+
 // Export main app
 export default {
   name: 'paneCapture',
+
+  components: {
+    tagList,
+    keyvalList
+  },
+
 
   data: function () {
     return {
@@ -212,42 +190,14 @@ export default {
         z: 5
       },
       resizeDims: [640, 480],
-      newTag: "",
       tags: [],
-      customMetadata: {
+      metadata: {
         Client: `${process.env.PACKAGE.name}.${process.env.PACKAGE.version}`
-      },
-      newMetadata: {
-        key: "",
-        value: ""
       }
     }
   },
 
   methods: {
-    handleMetadataSubmit: function () {
-      console.log("Adding metadata");
-      this.customMetadata[this.newMetadata.key] = this.newMetadata.value
-      this.newMetadata.key = "";
-      this.newMetadata.value = "";
-    },
-
-    delMetadataKey: function (key) {
-      this.$delete(this.customMetadata, key)
-    },
-
-    handleTagSubmit: function () {
-      this.tags.push(this.newTag)
-      this.newTag = "";
-    },
-
-    delTag: function (tag) {
-      console.log(tag)
-      var index = this.tags.indexOf(tag);
-      if (index > -1) {
-        this.tags.splice(index, 1);
-      }
-    },
 
     handleCapture: function() {
       var payload = this.basePayload
@@ -345,7 +295,7 @@ export default {
       }
 
       // Additional metadata
-      payload.metadata = this.customMetadata
+      payload.metadata = this.metadata
       payload.tags = this.tags
 
       // Attach notes

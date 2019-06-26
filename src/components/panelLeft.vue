@@ -85,7 +85,7 @@ import paneCapture from './controlComponents/paneCapture'
 import paneSettings from './controlComponents/paneSettings'
 
 // Import plugin components
-import JsonForm from './pluginComponents/formComponents/JsonForm'
+import JsonForm from './pluginComponents/JsonForm'
 
 // Export main app
 export default {

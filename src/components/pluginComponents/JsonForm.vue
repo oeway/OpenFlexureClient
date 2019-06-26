@@ -41,14 +41,16 @@
 <script>
 import axios from 'axios'
 
-import numberInput from "./fieldComponents/numberInput";
-import selectList from "./fieldComponents/selectList";
-import textInput from "./fieldComponents/textInput";
-import htmlBlock from "./fieldComponents/htmlBlock";
-import radioList from "./fieldComponents/radioList";
-import checkList from "./fieldComponents/checkList"
+import numberInput from "../fieldComponents/numberInput"
+import selectList from "../fieldComponents/selectList"
+import textInput from "../fieldComponents/textInput"
+import htmlBlock from "../fieldComponents/htmlBlock"
+import radioList from "../fieldComponents/radioList"
+import checkList from "../fieldComponents/checkList"
+import tagList from "../fieldComponents/tagList"
+import keyvalList from "../fieldComponents/keyvalList"
 
-import progressBar from "../../genericComponents/progressBar"
+import progressBar from "../genericComponents/progressBar"
 
 export default {
   name: 'JsonForm',
@@ -60,6 +62,8 @@ export default {
     htmlBlock,
     radioList,
     checkList,
+    tagList,
+    keyvalList,
     progressBar
   },
 
