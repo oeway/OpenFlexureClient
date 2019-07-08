@@ -1,6 +1,6 @@
 {
   "name": "openflexure-ev",
-  "version": "1.1.0",
+  "version": "1.1.1-beta.0",
   "private": true,
   "description": "An electron-based user client for the OpenFlexure Microscope Server",
   "author": "OpenFlexure <contact@openflexure.org> (https://www.openflexure.org)",
