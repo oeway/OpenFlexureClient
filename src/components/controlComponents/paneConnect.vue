@@ -69,6 +69,7 @@
 </template>
 
 <script>
+import { version } from 'punycode';
 
 export default {
   name: 'paneConnect',
@@ -148,7 +149,18 @@ export default {
         console.log(serverVersionMajor)
 
         if ((serverVersion == undefined) || (serverVersionMajor != clientVersionMajor)) {
-          this.modalDialog("Version mismatch", "Client and microscope versions do not match. Consider updating your microscope software. Some functionality may currently be broken.", status='warning')
+          var versionWarning = `Client and microscope versions do not match.\
+            Consider updating your microscope software.\
+            Some functionality may currently be broken.<br><br> \
+            <b>Client version:</b> ${clientVersion}<br> \
+            <b>Server version:</b> ${serverVersion}<br><br>`
+          if (serverVersion < 1.1) {
+            versionWarning = versionWarning + "You may need to install a never server version on a clean SD card."
+          }
+          else {
+            versionWarning = versionWarning + "Try running 'ofm upgrade' on your microscope."
+          }
+          this.modalDialog("Version mismatch", versionWarning, status='warning')
         }
       })
       .catch(error => {
