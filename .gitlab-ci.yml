@@ -22,6 +22,20 @@ build:
   only:
     - stable
     - tags
+
+build-nightly:
+  stage: build
+  image: electronuserland/builder:wine
+  script:
+    - npm install
+    - npm run build:web
+  artifacts:
+    expire_in: 1 week
+    name: "build"
+    paths:
+      - dist/
+  only:
+    - schedules
     - web
 
 # Electron app build
@@ -50,6 +64,26 @@ package:
   only:
     - stable
     - tags
+
+package-nightly:
+  stage: build
+  image: electronuserland/builder:wine
+  script:
+    - npm install
+    - npm run build:app
+    - npm run release
+    - mv ./release-builds/*.AppImage .
+    - mv ./release-builds/*.deb .
+    - mv ./release-builds/*.exe .
+  artifacts:
+    expire_in: 1 week
+    name: "dist"
+    paths:
+      - "*.AppImage"
+      - "*.deb"
+      - "*.exe"
+  only:
+    - schedules
     - web
 
 # Create a nupkg file for Choco package manager
