@@ -73,14 +73,12 @@ package-nightly:
     - npm run build:app
     - npm run release
     - mv ./release-builds/*.AppImage .
-    - mv ./release-builds/*.deb .
     - mv ./release-builds/*.exe .
   artifacts:
     expire_in: 1 week
     name: "dist"
     paths:
       - "*.AppImage"
-      - "*.deb"
       - "*.exe"
   only:
     - schedules
