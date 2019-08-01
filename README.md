@@ -6,7 +6,7 @@ A user client for the OpenFlexure Microscope, written in Vue.js.
 A general guide on setting up your microscope, including OpenFlexure eV, can be found [here on our website](https://www.openflexure.org/projects/microscope/).
 
 
-## [Open in ImJoy](https://github.com/oeway/OpenFlexureClient/blob/master/OpenFlexureClient.imjoy.html)
+## [Open in ImJoy](https://imjoy.io/#/app?plugin=https://github.com/oeway/OpenFlexureClient/blob/master/OpenFlexureClient.imjoy.html)
 
 ## Develop
 * Clone the repo, and run `npm install`
