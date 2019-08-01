@@ -1,0 +1,64 @@
+﻿<docs lang="markdown">
+# OpenFlexure eV client for controlling the Microscope
+
+https://openflexure.org/projects/microscope/control
+
+Fork: https://github.com/oeway/OpenFlexureClient
+
+</docs>
+
+<config lang="json">
+{
+  "name": "OpenFlexureClient",
+  "type": "window",
+  "tags": [],
+  "ui": "",
+  "version": "0.1.0",
+  "cover": "",
+  "description": " OpenFlexure eV client for controlling the Microscope",
+  "icon": "extension",
+  "inputs": null,
+  "outputs": null,
+  "api_version": "0.1.5",
+  "env": "",
+  "permissions": [],
+  "requirements": [
+    "https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js",
+    "https://oeway.github.io/OpenFlexureClient/openFlexureClient.umd.js",
+    "https://oeway.github.io/OpenFlexureClient/openFlexureClient.css",
+    "https://unpkg.com/axios/dist/axios.min.js"
+  ],
+  "dependencies": [],
+  "defaults": {"w": 20, "h": 10, "fullscreen": true}
+}
+</config>
+
+<script lang="javascript">
+
+
+class ImJoyPlugin {
+  async setup() {
+    new Vue({
+      components: {
+        demo: openFlexureClient
+      }
+    }).$mount('#app')
+  }
+
+  async run(ctx) {
+
+  }
+}
+
+api.export(new ImJoyPlugin())
+</script>
+
+<window lang="html">
+  <div id="app">
+    <demo></demo>
+  </div>
+</window>
+
+<style lang="css">
+
+</style>
