@@ -1,0 +1,19 @@
+<meta charset="utf-8">
+<title>openFlexureWeb demo</title>
+<script src="https://unpkg.com/vue"></script>
+<script src="./openFlexureWeb.umd.js"></script>
+
+<link rel="stylesheet" href="./openFlexureWeb.css">
+
+
+<div id="app">
+  <demo></demo>
+</div>
+
+<script>
+new Vue({
+  components: {
+    demo: openFlexureWeb
+  }
+}).$mount('#app')
+</script>
