@@ -5,7 +5,7 @@ import axios from 'axios'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  
+
   state: {
     host: '',
     port: 5000,
@@ -92,10 +92,10 @@ export default new Vuex.Store({
 
     updateConfig(context, uri=`${context.getters.uri}/config`) {
       context.commit('changeWaiting', true)
-  
+
       var sendRequest = function(resolve, reject) {
         axios.get(uri)
-        .then(response => { 
+        .then(response => {
           context.commit('commitConfig', response.data)
           context.commit('setConnected')
           resolve()
@@ -109,10 +109,10 @@ export default new Vuex.Store({
 
     updateState(context, uri=`${context.getters.uri}/state`) {
       context.commit('changeWaiting', true)
-  
+
       var sendRequest = function(resolve, reject) {
         axios.get(uri)
-        .then(response => { 
+        .then(response => {
           context.commit('commitState', response.data)
           context.commit('setConnected')
           resolve()
@@ -126,10 +126,10 @@ export default new Vuex.Store({
 
     updatePlugins(context, uri=`${context.getters.uri}/plugin`) {
       context.commit('changeWaiting', true)
-  
+
       var sendRequest = function(resolve, reject) {
         axios.get(uri)
-        .then(response => { 
+        .then(response => {
           console.log("PLUGINS")
           console.log(response.data)
           context.commit('commitPlugins', response.data)
@@ -148,9 +148,9 @@ export default new Vuex.Store({
       interval = interval*1000 || 500;
 
       var checkCondition = function(resolve, reject) {
-        // If the condition is met, we're done! 
+        // If the condition is met, we're done!
         axios.get(`${context.getters.uri}/task/${taskId}`)
-        .then(response => { 
+        .then(response => {
           console.log(response.data.status)
           var result = response.data.status
           // If the task ends with success
@@ -174,7 +174,7 @@ export default new Vuex.Store({
       };
 
       return new Promise(checkCondition);
-      
+
     }
   },
 

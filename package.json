@@ -13,6 +13,7 @@
   "scripts": {
     "build:web": "vue-cli-service build --mode production.web",
     "build:app": "vue-cli-service build --mode production.app",
+    "build:lib": "vue-cli-service build --target lib --name openFlexureClient",
     "serve": "vue-cli-service serve  --mode development.web",
     "start": "npm run build:app && electron app/app.js",
     "dist:linux": "electron-builder --linux --config app/builder-config-x86_64.yaml",
