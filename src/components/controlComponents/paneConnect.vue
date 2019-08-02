@@ -45,8 +45,8 @@
           <div class="uk-accordion-content">
             <button v-if="$store.getters.ready" v-on:click="saveHost()" class="uk-button uk-button-default uk-form-small uk-margin-small uk-width-1-1">Save Current</button>
             <div v-for="host in savedHosts" :key="host.name" class="uk-margin-small uk-margin-remove-left uk-margin-remove-right uk-flex uk-flex-middle">
-              <a href="#" v-on:click="autofillHost(host)" class="uk-link uk-padding-remove uk-width-expand host-description"><b>{{ host.name }}</b> ({{ host.hostname }}:{{ host.port }})</a> 
-              <a href="#" v-on:click="delSavedHost(host)" class="uk-icon uk-width-auto host-delete"><i class="material-icons">delete</i></a> 
+              <a href="#" v-on:click="autofillHost(host)" class="uk-link uk-padding-remove uk-width-expand host-description"><b>{{ host.name }}</b> ({{ host.hostname }}:{{ host.port }})</a>
+              <a href="#" v-on:click="delSavedHost(host)" class="uk-icon uk-width-auto host-delete"><i class="material-icons">delete</i></a>
             </div>
           </div>
         </li>
@@ -56,9 +56,9 @@
       <button class="uk-button uk-button-primary uk-form-small uk-float-right uk-margin uk-margin-remove-top uk-width-1-1">Connect</button>
     </form>
 
-  <button 
-    v-if="$store.getters.ready" 
-    v-on:click="$store.commit('resetState')" 
+  <button
+    v-if="$store.getters.ready"
+    v-on:click="$store.commit('resetState')"
     class="uk-button uk-button-danger uk-form-small uk-float-right uk-margin uk-margin-remove-top uk-width-1-1">
     Disconnect
   </button>
@@ -83,11 +83,11 @@ export default {
       savedHosts: [
         {
           name: "local",
-          hostname: "localhost",
+          hostname: "127.0.0.1",
           port: 5000
         }
       ]
-    }  
+    }
   },
 
   mounted() {
@@ -114,14 +114,14 @@ export default {
       }
       // Handle auto-local-connect
       if (this.localMode) {
-        var hostname = "localhost";
+        var hostname = "127.0.0.1";
       }
       else {
         var hostname = this.hostname;
       }
       // Commit the hostname and port to store
       this.$store.commit('changeHost', [
-        hostname, 
+        hostname,
         this.port
       ]);
       // Try to get config and state JSON from the newly submitted host
