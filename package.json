@@ -32,8 +32,8 @@
     "material-design-icons": "^3.0.1"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.3.0",
-    "@vue/cli-service": "^3.6.0",
+    "@vue/cli-plugin-babel": "^3.7.0",
+    "@vue/cli-service": "^5.0.8",
     "axios": "^0.18.1",
     "css-loader": "^2.1.1",
     "electron": "^4.1.4",
